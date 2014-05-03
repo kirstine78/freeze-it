@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Freeze it</title>
+		<style type="text/css">
+		
+		.Table_A, .th_table_A, .td_table_A, .td_table_A_narrow, .td_table_A_wide
+		{
+		border-collapse:collapse;
+		border:1px solid blue;
+		}
+		
+		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide
+		{
+		border-collapse:collapse;
+		border:1px solid green;
+		}
+		
+		.Table_C, .tr_table_C, .td_table_C_narrow, .td_table_C_wide
+		{
+		border-collapse:collapse;
+		border:1px solid green;
+		}
+		
+		
+		.Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
+		{
+		border-collapse:collapse;
+		border:1px solid green;
+		}
+		
+		.td_table_A_narrow, .td_table_B_narrow, .td_table_C_narrow, .td_table_D_narrow
+		{
+		width:20px;
+		
+		}
+		
+		
+		.Table_Food, .th_table_Food, .td_table_Food
+		{
+		border-collapse:collapse;
+		border:1px solid red;
+		
+		}
+		
+		.th_table_Food
+		{
+		height:30px;
+		text-align:center;
+		background-color:#0066FF;
+		color:white;
+		font-size:17px;
+		font-weight:bold;
+		}
+		
+		
+		.td_table_Food
+		{
+		text-align:center;
+		}
+		
+		#description
+		{
+		text-align:left;
+		}
+		
+		#header_toggle_description
+		{
+		margin-left: 0px;
+		border: none;
+		background-color:#0066FF;
+		border-color: #aaa #444 #444 #aaa;
+		font-size:17px;
+		font-weight:bold;
+		text-decoration:underline;
+		color: white
+		}
+		
+		#header_toggle
+		{
+		border: none;
+		background-color:#0066FF;
+		border-color: #aaa #444 #444 #aaa;
+		font-size:17px;
+		font-weight:bold;
+		text-decoration:underline;
+		color: white
+		}
+		
+		#del_col
+		{
+		border: 1px solid #000;
+		background-color:#778899;
+		border-color: #aaa #444 #444 #aaa;
+		color: white
+		}
+		
+		body
+		{
+		font:15px arial,sans-serif;
+		}
+		
+		.blue
+		{
+		margin-left: 5px;
+		color:#0066FF;
+		}
+		
+		h1
+		{
+		color:#0066FF;
+		}
+		
+		
+		
+		</style>
+		
+	</head>
+	
+	<body>
+	
+		<table class="Table_A" style="width:100%">
+			
+			<tr class="tr_table_A">
+				<th class="th_table_A" style="width:20%"></th>
+				<th class="th_table_A" style="width:60%">
+					<h1>Welcome to 'Freeze it'</h1>
+					<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="300" height="115">
+				</th>
+				<th class="th_table_A" style="width:20%"></th>
+			</tr>
+			
+			
+			<tr class="tr_table_A">
+				<td class="td_table_A"></td>
+				<td class="td_table_A">
+					<table class="Table_B">
+						<tr class="tr_table_B">
+							<td class="td_table_B_narrow"></td>
+							<td class="td_table_B_wide">
+							
+								<form action="">
+									<input type="button" value="Add food to freezer" onclick="window.location.href='/addfood';"/>
+								</form>
+							
+							</td>
+							<td class="td_table_B_narrow"></td>
+						
+						</tr>
+						
+					</table>
+				
+					
+				</td>
+				<td class="td_table_A"></td>
+			</tr>
+			
+			
+			<tr class="tr_table_A">
+				<td class="td_table_A"></td>
+				<td class="td_table_A">
+					<table class="Table_C">
+						<tr class="tr_table_C">
+							<td class="td_table_C_narrow"></td>
+							<td class="td_table_C_wide">
+								<p class="blue">My Freezer content:</p>
+							</td>
+							<td class="td_table_C_narrow"></td>
+						
+						</tr>
+						
+					</table>
+				
+					
+				</td>
+				<td class="td_table_A"></td>
+			</tr>
+			
+			
+			<tr class="tr_table_A">
+				<td class="td_table_A"></td>
+				<td class="td_table_A">
+				    
+					<table class="Table_D">
+						<tr class="tr_table_D">
+							<td class="td_table_D_narrow"></td>
+							<td class="td_table_D_wide">
+								<table class="Table_Food">
+									<tr class="tr_table_Food">
+										<th class="th_table_Food" id="description"><input name="description_button" type="submit" value="Description" id="header_toggle_description"></th>
+										<th class="th_table_Food">Amount</th>
+										<th class="th_table_Food">Unit</th>		
+										<th class="th_table_Food"><input name="date_added_button" type="submit" value="Date added" id="header_toggle"></th>
+										<th class="th_table_Food"><input name="exp_date_button" type="submit" value="Expiry date" id="header_toggle"></th>
+										<th class="th_table_Food"><input name="delete_button" type="submit" value="Delete" id="del_col"></input></th>
+									</tr>
+									{% for foods in food_items %}
+									<tr class="tr_table_Food">
+										<td class="td_table_Food" id="description">{{foods.description}}</td>		
+										<td class="td_table_Food">{{foods.amount}}</td>	
+										<td class="td_table_Food">{{foods.measure_unit}}</td>	
+										<td class="td_table_Food">{{foods.added_date}}</td>		
+										<td class="td_table_Food">{% if foods.expiry %}{{foods.expiry}}{% endif %}</td>
+										<td class="td_table_Food"><input type="checkbox" name="delete" value="{{foods.key().id()}}" id="check_box_mark"></td>
+									</tr>
+									{% endfor %}
+								</table>
+							</td>
+							<td class="td_table_C_narrow"></td>
+						</tr>
+					</table>		
+				
+				</td>
+				<td class="td_table_A"></td>
+			</tr>
+		
+		
+		</table>
+		
+		
+		
+		
+		
+		
+		
+	</body>
+
+</html>
+
+
+
+
+

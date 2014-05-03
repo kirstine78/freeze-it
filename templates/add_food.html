@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Freeze it</title>
+		<style>
+			.error_message_red
+			{
+			color:red;
+			}
+			
+			body
+			{
+			font:15px arial,sans-serif;
+			}
+			#writing_area
+			{
+			font:15px arial,sans-serif;
+			}
+			
+			h1
+			{
+			margin-left: 5px;
+			color:#0066FF;
+			
+			
+			}
+			
+			div
+			{
+			margin:10px 5px 4px 4px;
+			color:#00BFFF;
+			
+			}
+			
+		</style>
+	</head>
+	
+
+	<body>
+		<h1>Add food to Freezer</h1>
+		
+		<form method="post">
+			
+			<label>
+				<div>Food description</div> <textarea name="food_description" id="writing_area">{{food_description_content}}</textarea>
+				<span class="error_message_red">{{food_description_error}}</span>
+			</label>
+			<br>
+			<br>
+			
+			<label>
+				<div>Measuring unit</div>
+				<select name="q">
+					{% for unit in list_of_units %}
+						{% if unit == selectedUnit %}
+							<option selected>{{unit}}</option>
+						{% else %}
+							<option>{{unit}}</option>							
+						{% endif %}
+					{% endfor %}
+				</select>
+				<span class="error_message_red">{{measure_unit_error}}</span>
+			</label>
+			
+			<br>
+			<br>
+			<label>
+				<div>Amount</div> <input type="text" name="amount" value={{amount_content}}>
+				<span class="error_message_red">{{amount_error}}</span>
+			</label>
+			<br>
+			<br>
+			<label>
+				<div>Expiry date</div>
+				<script type="text/javascript" src="http://www.snaphost.com/jquery/Calendar.aspx"></script>
+				<span class="error_message_red">{{date_error}}</span>
+				
+			</label>
+			<br>
+			<br>
+			<input type="submit">
+			
+			<input type="button" onclick="location.href='/'" value="Return to Overview">
+
+			
+			
+		</form>
+	</body>
+
+</html>
