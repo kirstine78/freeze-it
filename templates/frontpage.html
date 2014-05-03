@@ -8,10 +8,10 @@
 		.Table_A, .tr_table_A, .td_table_A_narrow, td_table_A_center
 		{
 		border-collapse:collapse;
-		border:1px solid red;
+		/*border:1px solid red;*/
 		}
 		
-		.td_table_A_narrow, 
+		.td_table_A_narrow
 		{
 		background: #CCE6FF;
 		}
@@ -19,27 +19,27 @@
 		.Table_Center, .tr_table_Center, .td_table_Center
 		{
 		border-collapse:collapse;
-		border:1px solid black;
+		/*border:1px solid black;*/
 		}
 		
 		
 		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide
 		{
 		border-collapse:collapse;
-		border:1px solid green;
+		/*border:1px solid green;*/
 		}
 		
 		.Table_C, .tr_table_C, .td_table_C_narrow, .td_table_C_wide
 		{
 		border-collapse:collapse;
-		border:1px solid green;
+		/*border:1px solid green;*/
 		}
 		
 		
 		.Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
 		{
 		border-collapse:collapse;
-		border:1px solid green;
+		/*border:1px solid green;*/
 		}
 		
 		
@@ -83,21 +83,26 @@
 		border: none;
 		background-color:#0066FF;
 		border-color: #aaa #444 #444 #aaa;
-		font-size:17px;
+		font-size:14px;
 		font-weight:bold;
 		text-decoration:underline;
 		color: white
 		}
 		
-		#header_toggle
+		#header_toggle_other
 		{
 		border: none;
 		background-color:#0066FF;
 		border-color: #aaa #444 #444 #aaa;
-		font-size:17px;
+		font-size:14px;
 		font-weight:bold;
 		text-decoration:underline;
 		color: white
+		}
+		
+		#header_not_toggles
+		{
+		font-size:14px;
 		}
 		
 		#del_col
@@ -110,7 +115,7 @@
 		
 		body
 		{
-		font:15px arial,sans-serif;
+		font:13px arial,sans-serif;
 		}
 		
 		.blue
@@ -134,23 +139,23 @@
 	
 		<table class="Table_A" style="height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;border:1px solid">
 			
-			<tr class="tr_table_A">
+			<tr class="tr_table_A" style="height:100%">
 				<td class="td_table_A_narrow" style="width:20%"></td>
 				
 				<td class="td_table_A_center" style="width:60%">
-					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0;border:1px solid">
+					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
 				
-						<tr class="tr_table_Center">
+						<tr class="tr_table_Center" style="height:30%">
 							
 							<td class="td_table_Center" style="text-align:center">
-								<h1>Welcome to 'Freeze it'</h1>
+								<h1 style="font-size:35px">Welcome to 'Freeze it'</h1>
 								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
 							</td>
 							
 						</tr>
 						
 						
-						<tr class="tr_table_Center">
+						<tr class="tr_table_Center" style="height:5%">
 							
 							<td class="td_table_Center">
 								<table class="Table_B" style="width:100%">
@@ -169,7 +174,7 @@
 						</tr>
 						
 						
-						<tr class="tr_table_Center">
+						<tr class="tr_table_Center" style="height:5%">
 							
 							<td class="td_table_Center">
 								<table class="Table_C" style="width:100%">
@@ -186,9 +191,9 @@
 						</tr>
 						
 						
-						<tr class="tr_table_Center">
+						<tr class="tr_table_Center"style="height:60%">
 							
-							<td class="td_table_Center">
+							<td class="td_table_Center" valign="top">
 								<table class="Table_D" style="width:100%">
 									<tr class="tr_table_D">
 										<td class="td_table_D_narrow" style="width:10%"></td>
@@ -197,15 +202,15 @@
 												<table class="Table_Food" style="width:100%">
 													<tr class="tr_table_Food">
 														<th class="th_table_Food" id="description" style="width:35%"><input name="description_button" type="submit" value="Description" id="header_toggle_description"></th>
-														<th class="th_table_Food" style="width:12%">Amount</th>
-														<th class="th_table_Food" style="width:10%">Unit</th>		
-														<th class="th_table_Food" style="width:15%"><input name="date_added_button" type="submit" value="Date added" id="header_toggle"></th>
-														<th class="th_table_Food" style="width:15%"><input name="exp_date_button" type="submit" value="Expiry date" id="header_toggle"></th>
+														<th class="th_table_Food" style="width:12%" id="header_not_toggles">Amount</th>
+														<th class="th_table_Food" style="width:10%" id="header_not_toggles">Unit</th>		
+														<th class="th_table_Food" style="width:15%"><input name="date_added_button" type="submit" value="Date added" id="header_toggle_other"></th>
+														<th class="th_table_Food" style="width:15%"><input name="exp_date_button" type="submit" value="Expiry date" id="header_toggle_other"></th>
 														<th class="th_table_Food" style="width:13%"><input name="delete_button" type="submit" value="Delete" id="del_col"></input></th>
 													</tr>
 													{% for foods in food_items %}
 													<tr class="tr_table_Food">
-														<td class="td_table_Food" id="description">{{foods.description}}</td>		
+														<td class="td_table_Food" id="description" style="position:relative; left:5px">{{foods.description}}</td>		
 														<td class="td_table_Food">{{foods.amount}}</td>	
 														<td class="td_table_Food">{{foods.measure_unit}}</td>	
 														<td class="td_table_Food">{{foods.added_date}}</td>		
