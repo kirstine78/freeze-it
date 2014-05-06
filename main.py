@@ -77,10 +77,9 @@ class Frontpage(Handler):
             if item.expiry:
                 if date.today() >= item.expiry:
                     item.is_expired = True
-                    item.put()
                 # check if expiry soon happens and update days_before_exp
                 item.is_soon_to_expire, item.days_before_exp = validation.expires_soon(item.expiry)
-                item.put()  # do i  need this twice???????????????????????
+                item.put() 
 
                   
         time.sleep(0.1)  # to delay so db table gets displayed correct

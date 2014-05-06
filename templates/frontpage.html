@@ -228,15 +228,22 @@
 															<td class="td_table_Food"></td>
 														{% endif %}
 														
+														
+														
 														{% if foods.expiry %}
-															{% if foods.is_expired %}
+															{% if foods.days_before_exp == 0 %}
 																<td class="td_table_Food_red">{{foods.expiry}}</td>
 															{% else %}
-																<td class="td_table_Food">{{foods.expiry}}</td>
+																{% if foods.days_before_exp < 0 %}
+																	<td class="td_table_Food_red"><strike>{{foods.expiry}}</strike></td>
+																{% else %}
+																	<td class="td_table_Food">{{foods.expiry}}</td>
+																{% endif %}
 															{% endif %}
 														{% else %}
 															<td class="td_table_Food"></td>
 														{% endif %}
+														
 														
 														<td class="td_table_Food"><input type="checkbox" name="delete" value="{{foods.key().id()}}" id="check_box_mark"></td>
 													</tr>
