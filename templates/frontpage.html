@@ -3,12 +3,13 @@
 <html>
 	<head>
 		<title>Freeze it</title>
+		
 		<style type="text/css">
 		
 		.Table_A, .tr_table_A, .td_table_A_narrow, td_table_A_center
 		{
 		border-collapse:collapse;
-		/*border:1px solid red;*/
+		border:1px solid red;
 		}
 		
 		.td_table_A_narrow
@@ -19,34 +20,40 @@
 		.Table_Center, .tr_table_Center, .td_table_Center
 		{
 		border-collapse:collapse;
-		/*border:1px solid black;*/
+		border:1px solid black;
 		}
 		
 		
 		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide
 		{
 		border-collapse:collapse;
-		/*border:1px solid green;*/
+		border:1px solid green;
 		}
 		
 		.Table_C, .tr_table_C, .td_table_C_narrow, .td_table_C_wide
 		{
 		border-collapse:collapse;
-		/*border:1px solid green;*/
+		border:1px solid green;
 		}
 		
 		
 		.Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
 		{
 		border-collapse:collapse;
-		/*border:1px solid green;*/
+		border:1px solid green;
 		}
 		
 		
-		.Table_Food, .th_table_Food, .td_table_Food
+		.Table_Food, .th_table_Food, .td_table_Food, .td_table_Food_red
 		{
 		border-collapse:collapse;
 		border:1px solid blue;
+		}
+		
+		.td_table_Food_red
+		{
+		text-align:center;
+		color:red;
 		}
 		
 		.Table_Food tr:nth-child(odd){ 
@@ -136,6 +143,16 @@
 	</head>
 	
 	<body>
+		<script type="text/javascript">
+		<!--
+
+		function openAddFoodWindow(theURL) { //v2.0
+		  window.open(theURL);
+		}
+		//-->
+		</script>
+	
+	
 	
 		<table class="Table_A" style="height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;border:1px solid">
 			
@@ -206,7 +223,7 @@
 														<th class="th_table_Food" style="width:10%" id="header_not_toggles">Unit</th>		
 														<th class="th_table_Food" style="width:15%"><input name="date_added_button" type="submit" value="Date added" id="header_toggle_other"></th>
 														<th class="th_table_Food" style="width:15%"><input name="exp_date_button" type="submit" value="Expiry date" id="header_toggle_other"></th>
-														<th class="th_table_Food" style="width:13%"><input name="delete_button" type="submit" value="Delete" id="del_col"></input></th>
+														<th class="th_table_Food" style="width:13%"><input name="delete_button" type="submit" value="Delete" id="del_col" onclick="return confirm('Are you sure?')"></input></th>
 													</tr>
 													{% for foods in food_items %}
 													<tr class="tr_table_Food">
@@ -214,7 +231,28 @@
 														<td class="td_table_Food">{{foods.amount}}</td>	
 														<td class="td_table_Food">{{foods.measure_unit}}</td>	
 														<td class="td_table_Food">{{foods.added_date}}</td>		
-														<td class="td_table_Food">{% if foods.expiry %}{{foods.expiry}}{% endif %}</td>
+														
+														
+															{% if foods.expiry %}
+																
+																
+																{% if foods.is_expired %}
+																	<td class="td_table_Food_red">{{foods.expiry}}</td>
+																
+																	
+																{% else %}
+																	<td class="td_table_Food">{{foods.expiry}}</td>
+																{% endif %}
+																	
+																
+															{% else %}
+															
+																<td class="td_table_Food"></td>
+															
+															{% endif %}
+														
+														</td>
+														
 														<td class="td_table_Food"><input type="checkbox" name="delete" value="{{foods.key().id()}}" id="check_box_mark"></td>
 													</tr>
 													{% endfor %}

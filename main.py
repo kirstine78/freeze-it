@@ -27,6 +27,7 @@ import webapp2
 import jinja2
 import time
 from datetime import datetime
+from datetime import date
 from google.appengine.ext import db
 
 
@@ -45,13 +46,13 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 class FoodItem(db.Model): # abbreviated 'FI'
-    #subject = db.StringProperty(required = True)
     description = db.StringProperty(required = True)  # food description
     measure_unit = db.StringProperty(required = False) # gram, kilo etc
     amount = db.StringProperty(required = False)  # a number
     expiry = db.DateProperty(required = False)  # expiry date for food
     added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer
     created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting
+    is_expired = db.BooleanProperty(required=False)  # is True if exp. date has been exceeded
         
     last_modified = db.DateTimeProperty(auto_now = True)
 
@@ -59,8 +60,21 @@ class FoodItem(db.Model): # abbreviated 'FI'
 # handler for '/'
 class Frontpage(Handler):
     def render_front(self, parameter="created DESC"):  # 'youngest' created date shown first by default
+
+        
         all_food_items = db.GqlQuery("SELECT * FROM FoodItem ORDER BY %s" %parameter)
         # if you only wanna display the 10 latest: "SELECT * FROM Content ORDER BY created DESC limit 10"
+
+        
+        # loop through all items and set is_expired
+        for item in all_food_items:
+            if item.expiry:
+                if date.today() >= item.expiry:
+                    item.is_expired = True
+                    item.put()
+
+                    
+        time.sleep(0.1)  # to delay so db table gets displayed correct
         self.render("frontpage.html", food_items = all_food_items) # passing contents in to the html file
         
     def get(self):
@@ -157,7 +171,7 @@ class AddFoodPage(Handler):
             a_food_description = validation.upper_case(a_food_description)
 
             # create item in db
-            FI = FoodItem(description = a_food_description, measure_unit = a_measuring_unit, amount = an_amount, expiry = an_exp_date)
+            FI = FoodItem(description = a_food_description, measure_unit = a_measuring_unit, amount = an_amount, expiry = an_exp_date, is_expired=False)
             FI.put()
             id_for_FI = str(FI.key().id())
             self.redirect("/addfood")
