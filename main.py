@@ -50,11 +50,17 @@ class FoodItem(db.Model): # abbreviated 'FI'
     measure_unit = db.StringProperty(required = False) # gram, kilo etc
     amount = db.StringProperty(required = False)  # a number
     expiry = db.DateProperty(required = False)  # expiry date for food
-    added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer
-    created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting
+    days_before_exp =  db.IntegerProperty(required = False) 
+    
     is_expired = db.BooleanProperty(required=False)  # is True if exp. date has been exceeded
-        
+    is_soon_to_expire = db.BooleanProperty(required=False)  # is True if exp. date is within x days
+    
+    created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting    
+    added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer 
     last_modified = db.DateTimeProperty(auto_now = True)
+
+
+    
 
 
 # handler for '/'
@@ -72,8 +78,11 @@ class Frontpage(Handler):
                 if date.today() >= item.expiry:
                     item.is_expired = True
                     item.put()
+                # check if expiry soon happens and update days_before_exp
+                item.is_soon_to_expire, item.days_before_exp = validation.expires_soon(item.expiry)
+                item.put()  # do i  need this twice???????????????????????
 
-                    
+                  
         time.sleep(0.1)  # to delay so db table gets displayed correct
         self.render("frontpage.html", food_items = all_food_items) # passing contents in to the html file
         
@@ -93,7 +102,7 @@ class Frontpage(Handler):
         one_item_description_button_list = self.request.get_all("description_button")  # there is only 1 description_button
 
         # date added button data (if date added button clicked, list will have 1 item else no item in list)
-        one_item_date_added_button_list = self.request.get_all("date_added_button")  # there is only 1 date_added_button
+        one_item_days_before_button_list = self.request.get_all("days_before_button")  # there is only 1 date_added_button
 
         # expiry date button data (if expiry date button clicked, list will have 1 item else no item in list)
         one_item_exp_date_button_list = self.request.get_all("exp_date_button")  # there is only 1 exp_date_button
@@ -116,8 +125,8 @@ class Frontpage(Handler):
 
 
         
-        elif len(one_item_date_added_button_list) == 1: # 'Date added' is clicked
-            self.render_front(parameter="created ASC")  # the 'oldest' shown first
+        elif len(one_item_days_before_button_list) == 1: # 'Days before expiry' is clicked
+            self.render_front(parameter="days_before_exp ASC")  # the 'oldest' shown first
 
         
         elif len(one_item_exp_date_button_list) == 1: #expiry date clicked
@@ -125,9 +134,6 @@ class Frontpage(Handler):
         
             
 
-
-
-    
 
 # handler for '/addfood'
 class AddFoodPage(Handler):        

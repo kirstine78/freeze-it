@@ -9,7 +9,7 @@
 		.Table_A, .tr_table_A, .td_table_A_narrow, td_table_A_center
 		{
 		border-collapse:collapse;
-		border:1px solid red;
+		/*border:1px solid red;*/
 		}
 		
 		.td_table_A_narrow
@@ -20,27 +20,14 @@
 		.Table_Center, .tr_table_Center, .td_table_Center
 		{
 		border-collapse:collapse;
-		border:1px solid black;
+		/*border:1px solid black;*/
 		}
 		
 		
-		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide
+		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide, .Table_C, .tr_table_C, .td_table_C_narrow, .td_table_C_wide, .Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
 		{
 		border-collapse:collapse;
-		border:1px solid green;
-		}
-		
-		.Table_C, .tr_table_C, .td_table_C_narrow, .td_table_C_wide
-		{
-		border-collapse:collapse;
-		border:1px solid green;
-		}
-		
-		
-		.Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
-		{
-		border-collapse:collapse;
-		border:1px solid green;
+		/*border:1px solid green;*/
 		}
 		
 		
@@ -221,7 +208,7 @@
 														<th class="th_table_Food" id="description" style="width:35%"><input name="description_button" type="submit" value="Description" id="header_toggle_description"></th>
 														<th class="th_table_Food" style="width:12%" id="header_not_toggles">Amount</th>
 														<th class="th_table_Food" style="width:10%" id="header_not_toggles">Unit</th>		
-														<th class="th_table_Food" style="width:15%"><input name="date_added_button" type="submit" value="Date added" id="header_toggle_other"></th>
+														<th class="th_table_Food" style="width:15%"><input name="days_before_button" type="submit" value="Days to exp." id="header_toggle_other"></th>
 														<th class="th_table_Food" style="width:15%"><input name="exp_date_button" type="submit" value="Expiry date" id="header_toggle_other"></th>
 														<th class="th_table_Food" style="width:13%"><input name="delete_button" type="submit" value="Delete" id="del_col" onclick="return confirm('Are you sure?')"></input></th>
 													</tr>
@@ -230,28 +217,26 @@
 														<td class="td_table_Food" id="description" style="position:relative; left:5px">{{foods.description}}</td>		
 														<td class="td_table_Food">{{foods.amount}}</td>	
 														<td class="td_table_Food">{{foods.measure_unit}}</td>	
-														<td class="td_table_Food">{{foods.added_date}}</td>		
 														
-														
-															{% if foods.expiry %}
-																
-																
-																{% if foods.is_expired %}
-																	<td class="td_table_Food_red">{{foods.expiry}}</td>
-																
-																	
-																{% else %}
-																	<td class="td_table_Food">{{foods.expiry}}</td>
-																{% endif %}
-																	
-																
+														{% if foods.expiry %}
+															{% if foods.is_soon_to_expire %}
+																<td class="td_table_Food_red"><b>{{foods.days_before_exp}}</b></td>
 															{% else %}
-															
-																<td class="td_table_Food"></td>
-															
+																<td class="td_table_Food">{{foods.days_before_exp}}</td>
 															{% endif %}
+														{% else %}
+															<td class="td_table_Food"></td>
+														{% endif %}
 														
-														</td>
+														{% if foods.expiry %}
+															{% if foods.is_expired %}
+																<td class="td_table_Food_red">{{foods.expiry}}</td>
+															{% else %}
+																<td class="td_table_Food">{{foods.expiry}}</td>
+															{% endif %}
+														{% else %}
+															<td class="td_table_Food"></td>
+														{% endif %}
 														
 														<td class="td_table_Food"><input type="checkbox" name="delete" value="{{foods.key().id()}}" id="check_box_mark"></td>
 													</tr>

@@ -155,3 +155,40 @@ def is_future_date(a_date):
 
     return today <= exp_date_converted
 
+
+def expires_soon(date_to_check):
+    """ return boolean, int
+        True if date_to_check yyyy-mm-dd is within 3 days to expire, and amount of days before exp """
+
+    LIMIT_FOR_EXPIRES_SOON = 5
+
+    
+    today = date.today() #yyyy-mm-dd
+
+    # difference between current date and date_to_check in format 'x days, 0:00:00'
+    diff = date_to_check - today
+
+    #convert to string
+    diff_str =  str(diff)
+    
+    first_ch = diff_str[0:1]
+
+    # split 'x days, 0:00:00' and put into list
+    word_list = diff_str.split( )
+    first_word = str(word_list[0]) # this is the number of days difference as string
+
+    # expired
+    if first_ch == "-": 
+        return True, int(first_word)
+    # expires today
+    elif first_ch == "0":
+        return True, 0
+    # check if expires soon
+    else:
+        get_int = int(word_list[0])
+        # expires soon
+        if get_int <= LIMIT_FOR_EXPIRES_SOON:
+            return True, int(first_word)
+        # not to expire soon
+        return False, int(first_word)
+
