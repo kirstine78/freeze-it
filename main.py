@@ -26,6 +26,7 @@ import os
 import webapp2
 import jinja2
 import time
+import logging
 from datetime import datetime
 from datetime import date
 from google.appengine.ext import db
@@ -59,8 +60,6 @@ class FoodItem(db.Model): # abbreviated 'FI'
     added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer 
     last_modified = db.DateTimeProperty(auto_now = True)
 
-
-    
 
 
 # handler for '/'
@@ -134,20 +133,51 @@ class Frontpage(Handler):
             
 
 
-# handler for '/addfood'
-class AddFoodPage(Handler):        
+# handler for '/food'
+class FoodPage(Handler):        
     def get(self):
-        self.render("add_food.html", food_description_content="", food_description_error="",
-                    measure_unit_error="", amount_error="", date_error="", list_of_units=list_of_units, selectedUnit="")
+        an_id = self.request.get("id")  # if a foodItem description is clicked, there is an_id        
+        if an_id:  # means there is an item to edit
+            specific_item = FoodItem.get_by_id(int(an_id))  # get the item with the specific id (an_id)
+
+            # check if there is an exp. date yyyy-mm-dd
+            if specific_item.expiry:  # 
+                #convert it to format mm/dd/yyyy
+                date_html_format = validation.convert_date_mmddyyyy(str(specific_item.expiry))
+                
+            # render "food.html" with that specific items values passed in
+            self.render("food.html", food_description_content=specific_item.description, food_description_error="",
+                        measure_unit_error="",
+                        amount_error="",
+                        date_error="",
+                        exp_content = date_html_format,
+                        amount_content=specific_item.amount,
+                        list_of_units=list_of_units,
+                        selectedUnit=specific_item.measure_unit,
+                        headline="Edit food item",
+                        change_button="Submit Changes", passive_button="Cancel",
+                        item_id=an_id)
+
+        else:  # no id, so just render blank "food.html" ready to add food to! 
+            self.render("food.html", food_description_content="", food_description_error="",
+                        measure_unit_error="",
+                        amount_error="",
+                        date_error="",
+                        list_of_units=list_of_units,
+                        selectedUnit="",
+                        headline="Add food to Freezer",
+                        change_button="Submit", passive_button="Return to Overview")
 
     def post(self):
         # data that user has entered
         a_food_description = self.request.get("food_description").strip()
         a_measuring_unit = self.request.get("q")
         an_amount = self.request.get("amount")
-        an_exp_date_str = self.request.get("SnapHost_Calendar")  # format mm/dd/yyyy
+        an_exp_date_str = self.request.get("expiry_date")  # format mm/dd/yyyy
+        an_item_id = self.request.get("item_ID")  # this is a string "455646501654613" format
+        
                 
-        # create objects of class InfoEntered
+        # create objects of class InfoEntered. NB this is not an FoodItem object!!!
         obj_food = validation.is_food_description_valid(a_food_description) # object is created inside food_description_valid()
         obj_unit = validation.is_measure_unit__valid(a_measuring_unit, an_amount)  # object is created inside measure_unit__valid()
         obj_amount = validation.is_amount_valid(an_amount, a_measuring_unit)  # object is created inside exp_date_valid()
@@ -175,24 +205,46 @@ class AddFoodPage(Handler):
             # make first letter upper case
             a_food_description = validation.upper_case(a_food_description)
 
-            # create item in db
-            FI = FoodItem(description = a_food_description, measure_unit = a_measuring_unit, amount = an_amount, expiry = an_exp_date, is_expired=False)
-            FI.put()
-            id_for_FI = str(FI.key().id())
-            self.redirect("/addfood")
+            # check if there is an_item_id to see wether to 'update' or 'create new item in db'
+            if an_item_id:  # update already excisting item
+                #logging.debug("item id: " + an_item_id) 
+                # get the specific item
+                the_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
+                the_item.description = a_food_description
+                the_item.measure_unit = a_measuring_unit
+                the_item.amount = an_amount
+                the_item.expiry = an_exp_date
+                the_item.put()
+                time.sleep(0.1)  # to delay so db table gets displayed correct
+                self.redirect("/")
+               
+            else: # no id
+                #logging.debug("No item id" ) 
+                # create item in db
+                FI = FoodItem(description = a_food_description, measure_unit = a_measuring_unit, amount = an_amount, expiry = an_exp_date, is_expired=False)
+                FI.put()
+                id_for_FI = str(FI.key().id())
+                time.sleep(0.1)  # to delay so db table gets displayed correct
+                self.redirect("/food")
+                
             
-        # else re-render '/addfood' with the error messages
+             
+        # else re-render '/food' with the error messages
         else:
-            self.render("add_food.html", food_description_content=a_food_description ,
-                        food_description_error=obj_food.get_error_msg(),
+            self.render("food.html", food_description_content=a_food_description , food_description_error=obj_food.get_error_msg(),
                         measure_unit_error=obj_unit.get_error_msg(),
                         amount_error=obj_amount.get_error_msg(),
                         amount_content=an_amount, 
                         date_error=obj_exp_date.get_error_msg(),
+                        exp_content = an_exp_date_str,
                         list_of_units=list_of_units,
-                        selectedUnit=a_measuring_unit)
+                        selectedUnit=a_measuring_unit,
+                        headline="Add food to Freezer",
+                        change_button="Submit", passive_button="Return to Overview")
         
 
 
+            
+
 app = webapp2.WSGIApplication([('/', Frontpage),
-                               ('/addfood', AddFoodPage)], debug=True)
+                               ('/food', FoodPage)], debug=True)

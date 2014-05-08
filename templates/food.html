@@ -34,11 +34,23 @@
 			}
 			
 		</style>
+		
+		<!-- Load jQuery UI CSS  -->
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+		<!-- Load jQuery JS -->
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<!-- Load jQuery UI Main JS  -->
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>		
+		<script>
+			$(function() {
+			$( "#datepicker" ).datepicker();
+			});
+		</script>
 	</head>
 	
 
 	<body>
-		<h1>Add food to Freezer</h1>
+		<h1>{{headline}}</h1>
 		
 		<form method="post">
 			
@@ -73,15 +85,19 @@
 			<br>
 			<label>
 				<div>Expiry date</div>
-				<script type="text/javascript" src="http://www.snaphost.com/jquery/Calendar.aspx"></script>
+				<input type="text" id="datepicker" name="expiry_date" value={{exp_content}}>
 				<span class="error_message_red">{{date_error}}</span>
 				
 			</label>
 			<br>
 			<br>
-			<input type="submit">
 			
-			<input type="button" onclick="location.href='/'" value="Return to Overview">
+			<input type="submit" value="{{change_button}}">
+			
+			<input type="button" value="{{passive_button}}" onclick="location.href='/'">
+			
+			<input type="hidden" name="item_ID" value={{item_id}}></input>
+			
 
 			
 			

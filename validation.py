@@ -160,7 +160,7 @@ def expires_soon(date_to_check):
     """ return boolean, int
         True if date_to_check yyyy-mm-dd is within 3 days to expire, and amount of days before exp """
 
-    LIMIT_FOR_EXPIRES_SOON = 10
+    LIMIT_FOR_EXPIRES_SOON = 5
 
     
     today = date.today() #yyyy-mm-dd
@@ -192,3 +192,11 @@ def expires_soon(date_to_check):
         # not to expire soon
         return False, int(first_word)
 
+def convert_date_mmddyyyy(a_date):
+    """ convert a_date with format yyyy-mm-dd to format mm/dd/yyyy"""
+
+    mm = a_date[5:7]
+    dd = a_date[-2:]
+    yyyy = a_date[0:4]
+
+    return mm + "/" + dd + "/" + yyyy
