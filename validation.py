@@ -6,10 +6,15 @@ import info_entered
 def is_food_description_valid(food_description):
     """ Checks if food_description is not None and if length is > 0.
         Creates an object of classInfoEntered and returns it """
-    
+
     if food_description and len(food_description) > 0:
-        obj_food = info_entered.InfoEntered(True, "")  # create object of class InfoEntered
-        return obj_food
+
+        if len(food_description) > 499:
+            obj_food = info_entered.InfoEntered(False, "'Food description' max. 500 characters")  # create object of class InfoEntered
+            return obj_food
+        else:
+            obj_food = info_entered.InfoEntered(True, "")  # create object of class InfoEntered
+            return obj_food
     else:
         obj_food = info_entered.InfoEntered(False, "You need a 'Food description'") # create object of class InfoEntered
         return obj_food

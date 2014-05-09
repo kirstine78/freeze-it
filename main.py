@@ -164,7 +164,7 @@ class FoodPage(Handler):
                         change_button="Submit Changes", passive_button="Cancel",
                         item_id=an_id)
 
-        else:  # no id, so just render blank "food.html" ready to add food to! 
+        else:  # no id, so just render blank "food.html" ready to add food to!
             self.render("food.html", food_description_content="", food_description_error="",
                         measure_unit_error="",
                         amount_error="",
@@ -221,18 +221,6 @@ class FoodPage(Handler):
                 the_item.measure_unit = a_measuring_unit
                 the_item.amount = an_amount
                 the_item.expiry = an_exp_date
-
-                """ All happens in '/'
-                if the_item.expiry:
-                    if date.today() >= the_item.expiry:
-                        the_item.is_expired = True
-                    # check if expiry soon happens and update days_before_exp
-                    the_item.is_soon_to_expire, the_item.days_before_exp = validation.expires_soon(the_item.expiry)
-                else:  # there's no expiry date
-                    the_item.is_expired = False
-                    the_item.is_soon_to_expire = False
-                    the_item.days_before_exp = None
-                """
                  
                 the_item.put()
                 time.sleep(0.1)  # to delay so db table gets displayed correct
@@ -251,33 +239,30 @@ class FoodPage(Handler):
              
         # else re-render '/food' with the error messages
         else:
-            # decide which to render? add or edit
+            # decide which params to pass based on 'add' or 'edit'
             if an_item_id:
                 self.render("food.html", food_description_content=a_food_description , food_description_error=obj_food.get_error_msg(),
-                            measure_unit_error=obj_unit.get_error_msg(),
-                            amount_error=obj_amount.get_error_msg(),
-                            amount_content=an_amount, 
-                            date_error=obj_exp_date.get_error_msg(),
-                            exp_content = an_exp_date_str,
-                            list_of_units=list_of_units,
-                            selectedUnit=a_measuring_unit,
-                            headline="Edit food item",
-                            change_button="Submit Changes", passive_button="Cancel",
-                            item_id=an_item_id)
-
-            else:
+                        measure_unit_error=obj_unit.get_error_msg(),
+                        amount_error=obj_amount.get_error_msg(),
+                        amount_content=an_amount, 
+                        date_error=obj_exp_date.get_error_msg(),
+                        exp_content = an_exp_date_str,
+                        list_of_units=list_of_units,
+                        selectedUnit=a_measuring_unit,
+                        headline="Edit food item",
+                        change_button="Submit Changes", passive_button="Cancel",
+                        item_id=an_item_id)
+            else:  # would like to put this shorter, but Erro occurs if you put item_id=None
                 self.render("food.html", food_description_content=a_food_description , food_description_error=obj_food.get_error_msg(),
-                            measure_unit_error=obj_unit.get_error_msg(),
-                            amount_error=obj_amount.get_error_msg(),
-                            amount_content=an_amount, 
-                            date_error=obj_exp_date.get_error_msg(),
-                            exp_content = an_exp_date_str,
-                            list_of_units=list_of_units,
-                            selectedUnit=a_measuring_unit,
-                            headline="Add food to Freezer",
-                            change_button="Submit", passive_button="Return to Overview")
-        
-
+                        measure_unit_error=obj_unit.get_error_msg(),
+                        amount_error=obj_amount.get_error_msg(),
+                        amount_content=an_amount, 
+                        date_error=obj_exp_date.get_error_msg(),
+                        exp_content = an_exp_date_str,
+                        list_of_units=list_of_units,
+                        selectedUnit=a_measuring_unit,
+                        headline="Add food to Freezer",
+                        change_button="Submit", passive_button="Return to Overview")
 
             
 
