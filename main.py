@@ -51,10 +51,10 @@ class FoodItem(db.Model): # abbreviated 'FI'
     measure_unit = db.StringProperty(required = False) # gram, kilo etc
     amount = db.StringProperty(required = False)  # a number
     expiry = db.DateProperty(required = False)  # expiry date for food
-    days_before_exp =  db.IntegerProperty(required = False) 
-    
+
     is_expired = db.BooleanProperty(required=False)  # is True if exp. date has been exceeded
     is_soon_to_expire = db.BooleanProperty(required=False)  # is True if exp. date is within x days
+    days_before_exp =  db.IntegerProperty(required = False) 
     
     created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting    
     added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer 
@@ -78,9 +78,12 @@ class Frontpage(Handler):
                     item.is_expired = True
                 # check if expiry soon happens and update days_before_exp
                 item.is_soon_to_expire, item.days_before_exp = validation.expires_soon(item.expiry)
-                item.put() 
+            else: # no exp date
+                item.is_expired = False
+                item.is_soon_to_expire = False
+                item.days_before_exp = None
+            item.put() 
 
-                  
         time.sleep(0.1)  # to delay so db table gets displayed correct
         self.render("frontpage.html", food_items = all_food_items) # passing contents in to the html file
         
@@ -210,10 +213,24 @@ class FoodPage(Handler):
                 #logging.debug("item id: " + an_item_id) 
                 # get the specific item
                 the_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
+                # update
                 the_item.description = a_food_description
                 the_item.measure_unit = a_measuring_unit
                 the_item.amount = an_amount
                 the_item.expiry = an_exp_date
+
+                """ All happens in '/'
+                if the_item.expiry:
+                    if date.today() >= the_item.expiry:
+                        the_item.is_expired = True
+                    # check if expiry soon happens and update days_before_exp
+                    the_item.is_soon_to_expire, the_item.days_before_exp = validation.expires_soon(the_item.expiry)
+                else:  # there's no expiry date
+                    the_item.is_expired = False
+                    the_item.is_soon_to_expire = False
+                    the_item.days_before_exp = None
+                """
+                 
                 the_item.put()
                 time.sleep(0.1)  # to delay so db table gets displayed correct
                 self.redirect("/")
