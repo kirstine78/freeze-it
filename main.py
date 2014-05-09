@@ -151,29 +151,35 @@ class FoodPage(Handler):
             else:  # no expiry date for this item
                 date_html_format = ""
                 
-            # render "food.html" with that specific items values passed in
-            self.render("food.html", food_description_content=specific_item.description, food_description_error="",
-                        measure_unit_error="",
-                        amount_error="",
-                        date_error="",
-                        exp_content = date_html_format,
-                        amount_content=specific_item.amount,
-                        list_of_units=list_of_units,
-                        selectedUnit=specific_item.measure_unit,
-                        headline="Edit food item",
-                        change_button="Submit Changes", passive_button="Cancel",
-                        item_id=an_id)
+            # set values for specific item
+            a_food_description_content=specific_item.description
+            a_exp_content = date_html_format
+            a_amount_content=specific_item.amount
+            a_selectedUnit=specific_item.measure_unit
+            a_headline="Edit food item"
+            a_change_button="Submit Changes"
+            a_passive_button="Cancel"
+            a_item_id=an_id
 
-        else:  # no id, so just render blank "food.html" ready to add food to!
-            self.render("food.html", food_description_content="", food_description_error="",
-                        measure_unit_error="",
-                        amount_error="",
-                        date_error="",
-                        list_of_units=list_of_units,
-                        selectedUnit="",
-                        headline="Add food to Freezer",
-                        change_button="Submit", passive_button="Return to Overview")
+        else:  # no id, set values to a blank "food.html"
+            a_food_description_content=""
+            a_exp_content = ""
+            a_amount_content=""
+            a_selectedUnit=""
+            a_headline="Add food to Freezer"
+            a_change_button="Submit"
+            a_passive_button="Return to Overview"
+            a_item_id=""
+            
+        # render "food.html" with correct params!
+        self.render("food.html", food_description_content=a_food_description_content, food_description_error="",
+                    measure_unit_error="", amount_error="", date_error="",
+                    exp_content = a_exp_content, amount_content=a_amount_content, list_of_units=list_of_units,
+                    selectedUnit=a_selectedUnit, headline=a_headline,
+                    change_button=a_change_button, passive_button=a_passive_button,
+                    item_id=a_item_id)
 
+            
     def post(self):
         # data that user has entered
         a_food_description = self.request.get("food_description").strip()
@@ -237,32 +243,33 @@ class FoodPage(Handler):
                 
             
              
-        # else re-render '/food' with the error messages
+        # else re-render 'food.html' with the error messages
         else:
             # decide which params to pass based on 'add' or 'edit'
-            if an_item_id:
-                self.render("food.html", food_description_content=a_food_description , food_description_error=obj_food.get_error_msg(),
-                        measure_unit_error=obj_unit.get_error_msg(),
-                        amount_error=obj_amount.get_error_msg(),
-                        amount_content=an_amount, 
-                        date_error=obj_exp_date.get_error_msg(),
-                        exp_content = an_exp_date_str,
-                        list_of_units=list_of_units,
-                        selectedUnit=a_measuring_unit,
-                        headline="Edit food item",
-                        change_button="Submit Changes", passive_button="Cancel",
-                        item_id=an_item_id)
-            else:  # would like to put this shorter, but Erro occurs if you put item_id=None
-                self.render("food.html", food_description_content=a_food_description , food_description_error=obj_food.get_error_msg(),
-                        measure_unit_error=obj_unit.get_error_msg(),
-                        amount_error=obj_amount.get_error_msg(),
-                        amount_content=an_amount, 
-                        date_error=obj_exp_date.get_error_msg(),
-                        exp_content = an_exp_date_str,
-                        list_of_units=list_of_units,
-                        selectedUnit=a_measuring_unit,
-                        headline="Add food to Freezer",
-                        change_button="Submit", passive_button="Return to Overview")
+            if an_item_id: # edit version
+                the_headline="Edit food item"
+                the_change_button="Submit Changes"
+                the_passive_button="Cancel"
+                the_item_id=an_item_id
+
+            else:  # add version
+                the_headline="Add food to Freezer"
+                the_change_button="Submit"
+                the_passive_button="Return to Overview"
+                the_item_id=""
+
+            self.render("food.html", food_description_content=a_food_description , food_description_error=obj_food.get_error_msg(),
+                    measure_unit_error=obj_unit.get_error_msg(),
+                    amount_error=obj_amount.get_error_msg(),
+                    amount_content=an_amount, 
+                    date_error=obj_exp_date.get_error_msg(),
+                    exp_content = an_exp_date_str,
+                    list_of_units=list_of_units,
+                    selectedUnit=a_measuring_unit,
+                    headline=the_headline,
+                    change_button=the_change_button, passive_button=the_passive_button,
+                    item_id=the_item_id)
+          
 
             
 
