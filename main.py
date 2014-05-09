@@ -88,9 +88,6 @@ class Frontpage(Handler):
         self.render("frontpage.html", food_items = all_food_items) # passing contents in to the html file
         
     def get(self):
-        self.render_front()
-
-    def post(self):
         # get request data
         
         # id data (which check boxes has user checked) put in a variable
@@ -131,7 +128,18 @@ class Frontpage(Handler):
 
         
         elif len(one_item_exp_date_button_list) == 1: #expiry date clicked
-            self.render_front(parameter="expiry ASC")  # None exp date comes first then what is next to expire 
+            self.render_front(parameter="expiry ASC")  # None exp date comes first then what is next to expire
+
+
+
+
+        else:   
+            self.render_front()
+        
+
+    def post(self):
+        pass
+        
         
             
 
@@ -230,7 +238,7 @@ class FoodPage(Handler):
                  
                 the_item.put()
                 time.sleep(0.1)  # to delay so db table gets displayed correct
-                self.redirect("/")
+                self.redirect("/")  # tells the browser to go to '/' and the response is empty
                
             else: # no id
                 #logging.debug("No item id" ) 
@@ -239,7 +247,7 @@ class FoodPage(Handler):
                 FI.put()
                 id_for_FI = str(FI.key().id())
                 time.sleep(0.1)  # to delay so db table gets displayed correct
-                self.redirect("/food")
+                self.redirect("/food")  # tells the browser to go to '/food' and the response is empty
                 
             
              
@@ -256,8 +264,9 @@ class FoodPage(Handler):
                 the_headline="Add food to Freezer"
                 the_change_button="Submit"
                 the_passive_button="Return to Overview"
-                the_item_id=""
+                the_item_id=""  # ok with empty str. when checking if "" that is False.... But can't use None to put in here...
 
+            # returns the following in the response
             self.render("food.html", food_description_content=a_food_description , food_description_error=obj_food.get_error_msg(),
                     measure_unit_error=obj_unit.get_error_msg(),
                     amount_error=obj_amount.get_error_msg(),
