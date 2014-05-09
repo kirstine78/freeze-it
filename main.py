@@ -178,7 +178,8 @@ class FoodPage(Handler):
             a_change_button="Submit"
             a_passive_button="Return to Overview"
             a_item_id=""
-            
+
+        logging.debug("description = " + a_food_description_content)
         # render "food.html" with correct params!
         self.render("food.html", food_description_content=a_food_description_content, food_description_error="",
                     measure_unit_error="", amount_error="", date_error="",
@@ -227,7 +228,7 @@ class FoodPage(Handler):
 
             # check if there is an_item_id to see whether to 'update' or 'create new item in db'
             if an_item_id:  # update already excisting item
-                #logging.debug("item id: " + an_item_id) 
+                logging.debug("item id: " + an_item_id) 
                 # get the specific item
                 the_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
                 # update
@@ -241,7 +242,7 @@ class FoodPage(Handler):
                 self.redirect("/")  # tells the browser to go to '/' and the response is empty
                
             else: # no id
-                #logging.debug("No item id" ) 
+                logging.debug("No item id" ) 
                 # create item in db
                 FI = FoodItem(description = a_food_description, measure_unit = a_measuring_unit, amount = an_amount, expiry = an_exp_date, is_expired=False)
                 FI.put()
