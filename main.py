@@ -67,7 +67,7 @@ class Frontpage(Handler):
     def render_front(self, parameter="created DESC"):  # 'youngest' created date shown first by default
 
         
-        all_food_items = db.GqlQuery("SELECT * FROM FoodItem ORDER BY %s" %parameter)
+        all_food_items = db.GqlQuery("SELECT * FROM FoodItem ORDER BY %s" %parameter) #.run(read_policy="STRONG_CONSISTENCY")
         # if you only wanna display the 10 latest: "SELECT * FROM Content ORDER BY created DESC limit 10"
 
         
@@ -88,6 +88,22 @@ class Frontpage(Handler):
         self.render("frontpage.html", food_items = all_food_items) # passing contents in to the html file
         
     def get(self):
+        id_descript = self.request.get("id_description")  # if header link 'Description' is clicked, there is an id_descript
+        id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked, there is an id_days_left
+        id_exp = self.request.get("id_exp_date")  # if header link 'Exp. date' is clicked, there is an id_exp
+
+        if id_descript: # 'Description' was clicked
+            self.render_front(parameter="description ASC")
+        elif id_days_left:  # 'Days to exp' was clicked
+            self.render_front(parameter="days_before_exp ASC")  # the 'oldest' shown first
+        elif id_exp:  # 'Exp. date' was clicked
+            self.render_front(parameter="expiry ASC")  # None exp date comes first then what is next to expire
+        else:
+            self.render_front()
+        
+        
+
+    def post(self):
         # get request data
         
         # id data (which check boxes has user checked) put in a variable
@@ -96,18 +112,7 @@ class Frontpage(Handler):
         # delete button data (if delete button clicked, list will have 1 item else no item in list)
         one_item_delete_button_list = self.request.get_all("delete_button")  # there is only 1 delete_button
 
-        # desription button data (if desription button clicked, list will have 1 item else no item in list)
-        one_item_description_button_list = self.request.get_all("description_button")  # there is only 1 description_button
-
-        # date added button data (if date added button clicked, list will have 1 item else no item in list)
-        one_item_days_before_button_list = self.request.get_all("days_before_button")  # there is only 1 date_added_button
-
-        # expiry date button data (if expiry date button clicked, list will have 1 item else no item in list)
-        one_item_exp_date_button_list = self.request.get_all("exp_date_button")  # there is only 1 exp_date_button
-
-        
-        # delete button is clicked
-        if len(one_item_delete_button_list) == 1:
+        if len(one_item_delete_button_list) == 1:  # delete button is clicked
             # loop through list_of_id_checked and remove matches from db
             for an_id in list_of_id_checked:
                 # find the item with the specific id in db
@@ -117,37 +122,15 @@ class Frontpage(Handler):
                     FoodItem.delete(match)
             time.sleep(0.1)  # to delay so db table gets displayed correct
             self.render_front()
-        
-        elif len(one_item_description_button_list) == 1: # 'Description' is clicked
-            self.render_front(parameter="description ASC")
-
-
-        
-        elif len(one_item_days_before_button_list) == 1: # 'Days before expiry' is clicked
-            self.render_front(parameter="days_before_exp ASC")  # the 'oldest' shown first
-
-        
-        elif len(one_item_exp_date_button_list) == 1: #expiry date clicked
-            self.render_front(parameter="expiry ASC")  # None exp date comes first then what is next to expire
-
-
-
-
-        else:   
+        else:
             self.render_front()
-        
 
-    def post(self):
-        pass
-        
-        
-            
 
 
 # handler for '/food'
 class FoodPage(Handler):        
     def get(self):
-        an_id = self.request.get("id")  # if a foodItem description is clicked, there is an_id        
+        an_id = self.request.get("id")  # if an foodItem description is clicked, there is an_id        
         if an_id:  # means there is an item to edit
             specific_item = FoodItem.get_by_id(int(an_id))  # get the item with the specific id (an_id)
 
@@ -240,7 +223,7 @@ class FoodPage(Handler):
                 the_item.put()
                 time.sleep(0.1)  # to delay so db table gets displayed correct
                 self.redirect("/")  # tells the browser to go to '/' and the response is empty
-               
+                #self.response.out.write("updated")
             else: # no id
                 logging.debug("No item id" ) 
                 # create item in db
