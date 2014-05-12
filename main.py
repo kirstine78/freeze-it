@@ -88,16 +88,16 @@ class Frontpage(Handler):
         self.render("frontpage.html", food_items = all_food_items) # passing contents in to the html file
         
     def get(self):
-        id_descript = self.request.get("id_description")  # if header link 'Description' is clicked, there is an id_descript
-        id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked, there is an id_days_left
-        id_exp = self.request.get("id_exp_date")  # if header link 'Exp. date' is clicked, there is an id_exp
+        id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' will be assigned
+        id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked 'ASC' will be assigned
+        id_exp = self.request.get("id_exp_date")  # if header link 'Exp. date' is clicked 'ASC' will be assigned
 
         if id_descript: # 'Description' was clicked
-            self.render_front(parameter="description ASC")
+            self.render_front(parameter="description %s" %id_descript)
         elif id_days_left:  # 'Days to exp' was clicked
-            self.render_front(parameter="days_before_exp ASC")  # the 'oldest' shown first
+            self.render_front(parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
         elif id_exp:  # 'Exp. date' was clicked
-            self.render_front(parameter="expiry ASC")  # None exp date comes first then what is next to expire
+            self.render_front(parameter="expiry %s" %id_exp)  # None exp date comes first then what is next to expire
         else:
             self.render_front()
         
