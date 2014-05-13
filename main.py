@@ -83,27 +83,28 @@ class Frontpage(Handler):
             item.put() 
 
         time.sleep(0.1)  # to delay so db table gets displayed correct
-        
-        if parameter=="description ASC":
-            self.render("frontpage.html", food_items = all_food_items, descr_asc_desc="DESC", days_left_asc_desc="ASC", exp_asc_desc="ASC") # passing contents in to the html file
-        elif parameter=="description DESC":
-            self.render("frontpage.html", food_items = all_food_items, descr_asc_desc="ASC", days_left_asc_desc="ASC", exp_asc_desc="ASC") # passing contents in to the html file
 
-        elif parameter=="days_before_exp ASC":
-            self.render("frontpage.html", food_items = all_food_items, days_left_asc_desc="DESC", descr_asc_desc="ASC", exp_asc_desc="ASC") # passing contents in to the html file
-        elif parameter=="days_before_exp DESC":
-            self.render("frontpage.html", food_items = all_food_items, days_left_asc_desc="ASC", descr_asc_desc="ASC", exp_asc_desc="ASC") # passing contents in to the html file
+        # toggle function
+        descrip_a_d="ASC"
+        days_left_a_d="ASC"
+        exp_a_d="ASC"
+            
+        if parameter != "created DESC":
+            
+            if parameter=="description ASC":
+                descrip_a_d="DESC"
 
-        elif parameter=="expiry ASC":
-            self.render("frontpage.html", food_items = all_food_items, exp_asc_desc="DESC", days_left_asc_desc="ASC", descr_asc_desc="ASC") # passing contents in to the html file
-        elif parameter=="expiry DESC":
-            self.render("frontpage.html", food_items = all_food_items, exp_asc_desc="ASC", days_left_asc_desc="ASC", descr_asc_desc="ASC") # passing contents in to the html file
+            elif parameter=="days_before_exp ASC":
+                days_left_a_d="DESC"
 
-        else:
-            self.render("frontpage.html", food_items = all_food_items,
-                        descr_asc_desc="ASC",
-                        days_left_asc_desc="ASC",
-                        exp_asc_desc="ASC") # passing contents in to the html file
+            elif parameter=="expiry ASC":
+                exp_a_d="DESC"
+                
+        self.render("frontpage.html", food_items = all_food_items,
+                    descr_asc_desc=descrip_a_d,
+                    days_left_asc_desc=days_left_a_d,
+                    exp_asc_desc=exp_a_d) # passing contents in to the html file
+     
         
     def get(self):
         id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' will be assigned
