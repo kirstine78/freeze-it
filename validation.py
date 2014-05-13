@@ -1,3 +1,4 @@
+# -*- coding: cp1252 -*-
 from datetime import datetime
 from datetime import date
 import info_entered

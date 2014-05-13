@@ -85,6 +85,7 @@ class Frontpage(Handler):
             item.put() 
 
         time.sleep(0.1)  # to delay so db table gets displayed correct
+        
         self.render("frontpage.html", food_items = all_food_items) # passing contents in to the html file
         
     def get(self):
