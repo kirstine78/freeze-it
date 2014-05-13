@@ -66,11 +66,9 @@ class FoodItem(db.Model): # abbreviated 'FI'
 class Frontpage(Handler):
     def render_front(self, parameter="created DESC"):  # 'youngest' created date shown first by default
 
-        
         all_food_items = db.GqlQuery("SELECT * FROM FoodItem ORDER BY %s" %parameter) #.run(read_policy="STRONG_CONSISTENCY")
         # if you only wanna display the 10 latest: "SELECT * FROM Content ORDER BY created DESC limit 10"
 
-        
         # loop through all items and set is_expired
         for item in all_food_items:
             if item.expiry:
@@ -86,7 +84,26 @@ class Frontpage(Handler):
 
         time.sleep(0.1)  # to delay so db table gets displayed correct
         
-        self.render("frontpage.html", food_items = all_food_items) # passing contents in to the html file
+        if parameter=="description ASC":
+            self.render("frontpage.html", food_items = all_food_items, descr_asc_desc="DESC", days_left_asc_desc="ASC", exp_asc_desc="ASC") # passing contents in to the html file
+        elif parameter=="description DESC":
+            self.render("frontpage.html", food_items = all_food_items, descr_asc_desc="ASC", days_left_asc_desc="ASC", exp_asc_desc="ASC") # passing contents in to the html file
+
+        elif parameter=="days_before_exp ASC":
+            self.render("frontpage.html", food_items = all_food_items, days_left_asc_desc="DESC", descr_asc_desc="ASC", exp_asc_desc="ASC") # passing contents in to the html file
+        elif parameter=="days_before_exp DESC":
+            self.render("frontpage.html", food_items = all_food_items, days_left_asc_desc="ASC", descr_asc_desc="ASC", exp_asc_desc="ASC") # passing contents in to the html file
+
+        elif parameter=="expiry ASC":
+            self.render("frontpage.html", food_items = all_food_items, exp_asc_desc="DESC", days_left_asc_desc="ASC", descr_asc_desc="ASC") # passing contents in to the html file
+        elif parameter=="expiry DESC":
+            self.render("frontpage.html", food_items = all_food_items, exp_asc_desc="ASC", days_left_asc_desc="ASC", descr_asc_desc="ASC") # passing contents in to the html file
+
+        else:
+            self.render("frontpage.html", food_items = all_food_items,
+                        descr_asc_desc="ASC",
+                        days_left_asc_desc="ASC",
+                        exp_asc_desc="ASC") # passing contents in to the html file
         
     def get(self):
         id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' will be assigned
