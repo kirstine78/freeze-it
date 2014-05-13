@@ -88,28 +88,43 @@ class Frontpage(Handler):
         descrip_a_d="ASC"
         days_left_a_d="ASC"
         exp_a_d="ASC"
+
+        # decide which sorted code (0-7) you pass into html and also update variables.
+        if parameter == "created DESC":
+            number_look = 1
             
-        if parameter != "created DESC":
+        else:
             
             if parameter=="description ASC":
+                number_look = 2
                 descrip_a_d="DESC"
+            elif parameter=="description DESC":
+                number_look = 3
 
             elif parameter=="days_before_exp ASC":
+                number_look = 4
                 days_left_a_d="DESC"
+            elif parameter=="days_before_exp DESC":
+                number_look = 5
 
             elif parameter=="expiry ASC":
+                number_look = 6
                 exp_a_d="DESC"
+            else:  # parameter=="expiry DESC"
+                number_look = 7
                 
+            
         self.render("frontpage.html", food_items = all_food_items,
                     descr_asc_desc=descrip_a_d,
                     days_left_asc_desc=days_left_a_d,
-                    exp_asc_desc=exp_a_d) # passing contents in to the html file
+                    exp_asc_desc=exp_a_d,
+                    look_number=number_look) # passing contents in to the html file
      
         
     def get(self):
-        id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' will be assigned
-        id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked 'ASC' will be assigned
-        id_exp = self.request.get("id_exp_date")  # if header link 'Exp. date' is clicked 'ASC' will be assigned
+        id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' or 'DESC' will be assigned
+        id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked 'ASC' or 'DESC' will be assigned
+        id_exp = self.request.get("id_exp_date")  # if header link 'Exp. date' is clicked 'ASC' or 'DESC' will be assigned
 
         if id_descript: # 'Description' was clicked
             self.render_front(parameter="description %s" %id_descript)
@@ -124,6 +139,35 @@ class Frontpage(Handler):
 
     def post(self):
         # get request data
+
+        # 0-7 to see which sorted way the table was before user clicked delete button
+        the_sorted_look = self.request.get_all("which_sorted_look")  # returns a list with only one item though
+
+        if int(the_sorted_look[0]) == 1:
+            param = "created DESC"
+
+        elif int(the_sorted_look[0]) == 2:
+            param = "description ASC"
+            
+        elif int(the_sorted_look[0]) == 3:
+            param = "description DESC"
+
+            
+        elif int(the_sorted_look[0]) == 4:
+            param = "days_before_exp ASC"
+
+            
+        elif int(the_sorted_look[0]) == 5:
+            param = "days_before_exp DESC"
+
+            
+        elif int(the_sorted_look[0]) == 6:
+            param = "expiry ASC"
+
+        elif int(the_sorted_look[0]) == 7:
+            param = "expiry DESC"
+        else:
+            param = "created DESC"
         
         # id data (which check boxes has user checked) put in a variable
         list_of_id_checked = self.request.get_all("delete")  # returns a list of id strings
@@ -140,9 +184,9 @@ class Frontpage(Handler):
                 if match:
                     FoodItem.delete(match)
             time.sleep(0.1)  # to delay so db table gets displayed correct
-            self.render_front()
-        else:
-            self.render_front()
+
+        self.render_front(parameter=param)
+      
 
 
 
