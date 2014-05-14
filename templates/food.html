@@ -4,6 +4,15 @@
 	<head>
 		<title>Freeze it</title>
 		<style>
+		
+			.Table_Edit, 
+			{
+			border-collapse:collapse;
+			
+			
+			}
+			
+			
 			.error_message_red
 			{
 			color:red;
@@ -22,15 +31,12 @@
 			{
 			margin-left: 5px;
 			color:#0066FF;
-			
-			
 			}
 			
 			div
 			{
 			margin:10px 5px 4px 4px;
 			color:#00BFFF;
-			
 			}
 			
 		</style>
@@ -51,14 +57,26 @@
 
 	<body>
 		<h1>{{headline}}</h1>
+		{% if item_id != "" %}
+			<table class="Table_Edit" style="width:200px; table-layout:fixed;">
+				<tr>
+					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#00BFFF;">
+					<i>Full Food description</i>
+					</th>
+				</tr>
+				<tr>
+					<td class="tr_Edit" style="font-size:10px; word-wrap:break-word; color:#999999">
+						<i>{{food_description_content}}</i>
+					</td>
+				</tr>
+				
+			</table>
+		{% endif %}
 		
 		<form method="post">
 			
 			<label>
 				<div>Food description</div> <input type="text" name="food_description" value="{{food_description_content}}">
-				
-				
-				
 				
 				<span class="error_message_red">{{food_description_error}}</span>
 			</label>
