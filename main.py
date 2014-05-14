@@ -52,9 +52,11 @@ class FoodItem(db.Model): # abbreviated 'FI'
     amount = db.StringProperty(required = False)  # a number
     expiry = db.DateProperty(required = False)  # expiry date for food
 
+    days_in_freezer = db.IntegerProperty(required = False)  # counting days from being added to freezer
+
     is_expired = db.BooleanProperty(required=False)  # is True if exp. date has been exceeded
     is_soon_to_expire = db.BooleanProperty(required=False)  # is True if exp. date is within x days
-    days_before_exp =  db.IntegerProperty(required = False) 
+    days_before_exp =  db.IntegerProperty(required = False)  # counting days before expiry
     
     created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting    
     added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer 
@@ -80,6 +82,9 @@ class Frontpage(Handler):
                 item.is_expired = False
                 item.is_soon_to_expire = False
                 item.days_before_exp = None
+
+            item.days_in_freezer = validation.days_in_freezer(item.added_date)
+            
             item.put() 
 
         time.sleep(0.1)  # to delay so db table gets displayed correct
@@ -89,14 +94,11 @@ class Frontpage(Handler):
         descrip_a_d="ASC"
         days_left_a_d="ASC"
         exp_a_d="ASC"
-        added_a_d="DESC"
+        days_frozen_a_d="DESC"
 
-        # decide which sorted code (0-7) you pass into html and also update variables.
-        if parameter == "created ASC":  # use created cause it's more precise than 'added_date'
-            number_look = 0
-        elif parameter == "created DESC":
+        # decide which sorted code (1-9) you pass into html and also update variables.
+        if parameter == "created DESC":  # use created cause it's more precise than 'added_date'
             number_look = 1
-            added_a_d="ASC"
             
         elif parameter=="description ASC":
             number_look = 2
@@ -104,24 +106,32 @@ class Frontpage(Handler):
         elif parameter=="description DESC":
             number_look = 3
 
-        elif parameter=="days_before_exp ASC":
+        elif parameter=="days_in_freezer ASC":
             number_look = 4
+            
+        elif parameter=="days_in_freezer DESC":
+            number_look = 5
+            days_frozen_a_d="ASC"
+            
+            
+        elif parameter=="days_before_exp ASC":
+            number_look = 6
             days_left_a_d="DESC"
         elif parameter=="days_before_exp DESC":
-            number_look = 5
+            number_look = 7
 
         elif parameter=="expiry ASC":
-            number_look = 6
+            number_look = 8
             exp_a_d="DESC"
         else:  # parameter=="expiry DESC"
-            number_look = 7
+            number_look = 9
                 
             
         self.render("frontpage.html", food_items = all_food_items,
                     descr_asc_desc=descrip_a_d,
                     days_left_asc_desc=days_left_a_d,
                     exp_asc_desc=exp_a_d,
-                    add_date_asc_desc=added_a_d,
+                    days_frozen_asc_desc=days_frozen_a_d,
                     look_number=number_look) # passing contents in to the html file
      
         
@@ -129,7 +139,7 @@ class Frontpage(Handler):
         id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' or 'DESC' will be assigned
         id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked 'ASC' or 'DESC' will be assigned
         id_exp = self.request.get("id_exp_date")  # if header link 'Exp. date' is clicked 'ASC' or 'DESC' will be assigned
-        id_day_add = self.request.get("id_add_date")  # if header link 'Date added' is clicked 'ASC' or 'DESC' will be assigned
+        id_days_in_freezer = self.request.get("id_days_frozen")  # if header link 'Days in freezer' is clicked 'ASC' or 'DESC' will be assigned
 
         
 
@@ -139,8 +149,8 @@ class Frontpage(Handler):
             self.render_front(parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
         elif id_exp:  # 'Exp. date' was clicked
             self.render_front(parameter="expiry %s" %id_exp)  # None exp date comes first then what is next to expire
-        elif id_day_add:  # 'Date added' was clicked
-            self.render_front(parameter="created %s" %id_day_add)
+        elif id_days_in_freezer:  # 'Days in freezer' was clicked
+            self.render_front(parameter="days_in_freezer %s" %id_days_in_freezer)
         else:
             self.render_front(parameter="created DESC")
         
@@ -149,13 +159,12 @@ class Frontpage(Handler):
     def post(self):
         # get request data
 
-        # 0-7 to see which sorted way the table was before user clicked delete button
+        # 1-9 to see which sorted way the table was before user clicked delete button
         the_sorted_look = self.request.get_all("which_sorted_look")  # returns a list with only one item though
 
-        if int(the_sorted_look[0]) == 0:
-            param = "created ASC"
+        
             
-        elif int(the_sorted_look[0]) == 1:
+        if int(the_sorted_look[0]) == 1:
             param = "created DESC"
 
         elif int(the_sorted_look[0]) == 2:
@@ -164,16 +173,24 @@ class Frontpage(Handler):
         elif int(the_sorted_look[0]) == 3:
             param = "description DESC"
 
+
         elif int(the_sorted_look[0]) == 4:
-            param = "days_before_exp ASC"
+            param = "days_in_freezer ASC"
 
         elif int(the_sorted_look[0]) == 5:
-            param = "days_before_exp DESC"
+            param = "days_in_freezer DESC"
+
 
         elif int(the_sorted_look[0]) == 6:
+            param = "days_before_exp ASC"
+
+        elif int(the_sorted_look[0]) == 7:
+            param = "days_before_exp DESC"
+
+        elif int(the_sorted_look[0]) == 8:
             param = "expiry ASC"
 
-        else:  # int(the_sorted_look[0]) == 7:
+        else:  # int(the_sorted_look[0]) == 9:
             param = "expiry DESC"
             
         

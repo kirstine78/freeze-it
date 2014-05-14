@@ -185,10 +185,10 @@
 														<th class="th_table_Food" style="width:12%" id="header_not_toggles">Amount</th>
 														<th class="th_table_Food" style="width:10%" id="header_not_toggles">Unit</th>
 														
-														<th class="th_table_Food" style="width:15%"><a href="/?id_add_date={{add_date_asc_desc}}" id="header_toggle">Date added</th>
+														<th class="th_table_Food" style="width:15%"><a href="/?id_days_frozen={{days_frozen_asc_desc}}" id="header_toggle">Days in freezer</th>
 														
 														<th class="th_table_Food" style="width:10%"><a href="/?id_days_to_exp={{days_left_asc_desc}}" id="header_toggle">Days left</th>
-														<th class="th_table_Food" style="width:15%"><a href="/?id_exp_date={{exp_asc_desc}}" id="header_toggle">Expiry date</th>
+														<th class="th_table_Food" style="width:15%"><a href="/?id_exp_date={{exp_asc_desc}}" id="header_toggle">Expiry date </th>
 														
 														<th class="th_table_Food" style="width:13%"><input name="delete_button" type="submit" value="Delete" id="del_col" onclick="return confirm('Are you sure?')"></input></th>
 													</tr>
@@ -199,7 +199,7 @@
 														<td class="td_table_Food">{{foods.amount}}</td>	
 														<td class="td_table_Food">{{foods.measure_unit}}</td>
 														
-														<td class="td_table_Food">{{foods.added_date}}</td>
+														<td class="td_table_Food">{{foods.days_in_freezer}}</td>
 														
 														{% if foods.expiry %}
 															{% if foods.is_soon_to_expire %}
@@ -215,12 +215,12 @@
 														
 														{% if foods.expiry %}
 															{% if foods.days_before_exp == 0 %}
-																<td class="td_table_Food_red">{{foods.expiry}}</td>
+																<td class="td_table_Food_red" style="font-size:12px;">{{foods.expiry}}</td>
 															{% else %}
 																{% if foods.days_before_exp < 0 %}
-																	<td class="td_table_Food_red"><strike>{{foods.expiry}}</strike></td>
+																	<td class="td_table_Food_red" style="font-size:12px;"><strike>{{foods.expiry}}</strike></td>
 																{% else %}
-																	<td class="td_table_Food">{{foods.expiry}}</td>
+																	<td class="td_table_Food" style="font-size:12px;">{{foods.expiry}}</td>
 																{% endif %}
 															{% endif %}
 														{% else %}

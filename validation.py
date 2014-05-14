@@ -105,9 +105,6 @@ def is_exp_date_valid(a_date, a_food_item_id):
                 else:
                     obj_exp_date = info_entered.InfoEntered(False, "The entered date was in the past")
                     return obj_exp_date
-            
-
-
                 
         except ValueError:
             obj_exp_date = info_entered.InfoEntered(False, "Incorrect data format, should be MM/DD/YYYY")
@@ -219,6 +216,33 @@ def expires_soon(date_to_check):
             return True, int(first_word)
         # not to expire soon
         return False, int(first_word)
+
+def days_in_freezer(date_when_added):
+    """ date_when_added in format yyyy-mm-dd. Returns (an int) how many days since item
+        was added in freezer compared with current date. """
+
+    today = date.today() #yyyy-mm-dd
+
+    #convert mm/dd/yyyy to YYYY-MM-DD
+    #date_when_added_converted = datetime.strptime(date_when_added+" 12:00", "%m/%d/%Y %H:%M").date()
+
+    # difference between current date and date_when_added in format 'x days, 0:00:00'
+    diff = today - date_when_added
+    
+    diff_str =  str(diff)  # convert to string
+
+    first_ch = diff_str[0:1]
+
+    if first_ch == "0":  # 0 days since added to freezer
+        return int(first_ch)
+    else:  # more than 0 days since added to freezer
+        word_list = diff_str.split( )
+        first_word = str(word_list[0])
+        get_int = int(word_list[0])
+        return get_int
+    
+
+    
 
 def convert_date_mmddyyyy(a_date):
     """ convert a_date with format yyyy-mm-dd to format mm/dd/yyyy"""
