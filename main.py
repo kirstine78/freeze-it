@@ -62,7 +62,8 @@ class FoodItem(db.Model): # abbreviated 'FI'
     
     created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting    
     added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer 
-    last_modified = db.DateTimeProperty(auto_now = True)
+
+    #last_modified = db.DateTimeProperty(auto_now = True)
 
 
 
