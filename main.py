@@ -253,10 +253,10 @@ class FoodPage(Handler):
         
                 
         # create objects of class InfoEntered. NB this is not an FoodItem object!!!
-        obj_food = validation.is_food_description_valid(a_food_description) # object is created inside food_description_valid()
-        obj_unit = validation.is_measure_unit__valid(a_measuring_unit, an_amount)  # object is created inside measure_unit__valid()
-        obj_amount = validation.is_amount_valid(an_amount, a_measuring_unit)  # object is created inside exp_date_valid()
-        obj_exp_date = validation.is_exp_date_valid(an_exp_date_str)  # object is created inside exp_date_valid()
+        obj_food = validation.is_food_description_valid(a_food_description) # object is created inside is_food_description_valid()
+        obj_unit = validation.is_measure_unit__valid(a_measuring_unit, an_amount)  # object is created inside is_measure_unit__valid()
+        obj_amount = validation.is_amount_valid(an_amount, a_measuring_unit)  # object is created inside is_exp_date_valid()
+        obj_exp_date = validation.is_exp_date_valid(an_exp_date_str, an_item_id)  # object is created inside is_exp_date_valid()
                       
         # create list for the objects and append them
         obj_list = []
@@ -266,7 +266,7 @@ class FoodPage(Handler):
         obj_list.append( obj_amount )
         obj_list.append( obj_exp_date )
                
-        # check if all 'object.validation' are True so a foodItem can be added to db
+        # check if all 'object.validation' are True; is so, a foodItem can be added to db
         if validation.are_all_validation_true(obj_list):
             # check if there is a date, and if so convert to yyyy-mm-dd
             if an_exp_date_str:

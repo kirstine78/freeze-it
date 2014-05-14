@@ -48,17 +48,25 @@ def is_measure_unit__valid(unit, amount):
 def is_amount_valid(amount, unit):
     """ Checks if amount is valid in correspondance with unit.
         Creates an object of classInfoEntered and returns it """
-
+    LIMIT = 8
     # amount entered
     if amount:
         # amount has to be a number AND unit other than "" has to be chosen
         if is_amount_a_number(amount):
             if is_unit_chosen(unit):
-                obj_amount = info_entered.InfoEntered(True, "")
-                return obj_amount
+                if len(str(amount)) < LIMIT:  # number is not too big
+                    obj_amount = info_entered.InfoEntered(True, "")
+                    return obj_amount
+                else:  # the number is too big
+                    obj_amount = info_entered.InfoEntered(False, "Max. 7 characters")
+                    return obj_amount
             else:
-                obj_amount = info_entered.InfoEntered(False, "")
-                return obj_amount
+                if len(str(amount)) < LIMIT:  # number is not too big
+                    obj_amount = info_entered.InfoEntered(False, "")
+                    return obj_amount
+                else:  # the number is too big
+                    obj_amount = info_entered.InfoEntered(False, "Max. 7 characters")
+                    return obj_amount
         else:
             obj_amount = info_entered.InfoEntered(False, "This is not a number!")
             return obj_amount
@@ -74,19 +82,33 @@ def is_amount_valid(amount, unit):
             return obj_amount
 
 
-def is_exp_date_valid(a_date):
-    """ Takes in a string in mm/dd/yyyy format, check if there is a date entered, if it is
-        valid date, and if it is in the future. Returns an object of classInfoEntered """
+def is_exp_date_valid(a_date, a_food_item_id):
+    """ Takes in a string a_date in mm/dd/yyyy format, and a_food_item_id.
+        Depending on whether there is a_food_item_id or not decide if date is valid.
+        No a_food_item_id: Check if there is a date entered, if it is valid date,
+        and if it is in the future.
+        a_food_item_id: Check if there is a date entered, if it is valid date.
+        Returns an object of classInfoEntered """
     
     if a_date:
         try:
             datetime.strptime(a_date, '%m/%d/%Y')
-            if is_future_date(a_date):
+
+
+            if a_food_item_id:  # the date doesn't have to be future date
                 obj_exp_date = info_entered.InfoEntered(True, "")
                 return obj_exp_date
-            else:
-                obj_exp_date = info_entered.InfoEntered(False, "The entered date was in the past")
-                return obj_exp_date
+            else:  # the date has to be future date
+                if is_future_date(a_date):
+                    obj_exp_date = info_entered.InfoEntered(True, "")
+                    return obj_exp_date
+                else:
+                    obj_exp_date = info_entered.InfoEntered(False, "The entered date was in the past")
+                    return obj_exp_date
+            
+
+
+                
         except ValueError:
             obj_exp_date = info_entered.InfoEntered(False, "Incorrect data format, should be MM/DD/YYYY")
             return obj_exp_date
