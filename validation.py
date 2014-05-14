@@ -223,9 +223,6 @@ def days_in_freezer(date_when_added):
 
     today = date.today() #yyyy-mm-dd
 
-    #convert mm/dd/yyyy to YYYY-MM-DD
-    #date_when_added_converted = datetime.strptime(date_when_added+" 12:00", "%m/%d/%Y %H:%M").date()
-
     # difference between current date and date_when_added in format 'x days, 0:00:00'
     diff = today - date_when_added
     
@@ -271,7 +268,7 @@ def convert_to_letter_month(some_date):
     elif mm == "09":
         mm = "Sep"
     elif mm == "10":
-        mm = "Okt"
+        mm = "Oct"
     elif mm == "11":
         mm = "Nov"
     elif mm == "12":
@@ -281,14 +278,14 @@ def convert_to_letter_month(some_date):
     
 
 
-        
+
 
 
     
 
 def convert_date_mmddyyyy(a_date):
     """ convert a_date with format yyyy-mm-dd to format mm/dd/yyyy"""
-
+    
     mm = a_date[5:7]
     dd = a_date[-2:]
     yyyy = a_date[0:4]

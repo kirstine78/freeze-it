@@ -242,6 +242,8 @@ class FoodPage(Handler):
             a_change_button="Submit Changes"
             a_passive_button="Cancel"
             a_item_id=an_id
+            a_date_created = validation.convert_date_mmddyyyy(str(specific_item.added_date))  #mm/dd/yyyy
+
 
         else:  # no id, set values to a blank "food.html"
             a_food_description_content=""
@@ -252,6 +254,7 @@ class FoodPage(Handler):
             a_change_button="Submit"
             a_passive_button="Return to Overview"
             a_item_id=""
+            a_date_created = ""
 
         logging.debug("description = " + a_food_description_content)
         # render "food.html" with correct params!
@@ -260,7 +263,8 @@ class FoodPage(Handler):
                     exp_content = a_exp_content, amount_content=a_amount_content, list_of_units=list_of_units,
                     selectedUnit=a_selectedUnit, headline=a_headline,
                     change_button=a_change_button, passive_button=a_passive_button,
-                    item_id=a_item_id)
+                    item_id=a_item_id,
+                    created_date=a_date_created)
 
             
     def post(self):
@@ -330,29 +334,36 @@ class FoodPage(Handler):
         else:
             # decide which params to pass based on 'add' or 'edit'
             if an_item_id: # edit version
+                specific_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
+
+                
                 the_headline="Edit food item"
                 the_change_button="Submit Changes"
                 the_passive_button="Cancel"
                 the_item_id=an_item_id
+                a_date_created = validation.convert_date_mmddyyyy(str(specific_item.added_date))  #mm/dd/yyyy
+
 
             else:  # add version
                 the_headline="Add food to Freezer"
                 the_change_button="Submit"
                 the_passive_button="Return to Overview"
                 the_item_id=""  # ok with empty str. when checking if "" that is False.... But can't use None to put in here...
+                a_date_created = ""
 
             # returns the following in the response
             self.render("food.html", food_description_content=a_food_description , food_description_error=obj_food.get_error_msg(),
-                    measure_unit_error=obj_unit.get_error_msg(),
-                    amount_error=obj_amount.get_error_msg(),
-                    amount_content=an_amount, 
-                    date_error=obj_exp_date.get_error_msg(),
-                    exp_content = an_exp_date_str,
-                    list_of_units=list_of_units,
-                    selectedUnit=a_measuring_unit,
-                    headline=the_headline,
-                    change_button=the_change_button, passive_button=the_passive_button,
-                    item_id=the_item_id)
+                        measure_unit_error=obj_unit.get_error_msg(),
+                        amount_error=obj_amount.get_error_msg(),
+                        amount_content=an_amount, 
+                        date_error=obj_exp_date.get_error_msg(),
+                        exp_content = an_exp_date_str,
+                        list_of_units=list_of_units,
+                        selectedUnit=a_measuring_unit,
+                        headline=the_headline,
+                        change_button=the_change_button, passive_button=the_passive_button,
+                        item_id=the_item_id,
+                        created_date=a_date_created)
           
 
             
