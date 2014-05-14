@@ -52,6 +52,8 @@ class FoodItem(db.Model): # abbreviated 'FI'
     amount = db.StringProperty(required = False)  # a number
     expiry = db.DateProperty(required = False)  # expiry date for food
 
+    exp_with_month_letters = db.StringProperty(required = False)  # "27-MAY-2014" format
+
     days_in_freezer = db.IntegerProperty(required = False)  # counting days from being added to freezer
 
     is_expired = db.BooleanProperty(required=False)  # is True if exp. date has been exceeded
@@ -78,6 +80,7 @@ class Frontpage(Handler):
                     item.is_expired = True
                 # check if expiry soon happens and update days_before_exp
                 item.is_soon_to_expire, item.days_before_exp = validation.expires_soon(item.expiry)
+                item.exp_with_month_letters = validation.convert_to_letter_month(item.expiry)
             else: # no exp date
                 item.is_expired = False
                 item.is_soon_to_expire = False

@@ -242,6 +242,48 @@ def days_in_freezer(date_when_added):
         return get_int
     
 
+def convert_to_letter_month(some_date):
+    """ some_date in format yyyy-mm-dd converted to string dd-APR-yyyy and returned """
+    
+    some_date_str = str(some_date)
+    
+    dd = some_date_str[-2:]
+    yyyy = some_date_str[:4]
+
+    mm = some_date_str[5:7]
+
+    if mm == "01":
+        mm = "Jan"
+    elif mm == "02":
+        mm = "Feb"
+    elif mm == "03":
+        mm = "Mar"
+    elif mm == "04":
+        mm = "Apr"
+    elif mm == "05":
+        mm = "May"
+    elif mm == "06":
+        mm = "Jun"   
+    elif mm == "07":
+        mm = "Jul"
+    elif mm == "08":
+        mm = "Aug"
+    elif mm == "09":
+        mm = "Sep"
+    elif mm == "10":
+        mm = "Okt"
+    elif mm == "11":
+        mm = "Nov"
+    elif mm == "12":
+        mm = "Dec"
+
+    return dd + " " + mm + " " + yyyy
+    
+
+
+        
+
+
     
 
 def convert_date_mmddyyyy(a_date):

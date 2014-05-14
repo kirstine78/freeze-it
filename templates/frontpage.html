@@ -215,12 +215,12 @@
 														
 														{% if foods.expiry %}
 															{% if foods.days_before_exp == 0 %}
-																<td class="td_table_Food_red" style="font-size:12px;">{{foods.expiry}}</td>
+																<td class="td_table_Food_red" style="font-size:12px;">{{foods.exp_with_month_letters}}</td>
 															{% else %}
 																{% if foods.days_before_exp < 0 %}
-																	<td class="td_table_Food_red" style="font-size:12px;"><strike>{{foods.expiry}}</strike></td>
+																	<td class="td_table_Food_red" style="font-size:12px;"><strike>{{foods.exp_with_month_letters}}</strike></td>
 																{% else %}
-																	<td class="td_table_Food" style="font-size:12px;">{{foods.expiry}}</td>
+																	<td class="td_table_Food" style="font-size:12px;">{{foods.exp_with_month_letters}}</td>
 																{% endif %}
 															{% endif %}
 														{% else %}
