@@ -157,15 +157,12 @@ def is_amount_a_number(an_amount):
 def upper_case(a_string):
     """ Return string with first letter in upper case """
     if a_string and len(a_string) > 0:
-        if a_string[0:1] in "abcdefghijklmnopqrstuvwxyz":
-            first_letter_to_upper = a_string[0:1].upper()
-            if len(a_string) > 1:
-                string_to_upper = first_letter_to_upper + a_string[1:]
-            else:
-                string_to_upper = first_letter_to_upper
-            return string_to_upper
+        first_letter_to_upper = a_string[0:1].upper()
+        if len(a_string) > 1:
+            string_to_upper = first_letter_to_upper + a_string[1:]
         else:
-            return a_string
+            string_to_upper = first_letter_to_upper
+        return string_to_upper
     else:
         return a_string
 
@@ -277,11 +274,6 @@ def convert_to_letter_month(some_date):
     return dd + " " + mm + " " + yyyy
     
 
-
-
-
-
-    
 
 def convert_date_mmddyyyy(a_date):
     """ convert a_date with format yyyy-mm-dd to format mm/dd/yyyy"""
