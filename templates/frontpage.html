@@ -31,37 +31,11 @@
 		}
 		
 		
-		.Table_Food
+		.Table_Food, .th_table_Food, .td_table_Food, .td_table_Food_red
 		{
-		*border-collapse: collapse;
-		border:1px solid blue;
-		border-spacing: 0;
-		-moz-border-radius: 15px 15px 15px 15px;
-        border-radius: 15px 15px 15px 15px;
-		}
-		
-		.th_table_Food_top_left
-		{
-		border-collapse: collapse;
-		border:1px solid blue;
-		-moz-border-radius:15px 0 0 0;
-		border-radius: 15px 0 0 0;
-		}
-		
-		.th_table_Food_top_right
-		{
-		border-collapse: collapse;
-		border:1px solid blue;
-		-moz-border-radius: 0 15px 0 0;
-		border-radius: 0 15px 0 0;
-		}
-		
-		.th_table_Food, .td_table_Food, .td_table_Food_red
-		{
-		border-collapse: collapse;
+		border-collapse:collapse;
 		border:1px solid blue;
 		}
-		
 		
 		.td_table_Food_red
 		{
@@ -76,7 +50,7 @@
 		background: white;
 		}
 		
-		.th_table_Food, .th_table_Food_top_left, .th_table_Food_top_right
+		.th_table_Food
 		{
 		height:30px;
 		text-align:center;
@@ -91,7 +65,6 @@
 		{
 		text-align:center;
 		}
-		
 		
 		#description
 		{
@@ -207,7 +180,7 @@
 												<table class="Table_Food" style="width:100%; table-layout:fixed;">
 													<tr class="tr_table_Food">
 														
-														<th class="th_table_Food_top_left" id="description" style="width:25%;"><a href="/?id_description={{descr_asc_desc}}" style="margin-left: 5px;" id="header_toggle">Description</th>
+														<th class="th_table_Food" id="description" style="width:25%;"><a href="/?id_description={{descr_asc_desc}}" style="margin-left: 5px;" id="header_toggle">Description</th>
 														
 														<th class="th_table_Food" style="width:12%" id="header_not_toggles">Amount</th>
 														<th class="th_table_Food" style="width:10%" id="header_not_toggles">Unit</th>
@@ -217,12 +190,12 @@
 														<th class="th_table_Food" style="width:10%"><a href="/?id_days_to_exp={{days_left_asc_desc}}" id="header_toggle">Days left</th>
 														<th class="th_table_Food" style="width:15%"><a href="/?id_exp_date={{exp_asc_desc}}" id="header_toggle">Expiry date </th>
 														
-														<th class="th_table_Food_top_right" style="width:13%"><input name="delete_button" type="submit" value="Delete" id="del_col" onclick="return confirm('Are you sure?')"></input></th>
+														<th class="th_table_Food" style="width:13%"><input name="delete_button" type="submit" value="Delete" id="del_col" onclick="return confirm('Are you sure?')"></input></th>
 													</tr>
 													{% for foods in food_items %}
 													<tr class="tr_table_Food">
-														<td class="td_table_Food" id="description" style="padding-left:6px; padding-right:8px; word-wrap:break-word;"><a href="/food?id={{foods.key().id()}}" style="color:black; text-decoration:none;">{{foods.description}}</a></td>		
 														
+														<td class="td_table_Food" id="description" style="position:relative; left:5px; padding-right:8px; word-wrap:break-word;"><a href="/food?id={{foods.key().id()}}" style="color:black; text-decoration:none;">{{foods.description}}</a></td>		
 														<td class="td_table_Food">{{foods.amount}}</td>	
 														<td class="td_table_Food">{{foods.measure_unit}}</td>
 														
