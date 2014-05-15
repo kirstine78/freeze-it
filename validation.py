@@ -107,7 +107,7 @@ def is_exp_date_valid(a_date, a_food_item_id):
                     return obj_exp_date
                 
         except ValueError:
-            obj_exp_date = info_entered.InfoEntered(False, "Incorrect data format, should be MM/DD/YYYY")
+            obj_exp_date = info_entered.InfoEntered(False, "Incorrect data format, should be dd-mm-yyyy")
             return obj_exp_date
     else:
         obj_exp_date = info_entered.InfoEntered(True, "")
