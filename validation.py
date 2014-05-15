@@ -83,8 +83,8 @@ def is_amount_valid(amount, unit):
 
 
 def is_exp_date_valid(a_date, a_food_item_id):
-    """ Takes in a string a_date in mm/dd/yyyy format, and a_food_item_id.
-        Depending on whether there is a_food_item_id or not decide if date is valid.
+    """ Takes in a string a_date in "mm/dd/yyyy" format, and a string a_food_item_id.
+        Depending on whether there is a_food_item_id or not decide if a_date is a valid date.
         No a_food_item_id: Check if there is a date entered, if it is valid date,
         and if it is in the future.
         a_food_item_id: Check if there is a date entered, if it is valid date.
@@ -92,7 +92,7 @@ def is_exp_date_valid(a_date, a_food_item_id):
     
     if a_date:
         try:
-            datetime.strptime(a_date, '%m/%d/%Y')
+            datetime.strptime(a_date, '%m/%d/%Y')  ###################
 
 
             if a_food_item_id:  # the date doesn't have to be future date
@@ -275,11 +275,25 @@ def convert_to_letter_month(some_date):
     
 
 
-def convert_date_mmddyyyy(a_date):
-    """ convert a_date with format yyyy-mm-dd to format mm/dd/yyyy"""
-    
-    mm = a_date[5:7]
-    dd = a_date[-2:]
-    yyyy = a_date[0:4]
+def convert_DateProperty_to_str_slash(date):
+    """ convert a DateProperty a_date with format yyyy-mm-dd to a string with format "mm/dd/yyyy" """
 
+    date_string = str(date)
+    
+    mm = date_string[5:7]
+    dd = date_string[-2:]
+    yyyy = date_string[0:4]
+
+    # return dd + "-" + mm + "-" + yyyy
     return mm + "/" + dd + "/" + yyyy
+
+def convert_DateProperty_to_str_dash(date):
+    """ convert a DateProperty a_date with format yyyy-mm-dd to a string with format "dd-mm-yyyy" """
+
+    date_string = str(date)
+    
+    mm = date_string[5:7]
+    dd = date_string[-2:]
+    yyyy = date_string[0:4]
+
+    return dd + "-" + mm + "-" + yyyy
