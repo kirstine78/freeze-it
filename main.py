@@ -219,7 +219,6 @@ class Frontpage(Handler):
       
 
 
-
 # handler for '/food'
 class FoodPage(Handler):        
     def get(self):
