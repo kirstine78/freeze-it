@@ -2,6 +2,7 @@
 from datetime import datetime
 from datetime import date
 import info_entered
+import logging
 
 
 def is_food_description_valid(food_description):
@@ -83,7 +84,7 @@ def is_amount_valid(amount, unit):
 
 
 def is_exp_date_valid(a_date, a_food_item_id):
-    """ Takes in a string a_date in "mm/dd/yyyy" format, and a string a_food_item_id.
+    """ Takes in a string a_date in "dd-mm-yyyy" format, and a string a_food_item_id.
         Depending on whether there is a_food_item_id or not decide if a_date is a valid date.
         No a_food_item_id: Check if there is a date entered, if it is valid date,
         and if it is in the future.
@@ -92,14 +93,15 @@ def is_exp_date_valid(a_date, a_food_item_id):
     
     if a_date:
         try:
-            datetime.strptime(a_date, '%m/%d/%Y')  ###################
-
+            logging.debug("string passed in: " + a_date)
+            date_object = datetime.strptime(a_date, '%d-%m-%Y').date()  ###################
+            logging.debug("string passed in AFTER: " + a_date)
 
             if a_food_item_id:  # the date doesn't have to be future date
                 obj_exp_date = info_entered.InfoEntered(True, "")
                 return obj_exp_date
             else:  # the date has to be future date
-                if is_future_date(a_date):
+                if is_future_date(date_object):
                     obj_exp_date = info_entered.InfoEntered(True, "")
                     return obj_exp_date
                 else:
@@ -168,14 +170,11 @@ def upper_case(a_string):
 
 
 def is_future_date(a_date):
-    """ Returns True if a_date mm/dd/yyyy is younger than current date yyyy-mm-dd """
+    """ Takes in a DateObject yyyy-mm-dd and returns True if it is younger than current date yyyy-mm-dd """
     
     today = date.today() #yyyy-mm-dd
     
-    #convert mm/dd/yyyy to YYYY-MM-DD
-    exp_date_converted = datetime.strptime(a_date+" 12:00", "%m/%d/%Y %H:%M").date()
-
-    return today <= exp_date_converted
+    return today <= a_date
 
 
 def expires_soon(date_to_check):

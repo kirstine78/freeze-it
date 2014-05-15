@@ -228,8 +228,8 @@ class FoodPage(Handler):
 
             # check if there is a DateProperty (expiry) yyyy-mm-dd. It is NOT a string
             if specific_item.expiry:
-                # create a string in format "mm/dd/yyyy" of the DateProperty yyyy-mm-dd 
-                date_html_format = validation.convert_DateProperty_to_str_slash(specific_item.expiry)
+                # create a string in format "dd-mm-yyyy" of the DateProperty yyyy-mm-dd 
+                date_html_format = validation.convert_DateProperty_to_str_dash(specific_item.expiry)
 
             else:  # no expiry date for this item
                 date_html_format = ""
@@ -243,8 +243,8 @@ class FoodPage(Handler):
             a_change_button="Submit Changes"
             a_passive_button="Cancel"
             a_item_id=an_id
-            # create a string in format "mm/dd/yyyy" of the DateProperty yyyy-mm-dd 
-            a_date_created = validation.convert_DateProperty_to_str_slash(specific_item.added_date)
+            # create a string in format "dd-mm-yyyy" of the DateProperty yyyy-mm-dd 
+            a_date_created = validation.convert_DateProperty_to_str_dash(specific_item.added_date)
 
 
         else:  # no id, set values to a blank "food.html"
@@ -274,7 +274,7 @@ class FoodPage(Handler):
         a_food_description = self.request.get("food_description").strip()
         a_measuring_unit = self.request.get("q")
         an_amount = self.request.get("amount")
-        an_exp_date_str = self.request.get("expiry_date")  # a string in format "mm/dd/yyyy"
+        an_exp_date_str = self.request.get("expiry_date")  # a string in format "dd-mm-yyyy"
         an_item_id = self.request.get("item_ID")  # this is a string "455646501654613" format
         
                 
@@ -298,8 +298,8 @@ class FoodPage(Handler):
             if an_exp_date_str:
                 date_valid = obj_exp_date.get_validation_info()  # returns a Boolean
                 if date_valid:
-                    # create from string a DateProperty ????????????????????  with format yyyy-mm-dd 
-                    an_exp_date = datetime.strptime(an_exp_date_str+" 12:00", "%m/%d/%Y %H:%M").date()  ######!!!!!!!!
+                    # create from string a DateProperty with format yyyy-mm-dd 
+                    an_exp_date = datetime.strptime(an_exp_date_str+" 12:00", "%d-%m-%Y %H:%M").date()
             else:
                 an_exp_date = None
 
@@ -343,8 +343,8 @@ class FoodPage(Handler):
                 the_passive_button="Cancel"
                 the_item_id=an_item_id
 
-                # create a string in format "mm/dd/yyyy" of the DateProperty yyyy-mm-dd 
-                a_date_created = validation.convert_DateProperty_to_str_slash(specific_item.added_date)
+                # create a string in format "dd-mm-yyyy" from the DateProperty yyyy-mm-dd 
+                a_date_created = validation.convert_DateProperty_to_str_dash(specific_item.added_date)
 
 
             else:  # add version

@@ -49,7 +49,7 @@
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>		
 		<script>
 			$(function() {
-			$( "#datepicker" ).datepicker();
+			$( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
 			});
 		</script>
 	</head>
@@ -60,11 +60,11 @@
 		{% if item_id != "" %}
 			<table class="Table_Edit" style="width:250px; table-layout:fixed;">
 				<tr>
-					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#00BFFF; width:75%;">
+					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#00BFFF; width:72%;">
 						<i>Full Food description</i>
 					</th>
-					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#00BFFF; width:25%;">
-						<i>Date added (mm/dd/yyyy)</i>
+					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#00BFFF; width:28%;">
+						<i>Date added (dd-mm-yyyy)</i>
 					</th>
 				</tr>
 				<tr>
@@ -112,7 +112,7 @@
 			<br>
 			<br>
 			<label>
-				<div>Expiry date (mm/dd/yyyy)</div>
+				<div>Expiry date (dd-mm-yyyy)</div>
 				<input type="text" id="datepicker" name="expiry_date" value="{{exp_content}}">
 				<span class="error_message_red">{{date_error}}</span>
 				
