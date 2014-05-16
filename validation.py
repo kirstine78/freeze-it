@@ -22,6 +22,25 @@ def is_food_description_valid(food_description):
         return obj_food
         
 
+def is_note_valid(note_str):
+    """ Takes in a string note_str and check if length is less
+        than LIMIT_CHARS.
+        Creates an object of classInfoEntered and returns it """
+
+    LIMIT_CHARS = 26
+    
+    if note_str:
+        if len(note_str) < LIMIT_CHARS:
+            obj_note = info_entered.InfoEntered(True, "")  # create object of class InfoEntered
+        else:
+            obj_note = info_entered.InfoEntered(False, "Max. 25 characters")  # create object of class InfoEntered
+    else:
+        obj_note = info_entered.InfoEntered(True, "")  # create object of class InfoEntered
+    return obj_note  
+
+
+
+    
 def is_measure_unit__valid(unit, amount):
     """ Checks if unit is valid in correspondance with amount.
         Creates an object of classInfoEntered and returns it """

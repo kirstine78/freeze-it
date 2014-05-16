@@ -82,7 +82,7 @@
 		<form method="post">
 			
 			<label>
-				<div>Food description</div> <input type="text" name="food_description" value="{{food_description_content}}">
+				<div>Food description *</div> <input type="text" name="food_description" value="{{food_description_content}}">
 				
 				<span class="error_message_red">{{food_description_error}}</span>
 			</label>
@@ -90,27 +90,15 @@
 			<br>
 			
 			<label>
-				<div>Measuring unit</div>
-				<select name="q">
-					{% for unit in list_of_units %}
-						{% if unit == selectedUnit %}
-							<option selected>{{unit}}</option>
-						{% else %}
-							<option>{{unit}}</option>							
-						{% endif %}
-					{% endfor %}
-				</select>
-				<span class="error_message_red">{{measure_unit_error}}</span>
+				<div>Note (e.g. 300 g)</div> <input type="text" name="note" value="{{note_content}}" style="width:300px;">
+				<span class="error_message_red">{{note_error}}</span>
 			</label>
-			
 			<br>
 			<br>
 			<label>
-				<div>Amount</div> <input type="text" name="amount" value="{{amount_content}}">
-				<span class="error_message_red">{{amount_error}}</span>
-			</label>
 			<br>
 			<br>
+			
 			<label>
 				<div>Expiry date (dd-mm-yyyy)</div>
 				<input type="text" id="datepicker" name="expiry_date" value="{{exp_content}}">
