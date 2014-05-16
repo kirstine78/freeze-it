@@ -27,13 +27,13 @@ def is_note_valid(note_str):
         than LIMIT_CHARS.
         Creates an object of classInfoEntered and returns it """
 
-    LIMIT_CHARS = 26
+    LIMIT_CHARS = 36
     
     if note_str:
         if len(note_str) < LIMIT_CHARS:
             obj_note = info_entered.InfoEntered(True, "")  # create object of class InfoEntered
         else:
-            obj_note = info_entered.InfoEntered(False, "Max. 25 characters")  # create object of class InfoEntered
+            obj_note = info_entered.InfoEntered(False, "Max. 35 characters")  # create object of class InfoEntered
     else:
         obj_note = info_entered.InfoEntered(True, "")  # create object of class InfoEntered
     return obj_note  
