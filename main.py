@@ -274,7 +274,7 @@ class FoodPage(Handler):
         logging.debug("description = " + a_food_description_content)
         # render "food.html" with correct params!
         self.render("food.html", food_description_content=a_food_description_content, food_description_error="",
-                    note_content=a_note_content, note_error="",
+                    note_content=a_note_content,
                     date_error="",
                     exp_content = a_exp_content,
                     headline=a_headline,
@@ -292,6 +292,7 @@ class FoodPage(Handler):
                     created_date=a_date_created)
         """
 
+
     def post(self):
         # data that user has entered
         a_food_description = self.request.get("food_description").strip()
@@ -299,8 +300,9 @@ class FoodPage(Handler):
         a_note = self.request.get("note").strip()
 
         
-        a_measuring_unit = self.request.get("q")
-        an_amount = self.request.get("amount")
+        #a_measuring_unit = self.request.get("q")
+        #an_amount = self.request.get("amount")
+        
         an_exp_date_str = self.request.get("expiry_date")  # a string in format "dd-mm-yyyy"
         an_item_id = self.request.get("item_ID")  # this is a string "455646501654613" format
         
@@ -308,10 +310,10 @@ class FoodPage(Handler):
         # create objects of class InfoEntered. NB this is not an FoodItem object!!!
         obj_food = validation.is_food_description_valid(a_food_description) # object is created inside is_food_description_valid()
 
-        obj_note = validation.is_note_valid(a_note) # object is created inside is_note_valid()
+        #obj_note = validation.is_note_valid(a_note) # object is created inside is_note_valid()
         
-        obj_unit = validation.is_measure_unit__valid(a_measuring_unit, an_amount)  # object is created inside is_measure_unit__valid()
-        obj_amount = validation.is_amount_valid(an_amount, a_measuring_unit)  # object is created inside is_exp_date_valid()
+        #obj_unit = validation.is_measure_unit__valid(a_measuring_unit, an_amount)  # object is created inside is_measure_unit__valid()
+        #obj_amount = validation.is_amount_valid(an_amount, a_measuring_unit)  # object is created inside is_exp_date_valid()
         obj_exp_date = validation.is_exp_date_valid(an_exp_date_str, an_item_id)  # object is created inside is_exp_date_valid()
                       
         # create list for the objects and append them
@@ -319,10 +321,10 @@ class FoodPage(Handler):
         
         obj_list.append( obj_food )
         
-        obj_list.append( obj_note )
+        #obj_list.append( obj_note )
         
-        obj_list.append( obj_unit )
-        obj_list.append( obj_amount )
+        #obj_list.append( obj_unit )
+        #obj_list.append( obj_amount )
         obj_list.append( obj_exp_date )
                
         # check if all 'object.validation' are True; is so, a foodItem can be added to db
@@ -349,8 +351,8 @@ class FoodPage(Handler):
 
                 the_item.note = a_note
                 
-                the_item.measure_unit = a_measuring_unit
-                the_item.amount = an_amount
+                #the_item.measure_unit = a_measuring_unit
+                #the_item.amount = an_amount
                 the_item.expiry = an_exp_date
                  
                 the_item.put()
@@ -362,8 +364,6 @@ class FoodPage(Handler):
                 # create item in db
                 FI = FoodItem(description = a_food_description,
                               note = a_note,
-                              measure_unit = a_measuring_unit,
-                              amount = an_amount,
                               expiry = an_exp_date,
                               is_expired=False)
                 FI.put()
@@ -398,7 +398,6 @@ class FoodPage(Handler):
             # returns the following in the response
             self.render("food.html", food_description_content=a_food_description , food_description_error=obj_food.get_error_msg(),
                         note_content=a_note,
-                        note_error=obj_note.get_error_msg(),
                         date_error=obj_exp_date.get_error_msg(),
                         exp_content = an_exp_date_str,
                         headline=the_headline,

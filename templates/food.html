@@ -52,6 +52,8 @@
 			$( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
 			});
 		</script>
+		
+		
 	</head>
 	
 
@@ -90,8 +92,8 @@
 			<br>
 			
 			<label>
-				<div>Note (e.g. 300 g)</div> <input type="text" name="note" value="{{note_content}}" style="width:220px;">
-				<span class="error_message_red">{{note_error}}</span>
+				<div>Note (e.g. 300 g)</div> <input type="text" name="note" value="{{note_content}}" maxlength="30" style="width:200px;">
+				<span style="font-size:10px; color:#00BFFF;">(Max. 30 characters)</span>
 			</label>
 			<br>
 			<br>
