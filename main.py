@@ -91,6 +91,7 @@ class Frontpage(Handler):
 
         time.sleep(0.1)  # to delay so db table gets displayed correct
 
+
         # toggle function        
         descrip_a_d="ASC"
         days_left_a_d="ASC"
@@ -113,7 +114,6 @@ class Frontpage(Handler):
         elif parameter=="days_in_freezer DESC":
             number_look = 5
             days_frozen_a_d="ASC"
-            
             
         elif parameter=="days_before_exp ASC":
             number_look = 6
@@ -163,37 +163,7 @@ class Frontpage(Handler):
         # 1-9 to see which sorted way the table was before user clicked delete button
         the_sorted_look = self.request.get_all("which_sorted_look")  # returns a list with only one item though
 
-        
-            
-        if int(the_sorted_look[0]) == 1:
-            param = "created DESC"
-
-        elif int(the_sorted_look[0]) == 2:
-            param = "description ASC"
-            
-        elif int(the_sorted_look[0]) == 3:
-            param = "description DESC"
-
-
-        elif int(the_sorted_look[0]) == 4:
-            param = "days_in_freezer ASC"
-
-        elif int(the_sorted_look[0]) == 5:
-            param = "days_in_freezer DESC"
-
-
-        elif int(the_sorted_look[0]) == 6:
-            param = "days_before_exp ASC"
-
-        elif int(the_sorted_look[0]) == 7:
-            param = "days_before_exp DESC"
-
-        elif int(the_sorted_look[0]) == 8:
-            param = "expiry ASC"
-
-        else:  # int(the_sorted_look[0]) == 9:
-            param = "expiry DESC"
-            
+        param = validation.get_param(the_sorted_look[0])  # returns fx "description DESC"            
         
         # id data (which check boxes has user checked) put in a variable
         list_of_id_checked = self.request.get_all("delete")  # returns a list of id strings

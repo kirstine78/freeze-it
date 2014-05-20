@@ -184,8 +184,43 @@ def convert_to_letter_month(some_date):
         mm = "Dec"
 
     return dd + " " + mm + " " + yyyy
-    
 
+
+    
+def get_param(an_int_in_a_string):
+    """ takes in a string an_int_in_a_string (which is a number as strin,g ex. "2"), convert it to an int
+        and return a corresponding string"""
+
+    an_int = int(an_int_in_a_string)
+
+    if an_int == 1:
+        param = "created DESC"
+
+    elif an_int == 2:
+        param = "description ASC"
+        
+    elif an_int == 3:
+        param = "description DESC"
+
+    elif an_int == 4:
+        param = "days_in_freezer ASC"
+
+    elif an_int == 5:
+        param = "days_in_freezer DESC"
+
+    elif an_int == 6:
+        param = "days_before_exp ASC"
+
+    elif an_int == 7:
+        param = "days_before_exp DESC"
+
+    elif an_int == 8:
+        param = "expiry ASC"
+
+    else:  # an_int == 9:
+        param = "expiry DESC"
+
+    return param
 
 def convert_DateProperty_to_str_slash(date):
     """ convert a DateProperty a_date with format yyyy-mm-dd to a string with format "mm/dd/yyyy" """
