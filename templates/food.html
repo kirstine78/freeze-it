@@ -36,7 +36,7 @@
 			div
 			{
 			margin:10px 5px 4px 4px;
-			color:#00BFFF;
+			color:#0066FF;
 			}
 			
 			.button 
@@ -113,6 +113,13 @@
 			$(function() {
 			$( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
 			});
+			
+			
+			
+			function closeWindow() {
+				window.close()
+			}
+			
 		</script>
 		
 		
@@ -124,10 +131,10 @@
 		{% if item_id != "" %}
 			<table class="Table_Edit" style="width:250px; table-layout:fixed;">
 				<tr>
-					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#00BFFF; width:72%;">
+					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#0066FF; width:72%;">
 						<i>Full Food description</i>
 					</th>
-					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#00BFFF; width:28%;">
+					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#0066FF; width:28%;">
 						<i>Date added (dd-mm-yyyy)</i>
 					</th>
 				</tr>
@@ -155,7 +162,7 @@
 			
 			<label>
 				<div>Note (e.g. 300 g)</div> <input type="text" name="note" value="{{note_content}}" maxlength="30" style="width:200px;">
-				<span style="font-size:10px; color:#00BFFF;">(Max. 30 characters)</span>
+				<span style="font-size:10px; color:#0066FF;">(Max. 30 characters)</span>
 			</label>
 			<br>
 			<br>
@@ -172,7 +179,7 @@
 			
 			<input class="button" type="submit" value="{{change_button}}">
 			
-			<input class="button_red" type="button" value="{{passive_button}}" onclick="location.href='/'">
+			<input class="button_red" type="button" value="{{passive_button}}" onclick="JavaScript:closeWindow();">
 			
 			<input type="hidden" name="item_ID" value={{item_id}}></input>
 			
