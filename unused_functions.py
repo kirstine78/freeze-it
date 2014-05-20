@@ -76,3 +76,32 @@ def is_amount_valid(amount, unit):
         else:
             obj_amount = info_entered.InfoEntered(True, "")
             return obj_amount
+
+
+        
+def is_unit_chosen(a_unit):
+    """ Returns True if a_unit equals other than empty string ("") """
+
+    if a_unit == "":
+        return False
+    else:
+        return True
+    
+
+def is_amount_entered(an_amount):
+    """ Returns True if an_amount is not None"""
+
+    if an_amount:
+        return True
+    else:
+        return False
+
+
+def is_amount_a_number(an_amount):
+    """ Return True if an_amount is a number """
+
+    try:
+        float(an_amount)
+        return True
+    except:
+        return False

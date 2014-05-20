@@ -69,34 +69,6 @@ def are_all_validation_true(list_of_info_entered_objects):
 ##################################################################################################################
 
 
-def is_unit_chosen(a_unit):
-    """ Returns True if a_unit equals other than empty string ("") """
-
-    if a_unit == "":
-        return False
-    else:
-        return True
-    
-
-def is_amount_entered(an_amount):
-    """ Returns True if an_amount is not None"""
-
-    if an_amount:
-        return True
-    else:
-        return False
-
-
-def is_amount_a_number(an_amount):
-    """ Return True if an_amount is a number """
-
-    try:
-        float(an_amount)
-        return True
-    except:
-        return False
-
-
 def upper_case(a_string):
     """ Return string with first letter in upper case """
     if a_string and len(a_string) > 0:

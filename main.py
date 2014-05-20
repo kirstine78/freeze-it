@@ -47,17 +47,9 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 class FoodItem(db.Model): # abbreviated 'FI'
-    description = db.StringProperty(required = True)  # food description
-    
-
+    description = db.StringProperty(required = True)  # food description   
     note = db.StringProperty(required = False)  # a string with notes, fx "30 gram"
-
-    
-    #measure_unit = db.StringProperty(required = False) # gram, kilo etc
-    #amount = db.StringProperty(required = False)  # a number string
-
     expiry = db.DateProperty(required = False)  # expiry date for food yyyy-mm-dd. Not a string.
-
     exp_with_month_letters = db.StringProperty(required = False)  # "27-Apr-2014" format
 
     days_in_freezer = db.IntegerProperty(required = False)  # counting days from being added to freezer
@@ -67,7 +59,6 @@ class FoodItem(db.Model): # abbreviated 'FI'
     days_before_exp =  db.IntegerProperty(required = False)  # counting days before expiry
     
     created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting
-    
     added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer yyyy-mm-dd. Not a string.
 
     #last_modified = db.DateTimeProperty(auto_now = True)
@@ -100,8 +91,7 @@ class Frontpage(Handler):
 
         time.sleep(0.1)  # to delay so db table gets displayed correct
 
-        # toggle function
-        
+        # toggle function        
         descrip_a_d="ASC"
         days_left_a_d="ASC"
         exp_a_d="ASC"
@@ -242,12 +232,8 @@ class FoodPage(Handler):
                 
             # set values for specific item
             a_food_description_content=specific_item.description
-
             a_note_content=specific_item.note
-            
             a_exp_content = date_html_format
-            #a_amount_content=specific_item.amount
-            #a_selectedUnit=specific_item.measure_unit
             a_headline="Edit food item"
             a_change_button="Submit Changes"
             a_passive_button="Cancel"
@@ -258,13 +244,8 @@ class FoodPage(Handler):
 
         else:  # no id, set values to a blank "food.html"
             a_food_description_content=""
-
             a_note_content=""
-            
             a_exp_content = ""
-
-            #a_amount_content=""
-            #a_selectedUnit=""
             a_headline="Add food to Freezer"
             a_change_button="Submit"
             a_passive_button="Return to Overview"
@@ -272,6 +253,7 @@ class FoodPage(Handler):
             a_date_created = ""
 
         logging.debug("description = " + a_food_description_content)
+        
         # render "food.html" with correct params!
         self.render("food.html", food_description_content=a_food_description_content, food_description_error="",
                     note_content=a_note_content,
@@ -281,50 +263,23 @@ class FoodPage(Handler):
                     change_button=a_change_button, passive_button=a_passive_button,
                     item_id=a_item_id,
                     created_date=a_date_created)
-        
-        """
-        self.render("food.html", food_description_content=a_food_description_content, food_description_error="",
-                    measure_unit_error="", amount_error="", date_error="",
-                    exp_content = a_exp_content, amount_content=a_amount_content, list_of_units=list_of_units,
-                    selectedUnit=a_selectedUnit, headline=a_headline,
-                    change_button=a_change_button, passive_button=a_passive_button,
-                    item_id=a_item_id,
-                    created_date=a_date_created)
-        """
 
 
     def post(self):
         # data that user has entered
         a_food_description = self.request.get("food_description").strip()
-
         a_note = self.request.get("note").strip()
-
-        
-        #a_measuring_unit = self.request.get("q")
-        #an_amount = self.request.get("amount")
-        
         an_exp_date_str = self.request.get("expiry_date")  # a string in format "dd-mm-yyyy"
         an_item_id = self.request.get("item_ID")  # this is a string "455646501654613" format
         
-                
         # create objects of class InfoEntered. NB this is not an FoodItem object!!!
         obj_food = validation.is_food_description_valid(a_food_description) # object is created inside is_food_description_valid()
-
-        #obj_note = validation.is_note_valid(a_note) # object is created inside is_note_valid()
-        
-        #obj_unit = validation.is_measure_unit__valid(a_measuring_unit, an_amount)  # object is created inside is_measure_unit__valid()
-        #obj_amount = validation.is_amount_valid(an_amount, a_measuring_unit)  # object is created inside is_exp_date_valid()
         obj_exp_date = validation.is_exp_date_valid(an_exp_date_str, an_item_id)  # object is created inside is_exp_date_valid()
                       
         # create list for the objects and append them
         obj_list = []
         
         obj_list.append( obj_food )
-        
-        #obj_list.append( obj_note )
-        
-        #obj_list.append( obj_unit )
-        #obj_list.append( obj_amount )
         obj_list.append( obj_exp_date )
                
         # check if all 'object.validation' are True; is so, a foodItem can be added to db
@@ -348,17 +303,13 @@ class FoodPage(Handler):
                 the_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
                 # update
                 the_item.description = a_food_description
-
                 the_item.note = a_note
-                
-                #the_item.measure_unit = a_measuring_unit
-                #the_item.amount = an_amount
                 the_item.expiry = an_exp_date
                  
                 the_item.put()
                 time.sleep(0.1)  # to delay so db table gets displayed correct
                 self.redirect("/")  # tells the browser to go to '/' and the response is empty
-                #self.response.out.write("updated")
+                
             else: # no id
                 logging.debug("No item id" ) 
                 # create item in db
