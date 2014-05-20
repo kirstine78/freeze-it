@@ -112,7 +112,12 @@
 		color: white;
 		font-weight:bold;
 		}
-		
+		#del_col:hover
+		{
+		background: #CDCDCD;
+		color: #ffffff;
+		}
+   
 		body
 		{
 		font:13px arial,sans-serif;
@@ -130,7 +135,34 @@
 		}
 		
 		
-		
+		.button {
+   border-top: 1px solid #00d92f;
+   background: #1aab00;
+   background: -webkit-gradient(linear, left top, left bottom, from(#0dc400), to(#1aab00));
+   background: -webkit-linear-gradient(top, #0dc400, #1aab00);
+   background: -moz-linear-gradient(top, #0dc400, #1aab00);
+   background: -ms-linear-gradient(top, #0dc400, #1aab00);
+   background: -o-linear-gradient(top, #0dc400, #1aab00);
+   padding: 12.5px 25px;
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   border-radius: 10px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 14px;
+   font-family: Helvetica, Arial, Sans-Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.button:hover {
+   border-top-color: #1dc400;
+   background: #1dc400;
+   color: #ffffff;
+   }
+   
 		</style>
 		
 	</head>
@@ -165,7 +197,7 @@
 										<td class="td_table_B_narrow" style="width:10%"></td>
 										<td class="td_table_B_wide" style="width:80%">
 											<form action="">
-												<input type="button" value="Add food to freezer" onclick="window.location.href='/food';"/>
+												<input class="button" type="button" value="Add food to freezer" onclick="window.location.href='/food';"/>
 											</form>
 										</td>
 										<td class="td_table_B_narrow" style="width:10%"></td>
