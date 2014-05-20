@@ -185,7 +185,37 @@ def convert_to_letter_month(some_date):
 
     return dd + " " + mm + " " + yyyy
 
+def get_number_code(sort_string):
+    """ takes in a string sort_string (e.g. "created DESC") and return a corresponding int"""
 
+    if sort_string == "created DESC":  # use created cause it's more precise than 'added_date'
+        number = 1
+        
+    elif sort_string=="description ASC":
+        number = 2
+        
+    elif sort_string=="description DESC":
+        number = 3
+
+    elif sort_string=="days_in_freezer ASC":
+        number = 4
+        
+    elif sort_string=="days_in_freezer DESC":
+        number = 5
+        
+    elif sort_string=="days_before_exp ASC":
+        number = 6
+        
+    elif sort_string=="days_before_exp DESC":
+        number = 7
+
+    elif sort_string=="expiry ASC":
+        number = 8
+        
+    else:  # sort_string=="expiry DESC"
+        number = 9
+
+    return number
     
 def get_param(an_int_in_a_string):
     """ takes in a string an_int_in_a_string (which is a number as strin,g ex. "2"), convert it to an int

@@ -92,40 +92,27 @@ class Frontpage(Handler):
         time.sleep(0.1)  # to delay so db table gets displayed correct
 
 
-        # toggle function        
+        # toggle function
+
+        # toggle variables
         descrip_a_d="ASC"
         days_left_a_d="ASC"
         exp_a_d="ASC"
         days_frozen_a_d="DESC"
 
         # decide which sorted code (1-9) you pass into html and also update variables.
-        if parameter == "created DESC":  # use created cause it's more precise than 'added_date'
-            number_look = 1
-            
-        elif parameter=="description ASC":
-            number_look = 2
+
+        code = validation.get_number_code(parameter)  #return an int (1-9) based on which parameter passed in
+
+        # check if any toggle variables must be updated
+        if code == 2:  # parameter=="description ASC"
             descrip_a_d="DESC"
-        elif parameter=="description DESC":
-            number_look = 3
-
-        elif parameter=="days_in_freezer ASC":
-            number_look = 4
-            
-        elif parameter=="days_in_freezer DESC":
-            number_look = 5
+        elif code == 5:  # parameter=="days_in_freezer DESC"
             days_frozen_a_d="ASC"
-            
-        elif parameter=="days_before_exp ASC":
-            number_look = 6
+        elif code == 6:  # parameter=="days_before_exp ASC"
             days_left_a_d="DESC"
-        elif parameter=="days_before_exp DESC":
-            number_look = 7
-
-        elif parameter=="expiry ASC":
-            number_look = 8
+        elif code == 8:  # parameter=="expiry ASC"
             exp_a_d="DESC"
-        else:  # parameter=="expiry DESC"
-            number_look = 9
                 
             
         self.render("frontpage.html", food_items = all_food_items,
@@ -133,7 +120,7 @@ class Frontpage(Handler):
                     days_left_asc_desc=days_left_a_d,
                     exp_asc_desc=exp_a_d,
                     days_frozen_asc_desc=days_frozen_a_d,
-                    look_number=number_look) # passing contents in to the html file
+                    look_number=code) # passing contents into the html file
      
         
     def get(self):
