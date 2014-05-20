@@ -183,7 +183,12 @@
 									<tr class="tr_table_C">
 										<td class="td_table_C_narrow" style="width:10%"></td>
 										<td class="td_table_C_wide" style="width:80%">
-											<p class="blue">My Freezer content: (Click item to edit or see full 'Description' and 'Date added')</p>
+											{% if food_items == None %}
+												<p class="blue">Your Freezer is currently empty!</p>
+											{% else %}
+												<p class="blue">My Freezer content: (Click item to edit or see full 'Description' and 'Date added')</p>
+											{% endif %}
+											
 										</td>
 										<td class="td_table_C_narrow" style="width:10%"></td>
 									</tr>
@@ -201,6 +206,7 @@
 										<td class="td_table_D_narrow" style="width:10%"></td>
 										<td class="td_table_D_wide" style="width:80%">
 											<form method="post">
+											{% if food_items != None %}
 												<table class="Table_Food" style="width:100%; table-layout:fixed;">
 													<tr class="tr_table_Food">
 														
@@ -256,7 +262,9 @@
 													</tr>
 													{% endfor %}
 												</table>
+												{% endif %}
 												<input type="hidden" name="which_sorted_look" value="{{look_number}}">{{look_number}}</input>
+											
 											</form>
 										</td>
 										<td class="td_table_D_narrow" style="width:10%"></td>
@@ -264,6 +272,7 @@
 								</table>	
 							</td>
 						</tr>
+						
 					</table>
 				</td>
 				<td class="td_table_A_narrow"  style="width:20%"></td>

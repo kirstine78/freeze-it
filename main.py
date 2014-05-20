@@ -72,8 +72,11 @@ class Frontpage(Handler):
         all_food_items = db.GqlQuery("SELECT * FROM FoodItem ORDER BY %s" %parameter) #.run(read_policy="STRONG_CONSISTENCY")
         # if you only wanna display the 10 latest: "SELECT * FROM Content ORDER BY created DESC limit 10"
 
+        counter = 0  # keep track of amount of iteration in for loop
+        
         # loop through all items and set is_expired
         for item in all_food_items:
+            counter = counter + 1
             if item.expiry:
                 if date.today() >= item.expiry:
                     item.is_expired = True
@@ -91,6 +94,10 @@ class Frontpage(Handler):
 
         time.sleep(0.1)  # to delay so db table gets displayed correct
 
+        if counter == 0:  # checks if there is any items in database
+            all_food_items = None
+
+        logging.debug("all_food_items = " + str(type(all_food_items)))
 
         # toggle function
 
