@@ -64,6 +64,22 @@ class FoodItem(db.Model): # abbreviated 'FI'
     #last_modified = db.DateTimeProperty(auto_now = True)
 
 
+# handler for '/signup', signUpLogInPage
+class signUpLogInPage(Handler):
+    def render_front(self):
+        self.render("signupForFreezeIt.html",
+                    the_login_username="",
+                    error_login="",
+                    the_signup_username="",
+                    username_error="",
+                    password_error="",
+                    verify_error="",
+                    email="",
+                    email_error="")
+    def get(self):
+        self.render_front()
+
+        
 
 # handler for '/'
 class Frontpage(Handler):
@@ -182,7 +198,7 @@ class Frontpage(Handler):
 # handler for '/food'
 class FoodPage(Handler):        
     def get(self):
-        an_id = self.request.get("id")  # if an foodItem description is clicked, there is an_id        
+        an_id = self.request.get("id")  # if any foodItem description is clicked, there is an_id        
         if an_id:  # means there is an item to edit
             specific_item = FoodItem.get_by_id(int(an_id))  # get the item with the specific id (an_id)
 
@@ -323,5 +339,6 @@ class FoodPage(Handler):
 
             
 
-app = webapp2.WSGIApplication([('/', Frontpage),
+app = webapp2.WSGIApplication([('/signup', signUpLogInPage),
+                               ('/', Frontpage),
                                ('/food', FoodPage)], debug=True)
