@@ -11,8 +11,8 @@ def is_food_description_valid(food_description):
 
     if food_description and len(food_description) > 0:
 
-        if len(food_description) > 499:
-            obj_food = info_entered.InfoEntered(False, "'Food description' max. 500 characters")  # create object of class InfoEntered
+        if len(food_description) > 200:
+            obj_food = info_entered.InfoEntered(False, "'Food description' max. 200 characters")  # create object of class InfoEntered
             return obj_food
         else:
             obj_food = info_entered.InfoEntered(True, "")  # create object of class InfoEntered
