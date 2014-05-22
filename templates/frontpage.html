@@ -167,14 +167,7 @@
    
 		</style>
 		
-		<script type="text/javascript">
-			function newPopup(url) {
-				popupWindow = window.showModalDialog(
-					url,'popUpWindow','height=500,width=400,left=100,top=100,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes')
-			}
-			
-		</script>
-		
+				
 	</head>
 	
 	<body>
@@ -207,7 +200,7 @@
 										<td class="td_table_B_narrow" style="width:10%"></td>
 										<td class="td_table_B_wide" style="width:80%">
 											<form action="">
-												<input class="button" type="button" value="Add food to freezer" onclick="JavaScript:newPopup(href='/food');"/>
+												<input class="button" type="button" value="Add food to freezer" onclick="window.location.href='/food';"/>
 											</form>
 										</td>
 										<td class="td_table_B_narrow" style="width:10%"></td>
