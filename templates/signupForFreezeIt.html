@@ -66,6 +66,11 @@
 		text-align:center;
 		}
 		
+		.error_message_red
+		{
+		color:red;
+		}
+	
 		
 		#description
 		{
@@ -199,7 +204,7 @@
 									<tr class="tr_table_B">
 										<td class="td_table_B_narrow" style="width:10%"></td>
 										<td class="td_table_B_wide" style="width:80%">
-											<p class="blue" style="font-size:20px;"><b>Sign up to 'Freeze it'.</b></p>
+											<p class="blue" style="font-size:20px;"><b>Sign up for 'Freeze it'</b></p>
 										</td>
 										<td class="td_table_B_narrow" style="width:10%"></td>
 									</tr>
@@ -222,32 +227,35 @@
 										<td class="td_table_D_wide" style="width:80%">
 											<form method="post">
 												<label>
-													<div class="blue">Username</div> <input type="text" name="username" value="{{signup_username}}">
+													<div class="blue">Username (4 - 20 characters)</div> <input type="text" name="username" value="{{signup_username}}" maxlength="20" style="width:220px;">
 				
 													<span class="error_message_red">{{username_error}}</span>
 												</label>
 												<br>
+												<br>
 												<label>
-													<div class="blue">Password</div> <input type="password" name="password">
+													<div class="blue">Password (min. 4 characters)</div> <input type="password" name="password" style="width:220px;">
 				
 													<span class="error_message_red">{{password_error}}</span>
 												</label>
 												<br>
+												<br>
 												<label>
-													<div class="blue">Verify password</div> <input type="password" name="verify">
+													<div class="blue">Verify password</div> <input type="password" name="verify" style="width:220px;">
 				
 													<span class="error_message_red">{{verify_error}}</span>
 												</label>
 												<br>
+												<br>
 												
 												<label>
-													<div class="blue">E-mail (optional)</div> <input type="text" name="email" value={{email}}>
+													<div class="blue">E-mail (optional)</div> <input type="text" name="email" value="{{email}}" style="width:220px;">
 				
 													<span class="error_message_red">{{email_error}}</span>
 												</label>
 												<br>
 												<br>
-												<input class="button" type="submit" value="Sign up" onclick="window.location.href='/food';">
+												<input class="button" type="submit" value="Sign up" onclick="window.location.href='/frontpage';">
 											</form>
 										</td>
 										<td class="td_table_D_narrow" style="width:10%"></td>

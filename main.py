@@ -21,11 +21,16 @@
 #########################
 
 import validation
-#import passwordValid
+import passwordValid
 import info_entered
+import cgi
+import re
 import os
 import webapp2
 import jinja2
+import random
+import string
+import hashlib
 import time
 import logging
 from datetime import datetime
@@ -46,6 +51,7 @@ class Handler(webapp2.RequestHandler):
         return t.render(params)
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
+        
 
 class FoodItem(db.Model): # abbreviated 'FI'
     description = db.StringProperty(required = True)  # food description   
@@ -65,26 +71,122 @@ class FoodItem(db.Model): # abbreviated 'FI'
     #last_modified = db.DateTimeProperty(auto_now = True)
 
 
+class RegisteredUsers(db.Model):  #  --> ru
+    name = db.StringProperty(required = True)
+    password_hashed = db.StringProperty(required = True)  # (name + pw + salt) hexdigested and then pipe salt with format "hexdigestedValue|salt"
+    created = db.DateTimeProperty(auto_now_add = True)
+
+
+
+
 # '/signup', SignupPage
 class SignupPage(Handler):
-    def render_front(self):
-        self.render("signupForFreezeIt.html",
-                    the_login_username="",
-                    error_login="",
-                    the_signup_username="",
-                    username_error="",
-                    password_error="",
-                    verify_error="",
-                    email="",
-                    email_error="")
-    def get(self):
-        self.render_front()
+        
+    def write_form(self, a_signup_name="", a_username_error="", a_password_error="",
+                   a_verify_error="", a_email="", a_email_error=""):
+        
+        self.render("signupForFreezeIt.html", signup_username=a_signup_name, username_error=a_username_error,
+                                        password_error=a_password_error,
+                                        verify_error=a_verify_error,
+                                        email=a_email, email_error=a_email_error)
 
         
+    def get(self):
+        self.write_form()
+
+
+    def post(self):
+        #secure_value # this is the (name + pw + salt) hexdigested and then pipe salt with format "hexdigestedValue|salt"
+        
+        username_input = self.request.get('username')
+        password_input = self.request.get('password')
+        verify_input = self.request.get('verify')
+        email_input = self.request.get('email')
+
+        escaped_username_input = passwordValid.escape_html(username_input)
+        escaped_email_input = passwordValid.escape_html(email_input)
+
+        is_valid_username = passwordValid.valid_username(username_input)
+        is_valid_password = passwordValid.valid_password(password_input)
+        
+        if len(email_input) > 0:
+            is_valid_email = passwordValid.valid_email(email_input)
+        else:
+            is_valid_email = True
+            
+
+        does_password_match = passwordValid.password_match(password_input, verify_input)
+
+        final_username_error=""
+        final_password_error=""
+        final_verify_error=""
+        final_email_error=""
+
+        if not (is_valid_username):
+            final_username_error="Invalid username."
+        if not (is_valid_password):
+            final_password_error="Invalid password."
+        if not (does_password_match):
+            final_verify_error="Password doesn't match."
+        if not (is_valid_email):
+            final_email_error="Invalid email."
+
+        if is_valid_username and is_valid_password and does_password_match and is_valid_email:
+            
+            # check if user already exist
+            user_already_exists = False
+           
+            all_reg_users = db.GqlQuery("SELECT * FROM RegisteredUsers ORDER BY created DESC")
+
+            if all_reg_users:
+                for users in all_reg_users:
+                    if users.name == username_input:
+                        user_already_exists = True
+                        break
+                
+            if user_already_exists:
+                #write error message out
+                final_username_error="User already exist"
+                self.write_form(escaped_username_input, final_username_error,
+                        final_password_error, final_verify_error,
+                        escaped_email_input, final_email_error)
+                    
+            else:  # ok to register new user
+
+                # username_and_password = username_input + password_input
+                secure_password = passwordValid.make_pw_hash(username_input, password_input)  # the function returns hash|salt
+                secure_username = passwordValid.make_secure_val(username_input) # the function returns username_input|hash
+
+               
+                ru = RegisteredUsers(name = username_input, password_hashed = secure_password) # save the hashed password in database
+                ru.put()
+                self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/' %str(secure_username))#sending secure_username back to browser
+                self.redirect("/frontpage")
+        else:
+            # check if user already exist
+            user_already_exists = False
+           
+            all_reg_users = db.GqlQuery("SELECT * FROM RegisteredUsers ORDER BY created DESC")
+
+            if all_reg_users:
+                for users in all_reg_users:
+                    if users.name == username_input:
+                        user_already_exists = True
+                        break
+                
+            if user_already_exists:
+                #write error message out
+                final_username_error="User already exist"
+                final_password_error=""
+                
+            self.write_form(escaped_username_input, final_username_error,
+                        final_password_error, final_verify_error,
+                        escaped_email_input, final_email_error)
+            
 
 # handler for '/frontpage'
 class Frontpage(Handler):
-    def render_front(self, parameter=""):  # 'youngest' created date shown first by default
+    def render_front(self, userID_cookieValid, parameter="" ):  # 'youngest' created date shown first by default
 
         all_food_items = db.GqlQuery("SELECT * FROM FoodItem ORDER BY %s" %parameter) #.run(read_policy="STRONG_CONSISTENCY")
         # if you only wanna display the 10 latest: "SELECT * FROM Content ORDER BY created DESC limit 10"
@@ -139,7 +241,8 @@ class Frontpage(Handler):
             exp_a_d="DESC"
                 
             
-        self.render("frontpage.html", food_items = all_food_items,
+        self.render("frontpage.html", username=userID_cookieValid,
+                    food_items = all_food_items,
                     descr_asc_desc=descrip_a_d,
                     days_left_asc_desc=days_left_a_d,
                     exp_asc_desc=exp_a_d,
@@ -148,27 +251,44 @@ class Frontpage(Handler):
      
         
     def get(self):
-        id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' or 'DESC' will be assigned
-        id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked 'ASC' or 'DESC' will be assigned
-        id_exp = self.request.get("id_exp_date")  # if header link 'Exp. date' is clicked 'ASC' or 'DESC' will be assigned
-        id_days_in_freezer = self.request.get("id_days_frozen")  # if header link 'Days in freezer' is clicked 'ASC' or 'DESC' will be assigned
 
-        
+        user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
 
-        if id_descript: # 'Description' was clicked
-            self.render_front(parameter="description %s" %id_descript)
-        elif id_days_left:  # 'Days to exp' was clicked
-            self.render_front(parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
-        elif id_exp:  # 'Exp. date' was clicked
-            self.render_front(parameter="expiry %s" %id_exp)  # None exp date comes first then what is next to expire
-        elif id_days_in_freezer:  # 'Days in freezer' was clicked
-            self.render_front(parameter="days_in_freezer %s" %id_days_in_freezer)
-        else:
-            self.render_front(parameter="created DESC")
+        if user_id_cookie_value:
+
+            user_id_cookie_valid = passwordValid.check_secure_val(user_id_cookie_value)
+            
+            
+            # if valid cookie:
+            if user_id_cookie_valid:
+
+                id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' or 'DESC' will be assigned
+                id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked 'ASC' or 'DESC' will be assigned
+                id_exp = self.request.get("id_exp_date")  # if header link 'Exp. date' is clicked 'ASC' or 'DESC' will be assigned
+                id_days_in_freezer = self.request.get("id_days_frozen")  # if header link 'Days in freezer' is clicked 'ASC' or 'DESC' will be assigned
+
+                if id_descript: # 'Description' was clicked
+                    self.render_front(user_id_cookie_valid, parameter="description %s" %id_descript)
+                elif id_days_left:  # 'Days to exp' was clicked
+                    self.render_front(user_id_cookie_valid, parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
+                elif id_exp:  # 'Exp. date' was clicked
+                    self.render_front(user_id_cookie_valid, parameter="expiry %s" %id_exp)  # None exp date comes first then what is next to expire
+                elif id_days_in_freezer:  # 'Days in freezer' was clicked
+                    self.render_front(user_id_cookie_valid, parameter="days_in_freezer %s" %id_days_in_freezer)
+                else:
+                    self.render_front(user_id_cookie_valid, parameter="created DESC")
+
+            else:  # invalid
+                self.redirect("/signup")
+        else:  # None
+                self.redirect("/signup")
         
         
 
     def post(self):
+        user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
+        user_id_cookie_valid = passwordValid.check_secure_val(user_id_cookie_value)
+            
         # get request data
 
         # 1-9 to see which sorted way the table was before user clicked delete button
@@ -192,7 +312,7 @@ class Frontpage(Handler):
                     FoodItem.delete(match)
             time.sleep(0.1)  # to delay so db table gets displayed correct
 
-        self.render_front(parameter=param)
+        self.render_front(user_id_cookie_valid, parameter=param)
       
 
 
