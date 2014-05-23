@@ -2,24 +2,278 @@
 
 <html>
 	<head>
-		<title>Pset4 login</title>
-	</head>
+		<title>Freeze it</title>
+		
+		<style type="text/css">
+		
+		.Table_A, .tr_table_A, .td_table_A_narrow, td_table_A_center
+		{
+		border-collapse:collapse;
+		/*border:1px solid red;*/
+		}
+		
+		.td_table_A_narrow
+		{
+		background: #CCE6FF;
+		}
+		
+		.Table_Center, .tr_table_Center, .td_table_Center
+		{
+		border-collapse:collapse;
+		/*border:1px solid black;*/
+		}
+		
+		
+		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide, .Table_C, .tr_table_C, .td_table_C_narrow, .td_table_C_wide, .Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
+		{
+		border-collapse:collapse;
+		/*border:1px solid green;*/
+		}
+		
+		
+		.Table_Food, .th_table_Food, .td_table_Food, .td_table_Food_red
+		{
+		border-collapse:collapse;
+		border:1px solid blue;
+		}
+		
+		.td_table_Food_red
+		{
+		text-align:center;
+		color:red;
+		}
+		
+		.Table_Food tr:nth-child(odd){ 
+		background: #CCE6FF;
+		}
+		.Table_Food tr:nth-child(even){
+		background: white;
+		}
+		
+		.th_table_Food
+		{
+		height:30px;
+		text-align:center;
+		background-color:#0066FF;
+		color:white;
+		font-size:17px;
+		font-weight:bold;
+		}
+		
+		
+		.td_table_Food
+		{
+		text-align:center;
+		}
+		
+		
+		#description
+		{
+		text-align:left;		
+		}
+		
+		
+		.single_line
+		{
+		overflow: hidden;
+		text-overflow: ellipsis;
 
+		/* Internet Explorer 10 */
+		display:-ms-flexbox;
+		-ms-flex-orient: vertical;
+		-ms-flex-line-clamp: 1; /* number of lines to show */
+
+		/* Firefox */
+		display:-moz-box;
+		-moz-box-orient: vertical;
+		-moz-box-line-clamp: 1; /* number of lines to show */
+
+		/* Safari, Chrome, and Opera */
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1; /* number of lines to show */
+		}
+		
+		
+		#header_toggle, #header_not_toggles
+		{
+		font-size:14px;
+		color: white
+		}
+		
+		
+		
+		#del_col
+		{
+		border: 1px solid #000;
+		border-radius:3px;
+		background-color:#778899;
+		border-color: #aaa #aaa #aaa #aaa;
+		color: white;
+		font-weight:bold;
+		}
+		#del_col:hover
+		{
+		background: #CDCDCD;
+		color: #ffffff;
+		}
+   
+		body
+		{
+		font:13px arial,sans-serif;
+		}
+		
+		.blue
+		{
+		margin-left: 5px;
+		color:#0066FF;
+		}
+		
+		h1
+		{
+		color:#0066FF;
+		}
+		
+		
+		.button 
+		{
+		border-top: 1px solid #00d92f;
+		background: #1aab00;
+		background: -webkit-gradient(linear, left top, left bottom, from(#0dc400), to(#1aab00));
+		background: -webkit-linear-gradient(top, #0dc400, #1aab00);
+		background: -moz-linear-gradient(top, #0dc400, #1aab00);
+		background: -ms-linear-gradient(top, #0dc400, #1aab00);
+		background: -o-linear-gradient(top, #0dc400, #1aab00);
+		padding: 12.5px 25px;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 14px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		.button:hover {
+		border-top-color: #1dc400;
+		background: #1dc400;
+		color: #ffffff;
+		}
+   
+		</style>
+		
+				
+	</head>
+	
 	<body>
-		<h2>Login</h2>
-		<form method="post">
-			<label>
-				Username
-				<input type="text" name="username" value={{username}}>
-			</label>
-			<br>
-			<label>
-				Password
-				<input type="password" name="password">
-		    </label>
-		    <div class="error">{{error_login}}</div>
-			<input type="submit">
-		</form>
+		
+	
+	
+		<table class="Table_A" style="height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;border:1px solid">
+			
+			<tr class="tr_table_A" style="height:100%">
+				<td class="td_table_A_narrow" style="width:20%"></td>
+				
+				<td class="td_table_A_center" style="width:60%">
+					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
+				
+						<tr class="tr_table_Center" style="height:30%">
+							
+							<td class="td_table_Center" style="text-align:center">
+								<h1 style="font-size:35px">'Freeze it'</h1>
+								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
+							</td>
+							
+						</tr>
+						
+						
+						<tr class="tr_table_Center" style="height:5%">
+							
+							<td class="td_table_Center">
+								<table class="Table_B" style="width:100%">
+									<tr class="tr_table_B">
+										<td class="td_table_B_narrow" style="width:10%"></td>
+										<td class="td_table_B_wide" style="width:80%">
+											<p class="blue" style="font-size:20px;"><b>Log in to 'Freeze it'.</b></p>
+										</td>
+										<td class="td_table_B_narrow" style="width:10%"></td>
+									</tr>
+								</table>
+							</td>
+							
+						</tr>
+						
+						
+												
+						
+						<tr class="tr_table_Center"style="height:20%">
+							
+							<td class="td_table_Center" valign="top">
+								<table class="Table_D" style="width:100%">
+									<tr class="tr_table_D">
+										<td class="td_table_D_narrow" style="width:10%"></td>
+										<td class="td_table_D_wide" style="width:80%">
+											<form method="post">
+												<label>
+													<div class="blue">Username</div> <input type="text" name="login_username" value="{{the_login_username}}">
+				
+												</label>
+												<br>
+												<label>
+													<div class="blue">Password</div> <input type="password" name="login_password">
+				
+													
+													
+												</label>
+												<br>
+												<br>
+												<input class="button" type="submit" value="Log in" onclick="window.location.href='/food';">
+												<span class="error_message_red">{{error_login}}</span>
+											</form>
+										</td>
+										<td class="td_table_D_narrow" style="width:10%"></td>
+									</tr>
+								</table>	
+							</td>
+						</tr>
+						
+						<tr class="tr_table_Center" style="height:65%">
+							
+							<td class="td_table_Center" valign="top">
+								<table class="Table_B" style="width:100%">
+									<tr class="tr_table_B">
+										<td class="td_table_B_narrow" style="width:10%"></td>
+										<td class="td_table_B_wide" style="width:80%">
+											<p class="blue" style="font-size:20px;"><b>Or Sign up if you don't have an account.</b></p>
+											
+											<form action="">
+												<input class="button" type="button" value="Sign up" onclick="window.location.href='/food';"/>
+											</form>
+										</td>
+										<td class="td_table_B_narrow" style="width:10%"></td>
+									</tr>
+								</table>
+							</td>
+							
+						</tr>
+						
+						
+					</table>
+				</td>
+				<td class="td_table_A_narrow"  style="width:20%"></td>
+			</tr>
+		</table>
+		
 	</body>
 
 </html>
+
+
+
+
+

@@ -21,6 +21,7 @@
 #########################
 
 import validation
+#import passwordValid
 import info_entered
 import os
 import webapp2
@@ -64,8 +65,8 @@ class FoodItem(db.Model): # abbreviated 'FI'
     #last_modified = db.DateTimeProperty(auto_now = True)
 
 
-# handler for '/signup', signUpLogInPage
-class signUpLogInPage(Handler):
+# '/signup', SignupPage
+class SignupPage(Handler):
     def render_front(self):
         self.render("signupForFreezeIt.html",
                     the_login_username="",
@@ -81,7 +82,7 @@ class signUpLogInPage(Handler):
 
         
 
-# handler for '/'
+# handler for '/frontpage'
 class Frontpage(Handler):
     def render_front(self, parameter=""):  # 'youngest' created date shown first by default
 
@@ -288,7 +289,7 @@ class FoodPage(Handler):
                  
                 the_item.put()
                 time.sleep(0.1)  # to delay so db table gets displayed correct
-                self.redirect("/")  # tells the browser to go to '/' and the response is empty
+                self.redirect("/frontpage")  # tells the browser to go to '/' and the response is empty
                 
             else: # no id
                 logging.debug("No item id" ) 
@@ -339,6 +340,6 @@ class FoodPage(Handler):
 
             
 
-app = webapp2.WSGIApplication([('/signup', signUpLogInPage),
-                               ('/', Frontpage),
+app = webapp2.WSGIApplication([('/signup', SignupPage),
+                               ('/frontpage', Frontpage),
                                ('/food', FoodPage)], debug=True)

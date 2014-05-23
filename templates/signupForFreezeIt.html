@@ -185,7 +185,7 @@
 						<tr class="tr_table_Center" style="height:30%">
 							
 							<td class="td_table_Center" style="text-align:center">
-								<h1 style="font-size:35px">Log in to 'Freeze it'</h1>
+								<h1 style="font-size:35px">'Freeze it'</h1>
 								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
 							</td>
 							
@@ -199,7 +199,7 @@
 									<tr class="tr_table_B">
 										<td class="td_table_B_narrow" style="width:10%"></td>
 										<td class="td_table_B_wide" style="width:80%">
-											<p class="blue" style="font-size:16px;"><b>Log in to Freeze it.</b></p>
+											<p class="blue" style="font-size:20px;"><b>Sign up to 'Freeze it'.</b></p>
 										</td>
 										<td class="td_table_B_narrow" style="width:10%"></td>
 									</tr>
@@ -211,53 +211,9 @@
 						
 												
 						
-						<tr class="tr_table_Center"style="height:20%">
-							
-							<td class="td_table_Center" valign="top">
-								<table class="Table_D" style="width:100%">
-									<tr class="tr_table_D">
-										<td class="td_table_D_narrow" style="width:10%"></td>
-										<td class="td_table_D_wide" style="width:80%">
-											<form method="post">
-												<label>
-													<div class="blue">Username</div> <input type="text" name="login_username" value="{{the_login_username}}">
-				
-												</label>
-												<br>
-												<label>
-													<div class="blue">Password</div> <input type="password" name="login_password">
-				
-													
-													
-												</label>
-												<br>
-												<br>
-												<input class="button" type="submit" value="Log in" onclick="window.location.href='/food';">
-												<span class="error_message_red">{{error_login}}</span>
-											</form>
-										</td>
-										<td class="td_table_D_narrow" style="width:10%"></td>
-									</tr>
-								</table>	
-							</td>
-						</tr>
 						
-						<tr class="tr_table_Center" style="height:5%">
-							
-							<td class="td_table_Center">
-								<table class="Table_B" style="width:100%">
-									<tr class="tr_table_B">
-										<td class="td_table_B_narrow" style="width:10%"></td>
-										<td class="td_table_B_wide" style="width:80%">
-											<p class="blue" style="font-size:16px;"><b>Or Sign up if you don't have an account.</b></p>
-										</td>
-										<td class="td_table_B_narrow" style="width:10%"></td>
-									</tr>
-								</table>
-							</td>
-							
-						</tr>
-						<tr class="tr_table_Center"style="height:40%">
+						
+						<tr class="tr_table_Center"style="height:65%">
 							
 							<td class="td_table_Center" valign="top">
 								<table class="Table_D" style="width:100%">
@@ -266,7 +222,7 @@
 										<td class="td_table_D_wide" style="width:80%">
 											<form method="post">
 												<label>
-													<div class="blue">Username</div> <input type="text" name="username" value="{{the_signup_username}}">
+													<div class="blue">Username</div> <input type="text" name="username" value="{{signup_username}}">
 				
 													<span class="error_message_red">{{username_error}}</span>
 												</label>
