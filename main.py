@@ -22,6 +22,7 @@
 
 import validation
 import passwordValid
+import dataFunctions
 import info_entered
 import cgi
 import re
@@ -68,6 +69,7 @@ class FoodItem(db.Model): # abbreviated 'FI'
     created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting
     added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer yyyy-mm-dd. Not a string.
 
+    fk_registered_user_id = db.IntegerProperty(required=True)  # the id of user
     #last_modified = db.DateTimeProperty(auto_now = True)
 
 
@@ -136,13 +138,10 @@ class SignupHandler(Handler):
             # check if user already exist
             user_already_exists = False
            
-            all_reg_users = db.GqlQuery("SELECT * FROM RegisteredUsers ORDER BY created DESC")
-
-            if all_reg_users:
-                for users in all_reg_users:
-                    if users.name == username_input:
-                        user_already_exists = True
-                        break
+            existing_user = dataFunctions.retrieveUser(username_input)
+            
+            if existing_user:
+                user_already_exists = True
                 
             if user_already_exists:
                 #write error message out
@@ -160,6 +159,7 @@ class SignupHandler(Handler):
                
                 ru = RegisteredUsers(name = username_input, password_hashed = secure_password) # save the hashed password in database
                 ru.put()
+                time.sleep(0.1)  # to delay so db table gets displayed correct
                 self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/' %str(secure_username))#sending secure_username back to browser
                 self.redirect("/frontpage")
         else:
@@ -239,10 +239,9 @@ class LogoutHandler(Handler):
 
 # handler for '/frontpage', FrontPage
 class FrontPage(Handler):
-    def render_front(self, userID_cookieValid, parameter="" ):  # 'youngest' created date shown first by default
-
-        all_food_items = db.GqlQuery("SELECT * FROM FoodItem ORDER BY %s" %parameter) #.run(read_policy="STRONG_CONSISTENCY")
-        # if you only wanna display the 10 latest: "SELECT * FROM Content ORDER BY created DESC limit 10"
+    def render_front(self, a_username, parameter="" ):  # 'youngest' created date shown first by default
+        current_user_id = dataFunctions.retrieveUserId(a_username)  # an int
+        all_food_items = db.GqlQuery("SELECT * FROM FoodItem WHERE fk_registered_user_id=%s ORDER BY %s" %(current_user_id, parameter))
 
         counter = 0  # keep track of amount of iteration in for loop
         
@@ -294,7 +293,7 @@ class FrontPage(Handler):
             exp_a_d="DESC"
                 
             
-        self.render("frontpage.html", username=userID_cookieValid,
+        self.render("frontpage.html", username=a_username,
                     food_items = all_food_items,
                     descr_asc_desc=descrip_a_d,
                     days_left_asc_desc=days_left_a_d,
@@ -309,11 +308,11 @@ class FrontPage(Handler):
 
         if user_id_cookie_value:
 
-            user_id_cookie_valid = passwordValid.check_secure_val(user_id_cookie_value)
+            username = passwordValid.check_secure_val(user_id_cookie_value)
             
             
             # if valid cookie:
-            if user_id_cookie_valid:
+            if username:
 
                 id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' or 'DESC' will be assigned
                 id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked 'ASC' or 'DESC' will be assigned
@@ -321,15 +320,15 @@ class FrontPage(Handler):
                 id_days_in_freezer = self.request.get("id_days_frozen")  # if header link 'Days in freezer' is clicked 'ASC' or 'DESC' will be assigned
 
                 if id_descript: # 'Description' was clicked
-                    self.render_front(user_id_cookie_valid, parameter="description %s" %id_descript)
+                    self.render_front(username, parameter="description %s" %id_descript)
                 elif id_days_left:  # 'Days to exp' was clicked
-                    self.render_front(user_id_cookie_valid, parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
+                    self.render_front(username, parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
                 elif id_exp:  # 'Exp. date' was clicked
-                    self.render_front(user_id_cookie_valid, parameter="expiry %s" %id_exp)  # None exp date comes first then what is next to expire
+                    self.render_front(username, parameter="expiry %s" %id_exp)  # None exp date comes first then what is next to expire
                 elif id_days_in_freezer:  # 'Days in freezer' was clicked
-                    self.render_front(user_id_cookie_valid, parameter="days_in_freezer %s" %id_days_in_freezer)
+                    self.render_front(username, parameter="days_in_freezer %s" %id_days_in_freezer)
                 else:
-                    self.render_front(user_id_cookie_valid, parameter="created DESC")
+                    self.render_front(username, parameter="created DESC")
 
             else:  # invalid
                 self.redirect("/")
@@ -469,17 +468,33 @@ class FoodPage(Handler):
                 time.sleep(0.1)  # to delay so db table gets displayed correct
                 self.redirect("/frontpage")  # tells the browser to go to '/' and the response is empty
                 
-            else: # no id
-                logging.debug("No item id" ) 
-                # create item in db
-                FI = FoodItem(description = a_food_description,
-                              note = a_note,
-                              expiry = an_exp_date,
-                              is_expired=False)
-                FI.put()
-                id_for_FI = str(FI.key().id())
-                time.sleep(0.1)  # to delay so db table gets displayed correct
-                self.redirect("/food")  # tells the browser to go to '/food' and the response is empty
+            else: # no id 'an_item_id' (a new food is being added)
+                logging.debug("No item id" )
+                user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
+
+                if user_id_cookie_value:
+
+                    username = passwordValid.check_secure_val(user_id_cookie_value)
+
+                    if username:
+
+                        current_user_id = dataFunctions.retrieveUserId(username)  # an int
+                        
+                        # create item in db
+                        FI = FoodItem(description = a_food_description,
+                                      note = a_note,
+                                      expiry = an_exp_date,
+                                      is_expired=False,
+                                      fk_registered_user_id=current_user_id)
+                        FI.put()
+                        id_for_FI = str(FI.key().id())
+                        time.sleep(0.5)  # to delay so db table gets displayed correct
+                        self.redirect("/food")  # tells the browser to go to '/food' and the response is empty
+                    else:
+                        self.redirect("/logout")
+                        
+                else:
+                    self.redirect("/logout")
                 
             
              
