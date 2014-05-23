@@ -9,7 +9,7 @@ import string
 import hashlib
 
 
-#secret = "kirsti"  #the secret is used for the hashed username that is send to the browser as cookie
+secret = "pollebolle"  #the secret is used for the hashed username that is send to the browser as cookie
 
 def make_salt(): #the salt is used for the hashed password that is saved to the database
     return ''.join(random.choice(string.letters) for x in xrange(5))
@@ -23,7 +23,6 @@ def make_pw_hash(name, pw, salt=None):
 
 
 def make_secure_val(val): # username_input passed in as param
-    secret = "kirsti"  #the secret is used for the hashed username that is send to the browser as cookie
     h = hashlib.sha256(val+secret).hexdigest()
     return '%s|%s' % (val, h)
 
@@ -46,20 +45,18 @@ def escape_html(s):
     return cgi.escape(s, quote = True)
 
 
+USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 # Username: "^[a-zA-Z0-9_-]{3,20}$" Password: "^.{3,20}$" Email: "^[\S]+@[\S]+\.[\S]+$"
 def valid_username(username):
-    
-    USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
     return USER_RE.match(username)
 
 
+PASSWORD_RE = re.compile(r"^.{3,20}$")
 def valid_password(password_entered):
-    PASSWORD_RE = re.compile(r"^.{3,20}$")
     return PASSWORD_RE.match(password_entered)
 
-
+EMAIL_RE = re.compile(r"^[\S]+@[\S]+\.[\S]+$")
 def valid_email(email_entered):
-    EMAIL_RE = re.compile(r"^[\S]+@[\S]+\.[\S]+$")
     return EMAIL_RE.match(email_entered)
 
 def password_match(password_a, password_b):

@@ -332,9 +332,9 @@ class FrontPage(Handler):
                     self.render_front(user_id_cookie_valid, parameter="created DESC")
 
             else:  # invalid
-                self.redirect("/signup")
+                self.redirect("/")
         else:  # None
-                self.redirect("/signup")
+                self.redirect("/")
         
         
 
