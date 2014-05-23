@@ -287,32 +287,37 @@ class Frontpage(Handler):
 
     def post(self):
         user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
-        user_id_cookie_valid = passwordValid.check_secure_val(user_id_cookie_value)
+
+        if user_id_cookie_value:
+
+            user_id_cookie_valid = passwordValid.check_secure_val(user_id_cookie_value)
             
-        # get request data
+            # get request data
 
-        # 1-9 to see which sorted way the table was before user clicked delete button
-        the_sorted_look = self.request.get_all("which_sorted_look")  # returns a list with only one item though
+            # 1-9 to see which sorted way the table was before user clicked delete button
+            the_sorted_look = self.request.get_all("which_sorted_look")  # returns a list with only one item though
 
-        param = validation.get_param(the_sorted_look[0])  # returns fx "description DESC"            
-        
-        # id data (which check boxes has user checked) put in a variable
-        list_of_id_checked = self.request.get_all("delete")  # returns a list of id strings
+            param = validation.get_param(the_sorted_look[0])  # returns fx "description DESC"            
+            
+            # id data (which check boxes has user checked) put in a variable
+            list_of_id_checked = self.request.get_all("delete")  # returns a list of id strings
 
-        # delete button data (if delete button clicked, list will have 1 item else no item in list)
-        one_item_delete_button_list = self.request.get_all("delete_button")  # there is only 1 delete_button
+            # delete button data (if delete button clicked, list will have 1 item else no item in list)
+            one_item_delete_button_list = self.request.get_all("delete_button")  # there is only 1 delete_button
 
-        if len(one_item_delete_button_list) == 1:  # delete button is clicked
-            # loop through list_of_id_checked and remove matches from db
-            for an_id in list_of_id_checked:
-                # find the item with the specific id in db
-                match = FoodItem.get_by_id(int(an_id))
-                # remove the item
-                if match:
-                    FoodItem.delete(match)
-            time.sleep(0.1)  # to delay so db table gets displayed correct
+            if len(one_item_delete_button_list) == 1:  # delete button is clicked
+                # loop through list_of_id_checked and remove matches from db
+                for an_id in list_of_id_checked:
+                    # find the item with the specific id in db
+                    match = FoodItem.get_by_id(int(an_id))
+                    # remove the item
+                    if match:
+                        FoodItem.delete(match)
+                time.sleep(0.1)  # to delay so db table gets displayed correct
 
-        self.render_front(user_id_cookie_valid, parameter=param)
+            self.render_front(user_id_cookie_valid, parameter=param)
+        else:
+            self.redirect("/signup")
       
 
 
