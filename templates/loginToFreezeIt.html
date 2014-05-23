@@ -66,7 +66,12 @@
 		text-align:center;
 		}
 		
+		.error_message_red
+		{
+		color:red;
+		}
 		
+
 		#description
 		{
 		text-align:left;		
@@ -129,7 +134,7 @@
 		color:#0066FF;
 		}
 		
-		h1
+		h1, h2
 		{
 		color:#0066FF;
 		}
@@ -186,6 +191,7 @@
 							
 							<td class="td_table_Center" style="text-align:center">
 								<h1 style="font-size:35px">'Freeze it'</h1>
+								<h2 style="font-size:25px">Keep track of items in your freezer</h2>
 								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
 							</td>
 							
@@ -199,7 +205,7 @@
 									<tr class="tr_table_B">
 										<td class="td_table_B_narrow" style="width:10%"></td>
 										<td class="td_table_B_wide" style="width:80%">
-											<p class="blue" style="font-size:20px;"><b>Log in to 'Freeze it'.</b></p>
+											<p class="blue" style="font-size:20px;"><b>Log in to 'Freeze it'</b></p>
 										</td>
 										<td class="td_table_B_narrow" style="width:10%"></td>
 									</tr>
@@ -220,15 +226,15 @@
 										<td class="td_table_D_wide" style="width:80%">
 											<form method="post">
 												<label>
-													<div class="blue">Username</div> <input type="text" name="login_username" value="{{the_login_username}}">
+													<div class="blue">Username</div> 
+													<input type="text" name="login_username" value="{{the_login_username}}">
 				
 												</label>
 												<br>
+												<br>
 												<label>
-													<div class="blue">Password</div> <input type="password" name="login_password">
-				
-													
-													
+													<div class="blue">Password</div>
+													<input type="password" name="login_password">
 												</label>
 												<br>
 												<br>
@@ -249,10 +255,13 @@
 									<tr class="tr_table_B">
 										<td class="td_table_B_narrow" style="width:10%"></td>
 										<td class="td_table_B_wide" style="width:80%">
-											<p class="blue" style="font-size:20px;"><b>Or Sign up if you don't have an account.</b></p>
+										
+												<br>
+												<br>
+											<p class="blue" style="font-size:20px;"><b>Or Sign up today</b></p>
 											
 											<form action="">
-												<input class="button" type="button" value="Sign up" onclick="window.location.href='/food';"/>
+												<input class="button" type="button" value="Sign up" onclick="window.location.href='/signup';"/>
 											</form>
 										</td>
 										<td class="td_table_B_narrow" style="width:10%"></td>

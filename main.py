@@ -182,6 +182,59 @@ class SignupPage(Handler):
             self.write_form(escaped_username_input, final_username_error,
                         final_password_error, final_verify_error,
                         escaped_email_input, final_email_error)
+
+# '/', LoginHandler
+class LoginHandler(Handler):
+    def write_form(self, a_username="", an_invalid_error=""):
+        self.render("loginToFreezeIt.html", the_login_username=a_username, error_login=an_invalid_error)
+
+        
+    def get(self):
+        self.write_form()
+
+
+    def post(self):
+
+        login_username_input = self.request.get('login_username')
+
+        login_password_input = self.request.get('login_password')
+
+        #check if username exists
+        user_already_exists = False
+        all_reg_users = db.GqlQuery("SELECT * FROM RegisteredUsers ORDER BY created DESC")
+
+        if all_reg_users:
+            for users in all_reg_users:
+                if users.name == login_username_input:
+                    user_already_exists = True
+                    the_user_hash = users.password_hashed
+                    break
+            if user_already_exists:
+                #check if password is correct
+                if passwordValid.valid_pw(login_username_input, login_password_input, the_user_hash):
+                    secure_username = passwordValid.make_secure_val(login_username_input) # return login_username_input|hash
+                    self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/' %str(secure_username))
+                    self.redirect("/frontpage")
+                else:
+                    self.loginError()
+            else:
+                self.loginError()
+        else:
+            self.loginError()
+
+    def loginError(self):
+        error_log_in = "Invalid login"
+        self.write_form("", error_log_in)
+
+        
+# '/logout', LogoutHandler 
+class LogoutHandler(Handler):
+    def get(self):
+        #set cookie value to 'empty'
+        self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
+
+        #then redirect to '/' Login
+        self.redirect("/")
             
 
 # handler for '/frontpage'
@@ -465,6 +518,8 @@ class FoodPage(Handler):
 
             
 
-app = webapp2.WSGIApplication([('/signup', SignupPage),
+app = webapp2.WSGIApplication([('/', LoginHandler),
+                               ('/signup', SignupPage),
+                               ('/logout', LogoutHandler),
                                ('/frontpage', Frontpage),
                                ('/food', FoodPage)], debug=True)
