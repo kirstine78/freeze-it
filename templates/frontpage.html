@@ -164,6 +164,38 @@
 		background: #1dc400;
 		color: #ffffff;
 		}
+		
+		.button_red 
+		{
+		border-top: 1px solid #ff0000;
+		background: #d40000;
+		background: -webkit-gradient(linear, left top, left bottom, from(#f70000), to(#d40000));
+		background: -webkit-linear-gradient(top, #f70000, #d40000);
+		background: -moz-linear-gradient(top, #f70000, #d40000);
+		background: -ms-linear-gradient(top, #f70000, #d40000);
+		background: -o-linear-gradient(top, #f70000, #d40000);
+		padding: 7px 14px;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 12px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		.button_red:hover 
+		{
+		border-top-color: #f20000;
+		background: #f20000;
+		color: #ffffff;
+		}
+		
    
 		</style>
 		
@@ -181,11 +213,32 @@
 				
 				<td class="td_table_A_center" style="width:60%">
 					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
-				
-						<tr class="tr_table_Center" style="height:30%">
+						
+						
+						<tr class="tr_table_Center" style="height:5%;">
+							
+							
+							<td class="td_table_Center">
+								<table class="Table_B" style="width:100%">
+									<tr class="tr_table_B">
+										<td class="td_table_B_narrow" style="width:10%"></td>
+										<td class="td_table_B_wide" style="width:80%; text-align:right;">
+											<p style="color:#0066FF; padding-right:5px;">Logged in as: {{username}}</P>
+											<form action="">
+												<input class="button_red" type="button" value="Log out" onclick="window.location.href='/login';"/>
+											</form>
+										</td>
+										<td class="td_table_B_narrow" style="width:10%"></td>
+									</tr>
+								</table>
+							</td>
+							
+						</tr>
+						
+						
+						<tr class="tr_table_Center" style="height:25%">
 							
 							<td class="td_table_Center" style="text-align:center">
-								<p style="text-align:center; color:#0066FF;">Logged in as {{username}}</P>
 								<h1 style="font-size:35px">Welcome to 'Freeze it'</h1>
 								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
 								
@@ -201,6 +254,7 @@
 									<tr class="tr_table_B">
 										<td class="td_table_B_narrow" style="width:10%"></td>
 										<td class="td_table_B_wide" style="width:80%">
+										<br>
 											<form action="">
 												<input class="button" type="button" value="Add food to freezer" onclick="window.location.href='/food';"/>
 											</form>
@@ -221,9 +275,9 @@
 										<td class="td_table_C_narrow" style="width:10%"></td>
 										<td class="td_table_C_wide" style="width:80%">
 											{% if food_items == None %}
-												<p class="blue">Your Freezer is currently empty!</p>
+												<p class="blue"><b>Your Freezer is currently empty!</b></p>
 											{% else %}
-												<p class="blue">My Freezer content: (Click item to edit or see full 'Description' and 'Date added')</p>
+												<p class="blue"><b>My Freezer content: (Click item to edit or see full 'Description' and 'Date added')</b></p>
 											{% endif %}
 											
 										</td>
