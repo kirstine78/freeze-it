@@ -79,8 +79,8 @@ class RegisteredUsers(db.Model):  #  --> ru
 
 
 
-# '/signup', SignupPage
-class SignupPage(Handler):
+# '/signup', SignupHandler
+class SignupHandler(Handler):
         
     def write_form(self, a_signup_name="", a_username_error="", a_password_error="",
                    a_verify_error="", a_email="", a_email_error=""):
@@ -237,8 +237,8 @@ class LogoutHandler(Handler):
         self.redirect("/")
             
 
-# handler for '/frontpage'
-class Frontpage(Handler):
+# handler for '/frontpage', FrontPage
+class FrontPage(Handler):
     def render_front(self, userID_cookieValid, parameter="" ):  # 'youngest' created date shown first by default
 
         all_food_items = db.GqlQuery("SELECT * FROM FoodItem ORDER BY %s" %parameter) #.run(read_policy="STRONG_CONSISTENCY")
@@ -519,7 +519,7 @@ class FoodPage(Handler):
             
 
 app = webapp2.WSGIApplication([('/', LoginHandler),
-                               ('/signup', SignupPage),
+                               ('/signup', SignupHandler),
                                ('/logout', LogoutHandler),
-                               ('/frontpage', Frontpage),
+                               ('/frontpage', FrontPage),
                                ('/food', FoodPage)], debug=True)
