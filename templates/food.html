@@ -3,112 +3,166 @@
 <html>
 	<head>
 		<title>Freeze it</title>
-		<style>
 		
-			.Table_Edit, 
-			{
-			border-collapse:collapse;
-			
-			
-			}
-			
-			
-			.error_message_red
-			{
-			color:red;
-			}
-			
-			body
-			{
-			font:15px arial,sans-serif;
-			}
-			#writing_area
-			{
-			font:15px arial,sans-serif;
-			}
-			
-			h1
-			{
-			margin-left: 5px;
-			color:#0066FF;
-			}
-			
-			div
-			{
-			margin:10px 5px 4px 4px;
-			color:#0066FF;
-			}
-			
-			.button 
-			{
-			border-top: 1px solid #00d92f;
-			background: #1aab00;
-			background: -webkit-gradient(linear, left top, left bottom, from(#0dc400), to(#1aab00));
-			background: -webkit-linear-gradient(top, #0dc400, #1aab00);
-			background: -moz-linear-gradient(top, #0dc400, #1aab00);
-			background: -ms-linear-gradient(top, #0dc400, #1aab00);
-			background: -o-linear-gradient(top, #0dc400, #1aab00);
-			padding: 12.5px 25px;
-			-webkit-border-radius: 10px;
-			-moz-border-radius: 10px;
-			border-radius: 10px;
-			-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
-			-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-			box-shadow: rgba(0,0,0,1) 0 1px 0;
-			text-shadow: rgba(0,0,0,.4) 0 1px 0;
-			color: white;
-			font-size: 14px;
-			font-family: Helvetica, Arial, Sans-Serif;
-			text-decoration: none;
-			vertical-align: middle;
-			}
-			
-			.button:hover 
-			{
-			border-top-color: #1dc400;
-			background: #1dc400;
-			color: #ffffff;
-			}
+		<style type="text/css">
+		
+		.Table_A, .tr_table_A, .td_table_A_narrow, td_table_A_center
+		{
+		border-collapse:collapse;
+		/*border:1px solid red;*/
+		}
+		
+		.td_table_A_narrow
+		{
+		background: #CCE6FF;
+		}
+		
+		.Table_Center, .tr_table_Center
+		{
+		border-collapse:collapse;
+		/*border:1px solid black;*/
+		}
+		
+		
+		.td_table_Center_narrow, .td_table_Center_wide, .td_table_Center_narrow, .td_table_Center_wide
+		{
+		border-collapse:collapse;
+		/*border:1px solid green;*/
+		}
+		
+		.Table_Edit
+		{
+		border-collapse:collapse;
+		}
+		
+		
+		.error_message_red
+		{
+		color:red;
+		}
+		
+		body
+		{
+		font:13px arial,sans-serif;
+		}
+		
+		h1
+		{
+		margin-left: 5px;
+		color:#0066FF;
+		}
+		
+		div
+		{
+		margin:10px 5px 4px 4px;
+		color:#0066FF;
+		}
+				
+		.green
+		{
+		margin-left: 5px;
+		color:#00B800;
+		}
+		
+		.button 
+		{
+		border-top: 1px solid #00d92f;
+		background: #1aab00;
+		background: -webkit-gradient(linear, left top, left bottom, from(#0dc400), to(#1aab00));
+		background: -webkit-linear-gradient(top, #0dc400, #1aab00);
+		background: -moz-linear-gradient(top, #0dc400, #1aab00);
+		background: -ms-linear-gradient(top, #0dc400, #1aab00);
+		background: -o-linear-gradient(top, #0dc400, #1aab00);
+		padding: 12.5px 25px;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 14px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		.button:hover {
+		border-top-color: #1dc400;
+		background: #1dc400;
+		color: #ffffff;
+		}
+		
+		.button_red 
+		{
+		border-top: 1px solid #ff0000;
+		background: #d40000;
+		background: -webkit-gradient(linear, left top, left bottom, from(#f70000), to(#d40000));
+		background: -webkit-linear-gradient(top, #f70000, #d40000);
+		background: -moz-linear-gradient(top, #f70000, #d40000);
+		background: -ms-linear-gradient(top, #f70000, #d40000);
+		background: -o-linear-gradient(top, #f70000, #d40000);
+		padding: 12.5px 25px;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 14px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		.button_red:hover 
+		{
+		border-top-color: #f20000;
+		background: #f20000;
+		color: #ffffff;
+		}
+		
+		.button_red_small
+		{
+		border-top: 1px solid #ff0000;
+		background: #d40000;
+		background: -webkit-gradient(linear, left top, left bottom, from(#f70000), to(#d40000));
+		background: -webkit-linear-gradient(top, #f70000, #d40000);
+		background: -moz-linear-gradient(top, #f70000, #d40000);
+		background: -ms-linear-gradient(top, #f70000, #d40000);
+		background: -o-linear-gradient(top, #f70000, #d40000);
+		padding: 7px 14px;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 12px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		.button_red_small:hover 
+		{
+		border-top-color: #f20000;
+		background: #f20000;
+		color: #ffffff;
+		}
+		
+		
+		
+		
+		
+		
    
-			.button_red 
-			{
-			border-top: 1px solid #ff0000;
-			background: #d40000;
-			background: -webkit-gradient(linear, left top, left bottom, from(#f70000), to(#d40000));
-			background: -webkit-linear-gradient(top, #f70000, #d40000);
-			background: -moz-linear-gradient(top, #f70000, #d40000);
-			background: -ms-linear-gradient(top, #f70000, #d40000);
-			background: -o-linear-gradient(top, #f70000, #d40000);
-			padding: 12.5px 25px;
-			-webkit-border-radius: 10px;
-			-moz-border-radius: 10px;
-			border-radius: 10px;
-			-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
-			-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-			box-shadow: rgba(0,0,0,1) 0 1px 0;
-			text-shadow: rgba(0,0,0,.4) 0 1px 0;
-			color: white;
-			font-size: 14px;
-			font-family: Helvetica, Arial, Sans-Serif;
-			text-decoration: none;
-			vertical-align: middle;
-			}
-			
-			.button_red:hover 
-			{
-			border-top-color: #f20000;
-			background: #f20000;
-			color: #ffffff;
-			}
-			
-			.green
-			{
-			margin-left: 5px;
-			color:#00B800;
-			}
-			
 		</style>
-		
 		<!-- Load jQuery UI CSS  -->
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 		<!-- Load jQuery JS -->
@@ -128,77 +182,103 @@
 			
 		</script>
 		
-		
+				
 	</head>
 	
-
 	<body>
-		<h1>{{headline}}</h1>
-		{% if item_id != "" %}
-			<table class="Table_Edit" style="width:250px; table-layout:fixed;">
-				<tr>
-					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#0066FF; width:72%;">
-						<i>Full Food Item description</i>
-					</th>
-					<th class="tr_Edit" style="font-size:10px; text-align:left; color:#0066FF; width:28%;">
-						<i>Date added (dd-mm-yyyy)</i>
-					</th>
-				</tr>
-				<tr>
-					<td class="tr_Edit" style="font-size:10px; word-wrap:break-word; padding-right:10px; color:#999999">
-						<i>{{food_description_content}}</i>
-					</td>
-					<td class="tr_Edit" style="font-size:10px; vertical-align:top; color:#999999">
-						<i>{{created_date}}</i>
-					</td>
-				</tr>
+		<table class="Table_A" style="height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;border:1px solid">
+			
+			<tr class="tr_table_A" style="height:100%">
+				<td class="td_table_A_narrow" style="width:20%"></td>
 				
-			</table>
-		{% endif %}
+				<td class="td_table_A_center" style="width:60%">
+					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
+						
+						
+						<tr class="tr_table_Center" style="height:20%;">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; text-align:right;  vertical-align:top; ">
+								<p style="color:#0066FF; padding-right:5px;">Logged in as: {{username}}</P>
+								<form action="">
+									<input class="button_red_small" type="button" value="Log out" onclick="window.location.href='/logout';"/>
+								</form>
+							</td>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+						</tr>
+						
+						<tr class="tr_table_Center" style="height:80%">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%;  vertical-align:top; ">
+								<h1>{{headline}}</h1>
+								{% if item_id != "" %}
+									<table class="Table_Edit" style="width:250px; table-layout:fixed;">
+										<tr>
+											<th class="tr_Edit" style="font-size:10px; text-align:left; color:#0066FF; width:72%;">
+												<i>Full Food Item description</i>
+											</th>
+											<th class="tr_Edit" style="font-size:10px; text-align:left; color:#0066FF; width:28%;">
+												<i>Date added (dd-mm-yyyy)</i>
+											</th>
+										</tr>
+										<tr>
+											<td class="tr_Edit" style="font-size:10px; word-wrap:break-word; padding-right:10px; color:#999999">
+												<i>{{food_description_content}}</i>
+											</td>
+											<td class="tr_Edit" style="font-size:10px; vertical-align:top; color:#999999">
+												<i>{{created_date}}</i>
+											</td>
+										</tr>
+										
+									</table>
+								{% endif %}
+								
+								<form method="post">
+									
+									<label>
+										<div>Food Item *</div> <input type="text" name="food_description" value="{{food_description_content}}" maxlength="200" style="width:200px;">
+										
+										<span class="error_message_red">{{food_description_error}}</span>
+									</label>
+									<br>
+									<br>
+									
+									<label>
+										<div>Note (e.g. 300 g)</div> <input type="text" name="note" value="{{note_content}}" maxlength="30" style="width:200px;">
+										<span style="font-size:10px; color:#0066FF;">(Max. 30 characters)</span>
+									</label>
+									<br>
+									<br>
+									<label>
+									
+									<label>
+										<div>Expiry date (dd-mm-yyyy)</div>
+										<input type="text" id="datepicker" name="expiry_date" value="{{exp_content}}">
+										<span class="error_message_red">{{date_error}}</span>
+										
+									</label>
+									<br>
+									<br>
+									
+									<input class="button" type="submit" value="{{change_button}}">
+									
+									<input class="button_red" type="button" value="{{passive_button}}" onclick="location.href='/frontpage';">
+									
+									<br>		
+									<br>		
+									
+									<p class="green">{{add_message}}</p>
+									
+									<input type="hidden" name="item_ID" value={{item_id}}></input>
+								</form>
+							</td>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+						</tr>
+					</table>
+				</td>
+				<td class="td_table_A_narrow"  style="width:20%"></td>
+			</tr>
+		</table>
 		
-		<form method="post">
-			
-			<label>
-				<div>Food Item *</div> <input type="text" name="food_description" value="{{food_description_content}}" maxlength="200" style="width:200px;">
-				
-				<span class="error_message_red">{{food_description_error}}</span>
-			</label>
-			<br>
-			<br>
-			
-			<label>
-				<div>Note (e.g. 300 g)</div> <input type="text" name="note" value="{{note_content}}" maxlength="30" style="width:200px;">
-				<span style="font-size:10px; color:#0066FF;">(Max. 30 characters)</span>
-			</label>
-			<br>
-			<br>
-			<label>
-			
-			<label>
-				<div>Expiry date (dd-mm-yyyy)</div>
-				<input type="text" id="datepicker" name="expiry_date" value="{{exp_content}}">
-				<span class="error_message_red">{{date_error}}</span>
-				
-			</label>
-			<br>
-			<br>
-			
-			<input class="button" type="submit" value="{{change_button}}">
-			
-			<input class="button_red" type="button" value="{{passive_button}}" onclick="location.href='/frontpage';">
-			
-			<br>		
-			<br>		
-			
-			<p class="green">{{add_message}}</p>
-			
-			<input type="hidden" name="item_ID" value={{item_id}}></input>
-			
-			
-
-			
-			
-		</form>
 	</body>
 
 </html>

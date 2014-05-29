@@ -375,7 +375,7 @@ class FrontPage(Handler):
 class FoodPage(Handler):
     def render_foodPage(self, f_d_content, f_d_error, note, date_error,
                         exp, headline, change_butt, passive_butt, item_ID,
-                        create_date, add_message):
+                        create_date, add_message, the_user_name):
         
         self.render("food.html", food_description_content=f_d_content, food_description_error=f_d_error,
                     note_content=note,
@@ -385,59 +385,74 @@ class FoodPage(Handler):
                     change_button=change_butt, passive_button=passive_butt,
                     item_id=item_ID,
                     created_date=create_date,
-                    add_message=add_message) #                    sorted_mode_code=sorting_mode_code
+                    add_message=add_message,
+                    username=the_user_name) #                    sorted_mode_code=sorting_mode_code
 
         
     def get(self):
-        an_id = self.request.get("id")  # if any foodItem description is clicked, there is an_id
+        user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
+
+        if user_id_cookie_value:
+
+            username = passwordValid.check_secure_val(user_id_cookie_value)
+            
+            # if valid cookie:
+            if username:
+                an_id = self.request.get("id")  # if any foodItem description is clicked, there is an_id
         
-        if an_id:  # means there is an item to edit
-            specific_item = FoodItem.get_by_id(int(an_id))  # get the item with the specific id (an_id)
+                if an_id:  # means there is an item to edit
+                    specific_item = FoodItem.get_by_id(int(an_id))  # get the item with the specific id (an_id)
 
-            # check if there is a DateProperty (expiry) yyyy-mm-dd. It is NOT a string
-            if specific_item.expiry:
-                # create a string in format "dd-mm-yyyy" of the DateProperty yyyy-mm-dd 
-                date_html_format = validation.convert_DateProperty_to_str_dash(specific_item.expiry)
+                    # check if there is a DateProperty (expiry) yyyy-mm-dd. It is NOT a string
+                    if specific_item.expiry:
+                        # create a string in format "dd-mm-yyyy" of the DateProperty yyyy-mm-dd 
+                        date_html_format = validation.convert_DateProperty_to_str_dash(specific_item.expiry)
 
-            else:  # no expiry date for this item
-                date_html_format = ""
-                
-            # set values for specific item
-            a_food_description_content=specific_item.description
-            a_note_content=specific_item.note
-            a_exp_content = date_html_format
-            a_headline="Edit food item"
-            a_change_button="Submit Changes"
-            a_passive_button="Cancel"
-            a_item_id=an_id
-            # create a string in format "dd-mm-yyyy" of the DateProperty yyyy-mm-dd 
-            a_date_created = validation.convert_DateProperty_to_str_dash(specific_item.added_date)
-            
-            f_d_err=""
-            date_err=""
-            add_msg=""
+                    else:  # no expiry date for this item
+                        date_html_format = ""
+                        
+                    # set values for specific item
+                    a_food_description_content=specific_item.description
+                    a_note_content=specific_item.note
+                    a_exp_content = date_html_format
+                    a_headline="Edit food item"
+                    a_change_button="Submit Changes"
+                    a_passive_button="Cancel"
+                    a_item_id=an_id
+                    # create a string in format "dd-mm-yyyy" of the DateProperty yyyy-mm-dd 
+                    a_date_created = validation.convert_DateProperty_to_str_dash(specific_item.added_date)
+                    
+                    f_d_err=""
+                    date_err=""
+                    add_msg=""
 
 
-        else:  # no id, set values to a blank "food.html"
-            a_food_description_content=""
-            a_note_content=""
-            a_exp_content = ""
-            a_headline="Add food to Freezer"
-            a_change_button="Add Item"
-            a_passive_button="Return to Overview"
-            a_item_id=""
-            a_date_created = ""
-            
-            f_d_err=""
-            date_err=""
-            add_msg=""
+                else:  # no id, set values to a blank "food.html"
+                    a_food_description_content=""
+                    a_note_content=""
+                    a_exp_content = ""
+                    a_headline="Add food to Freezer"
+                    a_change_button="Add Item"
+                    a_passive_button="Return to Overview"
+                    a_item_id=""
+                    a_date_created = ""
+                    
+                    f_d_err=""
+                    date_err=""
+                    add_msg=""
 
-        logging.debug("description = " + a_food_description_content)
+                logging.debug("description = " + a_food_description_content)
 
-        # render "food.html" with correct params!
-        self.render_foodPage(a_food_description_content, f_d_err, a_note_content, date_err,
-                        a_exp_content, a_headline, a_change_button, a_passive_button, a_item_id,
-                        a_date_created, add_msg)
+                # render "food.html" with correct params!
+                self.render_foodPage(a_food_description_content, f_d_err, a_note_content, date_err,
+                                a_exp_content, a_headline, a_change_button, a_passive_button, a_item_id,
+                                a_date_created, add_msg, username)
+
+
+            else:  # invalid
+                self.redirect("/")
+        else:  # None
+                self.redirect("/")
         
         # render "food.html" with correct params!
         #self.render("food.html", food_description_content=a_food_description_content, food_description_error="",
@@ -536,7 +551,7 @@ class FoodPage(Handler):
 
                         self.render_foodPage(a_food_description_content, f_d_err, a_note_content, date_err,
                                              a_exp_content, a_headline, a_change_button, a_passive_button, a_item_id,
-                                             a_date_created, add_msg)
+                                             a_date_created, add_msg, username)
                             
                         #self.redirect("/food")  # tells the browser to go to '/food' and the response is empty
                     else:
@@ -549,46 +564,58 @@ class FoodPage(Handler):
              
         # else re-render 'food.html' with the error messages
         else:
-            # decide which params to pass based on 'add' or 'edit'
-            if an_item_id: # edit version
-                specific_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
+            user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
 
-                the_headline="Edit food item"
-                the_change_button="Submit Changes"
-                the_passive_button="Cancel"
-                the_item_id=an_item_id
+            if user_id_cookie_value:
 
-                # create a string in format "dd-mm-yyyy" from the DateProperty yyyy-mm-dd 
-                a_date_created = validation.convert_DateProperty_to_str_dash(specific_item.added_date)
+                username = passwordValid.check_secure_val(user_id_cookie_value)
 
-                f_d_err = obj_food.get_error_msg()
-                date_err = obj_exp_date.get_error_msg()
-                add_msg=""
+                if username:
+                    # decide which params to pass based on 'add' or 'edit'
+                    if an_item_id: # edit version
+                        specific_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
+
+                        the_headline="Edit food item"
+                        the_change_button="Submit Changes"
+                        the_passive_button="Cancel"
+                        the_item_id=an_item_id
+
+                        # create a string in format "dd-mm-yyyy" from the DateProperty yyyy-mm-dd 
+                        a_date_created = validation.convert_DateProperty_to_str_dash(specific_item.added_date)
+
+                        f_d_err = obj_food.get_error_msg()
+                        date_err = obj_exp_date.get_error_msg()
+                        add_msg=""
 
 
-            else:  # add version
-                the_headline="Add food to Freezer"
-                the_change_button="Add Item"
-                the_passive_button="Return to Overview"
-                the_item_id=""  # ok with empty str. when checking if "" that is False.... But can't use None to put in here...
-                a_date_created = ""
+                    else:  # add version
+                        the_headline="Add food to Freezer"
+                        the_change_button="Add Item"
+                        the_passive_button="Return to Overview"
+                        the_item_id=""  # ok with empty str. when checking if "" that is False.... But can't use None to put in here...
+                        a_date_created = ""
 
-                f_d_err = obj_food.get_error_msg()
-                date_err = obj_exp_date.get_error_msg()
-                add_msg=""
+                        f_d_err = obj_food.get_error_msg()
+                        date_err = obj_exp_date.get_error_msg()
+                        add_msg=""
 
-            # returns the following in the response
-            #self.render("food.html",  , food_description_error=obj_food.get_error_msg(),
-             #           note_content=a_note,
-              #          date_error=obj_exp_date.get_error_msg(),
-               #         exp_content = an_exp_date_str,
-                #        headline=the_headline,
-                 #       change_button=the_change_button, passive_button=the_passive_button,
-                  #      item_id=the_item_id,
-                   #     created_date=a_date_created)
-            
-            self.render_foodPage(a_food_description, f_d_err, a_note, date_err, an_exp_date_str, the_headline,
-                                 the_change_button, the_passive_button, the_item_id, a_date_created, add_msg)
+                    # returns the following in the response
+                    #self.render("food.html",  , food_description_error=obj_food.get_error_msg(),
+                     #           note_content=a_note,
+                      #          date_error=obj_exp_date.get_error_msg(),
+                       #         exp_content = an_exp_date_str,
+                        #        headline=the_headline,
+                         #       change_button=the_change_button, passive_button=the_passive_button,
+                          #      item_id=the_item_id,
+                           #     created_date=a_date_created)
+                    
+                    self.render_foodPage(a_food_description, f_d_err, a_note, date_err, an_exp_date_str, the_headline,
+                                         the_change_button, the_passive_button, the_item_id, a_date_created, add_msg, username)
+                else:
+                    self.redirect("/logout")
+                    
+            else:
+                self.redirect("/logout")
           
 
             
