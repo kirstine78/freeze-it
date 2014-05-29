@@ -275,12 +275,12 @@ class FrontPage(Handler):
         # toggle variables
         descrip_a_d="ASC"
         days_left_a_d="ASC"
-        exp_a_d="ASC"
+        #exp_a_d="ASC"
         days_frozen_a_d="DESC"
 
-        # decide which sorted code (1-9) you pass into html and also update variables.
+        # decide which sorted code (1-7) you pass into html and also update variables.
 
-        code = validation.get_number_code(parameter)  #return an int (1-9) based on which parameter passed in
+        code = validation.get_number_code(parameter)  #return an int (1-7) based on which parameter passed in
 
         # check if any toggle variables must be updated
         if code == 2:  # parameter=="description ASC"
@@ -289,15 +289,16 @@ class FrontPage(Handler):
             days_frozen_a_d="ASC"
         elif code == 6:  # parameter=="days_before_exp ASC"
             days_left_a_d="DESC"
-        elif code == 8:  # parameter=="expiry ASC"
-            exp_a_d="DESC"
+
+            
+        #elif code == 8:  # parameter=="expiry ASC"
+         #   exp_a_d="DESC"
                 
             
         self.render("frontpage.html", username=a_username,
                     food_items = all_food_items,
                     descr_asc_desc=descrip_a_d,
                     days_left_asc_desc=days_left_a_d,
-                    exp_asc_desc=exp_a_d,
                     days_frozen_asc_desc=days_frozen_a_d,
                     look_number=code) # passing contents into the html file
      
@@ -316,15 +317,12 @@ class FrontPage(Handler):
 
                 id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' or 'DESC' will be assigned
                 id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked 'ASC' or 'DESC' will be assigned
-                id_exp = self.request.get("id_exp_date")  # if header link 'Exp. date' is clicked 'ASC' or 'DESC' will be assigned
                 id_days_in_freezer = self.request.get("id_days_frozen")  # if header link 'Days in freezer' is clicked 'ASC' or 'DESC' will be assigned
 
                 if id_descript: # 'Description' was clicked
                     self.render_front(username, parameter="description %s" %id_descript)
                 elif id_days_left:  # 'Days to exp' was clicked
                     self.render_front(username, parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
-                elif id_exp:  # 'Exp. date' was clicked
-                    self.render_front(username, parameter="expiry %s" %id_exp)  # None exp date comes first then what is next to expire
                 elif id_days_in_freezer:  # 'Days in freezer' was clicked
                     self.render_front(username, parameter="days_in_freezer %s" %id_days_in_freezer)
                 else:
@@ -346,7 +344,7 @@ class FrontPage(Handler):
             
             # get request data
 
-            # 1-9 to see which sorted way the table was before user clicked delete button
+            # 1-7 to see which sorted way the table was before user clicked delete button
             the_sorted_look = self.request.get_all("which_sorted_look")  # returns a list with only one item though
 
             param = validation.get_param(the_sorted_look[0])  # returns fx "description DESC"            
@@ -387,11 +385,12 @@ class FoodPage(Handler):
                     change_button=change_butt, passive_button=passive_butt,
                     item_id=item_ID,
                     created_date=create_date,
-                    add_message=add_message)
+                    add_message=add_message) #                    sorted_mode_code=sorting_mode_code
 
         
     def get(self):
-        an_id = self.request.get("id")  # if any foodItem description is clicked, there is an_id        
+        an_id = self.request.get("id")  # if any foodItem description is clicked, there is an_id
+        
         if an_id:  # means there is an item to edit
             specific_item = FoodItem.get_by_id(int(an_id))  # get the item with the specific id (an_id)
 
@@ -435,9 +434,11 @@ class FoodPage(Handler):
 
         logging.debug("description = " + a_food_description_content)
 
+        # render "food.html" with correct params!
         self.render_foodPage(a_food_description_content, f_d_err, a_note_content, date_err,
                         a_exp_content, a_headline, a_change_button, a_passive_button, a_item_id,
                         a_date_created, add_msg)
+        
         # render "food.html" with correct params!
         #self.render("food.html", food_description_content=a_food_description_content, food_description_error="",
          #           note_content=a_note_content,
@@ -492,6 +493,9 @@ class FoodPage(Handler):
                  
                 the_item.put()
                 time.sleep(0.1)  # to delay so db table gets displayed correct
+
+                
+                
                 self.redirect("/frontpage")  # tells the browser to go to '/' and the response is empty
                 
             else: # no id 'an_item_id' (a new food is being added)

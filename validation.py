@@ -201,16 +201,18 @@ def get_number_code(sort_string):
     elif sort_string=="days_before_exp ASC":
         number = 6
         
-    elif sort_string=="days_before_exp DESC":
+    else: # sort_string=="days_before_exp DESC":
         number = 7
 
-    elif sort_string=="expiry ASC":
-        number = 8
-        
-    else:  # sort_string=="expiry DESC"
-        number = 9
-
     return number
+
+    #elif sort_string=="expiry ASC":
+     #   number = 8
+        
+    #else:  # sort_string=="expiry DESC"
+     #   number = 9
+
+    
     
 def get_param(an_int_in_a_string):
     """ takes in a string an_int_in_a_string (which is a number as strin,g ex. "2"), convert it to an int
@@ -236,16 +238,16 @@ def get_param(an_int_in_a_string):
     elif an_int == 6:
         param = "days_before_exp ASC"
 
-    elif an_int == 7:
+    else:  # an_int == 7:
         param = "days_before_exp DESC"
 
-    elif an_int == 8:
-        param = "expiry ASC"
-
-    else:  # an_int == 9:
-        param = "expiry DESC"
-
     return param
+
+    # elif an_int == 8:
+      #  param = "expiry ASC"
+
+    #else:  # an_int == 9:
+     #   param = "expiry DESC"
 
 def convert_DateProperty_to_str_slash(date):
     """ convert a DateProperty a_date with format yyyy-mm-dd to a string with format "mm/dd/yyyy" """
