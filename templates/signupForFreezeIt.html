@@ -169,6 +169,37 @@
 		background: #1dc400;
 		color: #ffffff;
 		}
+		
+		.button_red 
+		{
+		border-top: 1px solid #ff0000;
+		background: #d40000;
+		background: -webkit-gradient(linear, left top, left bottom, from(#f70000), to(#d40000));
+		background: -webkit-linear-gradient(top, #f70000, #d40000);
+		background: -moz-linear-gradient(top, #f70000, #d40000);
+		background: -ms-linear-gradient(top, #f70000, #d40000);
+		background: -o-linear-gradient(top, #f70000, #d40000);
+		padding: 12.5px 25px;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 14px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		.button_red:hover 
+		{
+		border-top-color: #f20000;
+		background: #f20000;
+		color: #ffffff;
+		}
    
 		</style>
 		
@@ -257,6 +288,8 @@
 												<br>
 												<br>
 												<input class="button" type="submit" value="Sign up" onclick="window.location.href='/frontpage';">
+												
+												<input class="button_red" type="button" value="Cancel" onclick="location.href='/';">
 											</form>
 										</td>
 										<td class="td_table_D_narrow" style="width:10%"></td>
