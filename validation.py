@@ -10,13 +10,8 @@ def is_food_item_valid(food_description):
         Creates an object of classInfoEntered and returns it """
 
     if food_description and len(food_description) > 0:
-
-        if len(food_description) > 200:
-            obj_food = info_entered.InfoEntered(False, "'Food Item' max. 200 characters")  # create object of class InfoEntered
-            return obj_food
-        else:
-            obj_food = info_entered.InfoEntered(True, "")  # create object of class InfoEntered
-            return obj_food
+        obj_food = info_entered.InfoEntered(True, "")  # create object of class InfoEntered
+        return obj_food
     else:
         obj_food = info_entered.InfoEntered(False, "You need a 'Food Item'") # create object of class InfoEntered
         return obj_food
