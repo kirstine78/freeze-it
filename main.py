@@ -405,7 +405,7 @@ class FoodPage(Handler):
             a_note_content=""
             a_exp_content = ""
             a_headline="Add food to Freezer"
-            a_change_button="Submit"
+            a_change_button="Add Item"
             a_passive_button="Return to Overview"
             a_item_id=""
             a_date_created = ""
@@ -515,7 +515,7 @@ class FoodPage(Handler):
 
             else:  # add version
                 the_headline="Add food to Freezer"
-                the_change_button="Submit"
+                the_change_button="Add Item"
                 the_passive_button="Return to Overview"
                 the_item_id=""  # ok with empty str. when checking if "" that is False.... But can't use None to put in here...
                 a_date_created = ""
