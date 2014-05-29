@@ -30,10 +30,32 @@ indexes:
 - kind: FoodItem
   properties:
   - name: fk_registered_user_id
+  - name: days_in_freezer
+
+- kind: FoodItem
+  properties:
+  - name: fk_registered_user_id
+  - name: days_in_freezer
+    direction: desc
+
+- kind: FoodItem
+  properties:
+  - name: fk_registered_user_id
   - name: description
 
 - kind: FoodItem
   properties:
   - name: fk_registered_user_id
   - name: description
+    direction: desc
+
+- kind: FoodItem
+  properties:
+  - name: fk_registered_user_id
+  - name: expiry
+
+- kind: FoodItem
+  properties:
+  - name: fk_registered_user_id
+  - name: expiry
     direction: desc
