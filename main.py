@@ -232,6 +232,7 @@ class LogoutHandler(Handler):
     def get(self):
         #set cookie value to 'empty'
         self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
+        self.response.headers.add_header('Set-Cookie', 'sort_code=; Path=/')
 
         #then redirect to '/' Login
         self.redirect("/")
@@ -290,10 +291,7 @@ class FrontPage(Handler):
         elif code == 6:  # parameter=="days_before_exp ASC"
             days_left_a_d="DESC"
 
-            
-        #elif code == 8:  # parameter=="expiry ASC"
-         #   exp_a_d="DESC"
-                
+        self.response.headers.add_header('Set-Cookie', 'sort_code=%s; Path=/' %str(code))
             
         self.render("frontpage.html", username=a_username,
                     food_items = all_food_items,
@@ -326,7 +324,12 @@ class FrontPage(Handler):
                 elif id_days_in_freezer:  # 'Days in freezer' was clicked
                     self.render_front(username, parameter="days_in_freezer %s" %id_days_in_freezer)
                 else:
-                    self.render_front(username, parameter="created DESC")
+                    sort_code = self.request.cookies.get('sort_code')# look_number (cookie)
+                    if sort_code:
+                        sort_criteria = validation.get_param(sort_code)
+                    else:
+                        sort_criteria = "created DESC"
+                    self.render_front(username, parameter=sort_criteria)
 
             else:  # invalid
                 self.redirect("/")
@@ -343,12 +346,7 @@ class FrontPage(Handler):
             user_id_cookie_valid = passwordValid.check_secure_val(user_id_cookie_value)
             
             # get request data
-
-            # 1-7 to see which sorted way the table was before user clicked delete button
-            the_sorted_look = self.request.get_all("which_sorted_look")  # returns a list with only one item though
-
-            param = validation.get_param(the_sorted_look[0])  # returns fx "description DESC"            
-            
+          
             # id data (which check boxes has user checked) put in a variable
             list_of_id_checked = self.request.get_all("delete")  # returns a list of id strings
 
@@ -365,7 +363,13 @@ class FrontPage(Handler):
                         FoodItem.delete(match)
                 time.sleep(0.1)  # to delay so db table gets displayed correct
 
-            self.render_front(user_id_cookie_valid, parameter=param)
+            sort_code = self.request.cookies.get('sort_code')# look_number (cookie)
+            if sort_code:
+                sort_criteria = validation.get_param(sort_code)
+            else:
+                sort_criteria = "created DESC"
+            self.render_front(user_id_cookie_valid, parameter=sort_criteria)
+                    
         else:
             self.redirect("/signup")
       
@@ -386,7 +390,7 @@ class FoodPage(Handler):
                     item_id=item_ID,
                     created_date=create_date,
                     add_message=add_message,
-                    username=the_user_name) #                    sorted_mode_code=sorting_mode_code
+                    username=the_user_name) # sorted_mode_code=sorting_mode_code
 
         
     def get(self):
@@ -453,16 +457,6 @@ class FoodPage(Handler):
                 self.redirect("/")
         else:  # None
                 self.redirect("/")
-        
-        # render "food.html" with correct params!
-        #self.render("food.html", food_description_content=a_food_description_content, food_description_error="",
-         #           note_content=a_note_content,
-          #          date_error="",
-           #         exp_content = a_exp_content,
-            #        headline=a_headline,
-             #       change_button=a_change_button, passive_button=a_passive_button,
-              #      item_id=a_item_id,
-               #     created_date=a_date_created)
 
 
     def post(self):
@@ -548,12 +542,14 @@ class FoodPage(Handler):
                         date_err=""
                         add_msg="Your Food Item was successfully added"
 
+                        
+                        self.response.headers.add_header('Set-Cookie', 'sort_code=; Path=/')
+
 
                         self.render_foodPage(a_food_description_content, f_d_err, a_note_content, date_err,
                                              a_exp_content, a_headline, a_change_button, a_passive_button, a_item_id,
                                              a_date_created, add_msg, username)
                             
-                        #self.redirect("/food")  # tells the browser to go to '/food' and the response is empty
                     else:
                         self.redirect("/logout")
                         
@@ -599,15 +595,7 @@ class FoodPage(Handler):
                         date_err = obj_exp_date.get_error_msg()
                         add_msg=""
 
-                    # returns the following in the response
-                    #self.render("food.html",  , food_description_error=obj_food.get_error_msg(),
-                     #           note_content=a_note,
-                      #          date_error=obj_exp_date.get_error_msg(),
-                       #         exp_content = an_exp_date_str,
-                        #        headline=the_headline,
-                         #       change_button=the_change_button, passive_button=the_passive_button,
-                          #      item_id=the_item_id,
-                           #     created_date=a_date_created)
+
                     
                     self.render_foodPage(a_food_description, f_d_err, a_note, date_err, an_exp_date_str, the_headline,
                                          the_change_button, the_passive_button, the_item_id, a_date_created, add_msg, username)
