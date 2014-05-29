@@ -457,7 +457,7 @@ class FoodPage(Handler):
         an_item_id = self.request.get("item_ID")  # this is a string "455646501654613" format
         
         # create objects of class InfoEntered. NB this is not an FoodItem object!!!
-        obj_food = validation.is_food_description_valid(a_food_description) # object is created inside is_food_description_valid()
+        obj_food = validation.is_food_item_valid(a_food_description) # object is created inside is_food_item_valid()
         obj_exp_date = validation.is_exp_date_valid(an_exp_date_str, an_item_id)  # object is created inside is_exp_date_valid()
                       
         # create list for the objects and append them
