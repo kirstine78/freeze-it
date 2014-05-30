@@ -23,7 +23,6 @@
 import validation
 import passwordValid
 import dataFunctions
-import info_entered
 import cgi
 import re
 import os
@@ -236,6 +235,28 @@ class LogoutHandler(Handler):
 
         #then redirect to '/' Login
         self.redirect("/")
+
+
+# '/forgotten', ForgottenHandler
+class ForgottenHandler(Handler):
+    def render_forgotten(self, name_error=""):
+        self.render("forgotPassword.html", user_name_error=name_error)
+        
+    def get(self):
+        self.render_forgotten()
+
+    def post(self):
+        self.redirect("/sentpassword")
+
+
+# '/sentpassword', SentPasswordHandler
+class SentPasswordHandler(Handler):
+    def get(self):
+        self.render("sendPassword.html")
+
+    def post(self):
+        self.redirect("/")
+
             
 
 # handler for '/frontpage', FrontPage
@@ -611,5 +632,7 @@ class FoodPage(Handler):
 app = webapp2.WSGIApplication([('/', LoginHandler),
                                ('/signup', SignupHandler),
                                ('/logout', LogoutHandler),
+                               ('/forgotten', ForgottenHandler),
+                               ('/sentpassword', SentPasswordHandler),
                                ('/frontpage', FrontPage),
                                ('/food', FoodPage)], debug=True)
