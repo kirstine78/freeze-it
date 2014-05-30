@@ -251,15 +251,16 @@ class ForgottenHandler(Handler):
         # if valid:
             # change password in db
             # send new password to email
+            # then redirect to sentpassword.
+            #self.redirect("/sentpassword")
         # else:
             # give user_name_error and re render page
             # error = "invalid username"
             # self.render_forgotten(name_error=error):
 
         
-
-        # then redirect to sentpassword.
         self.redirect("/sentpassword")
+        
 
 
 
@@ -268,8 +269,7 @@ class SentPasswordHandler(Handler):
     def get(self):
         self.render("sendPassword.html")
 
-    def post(self):
-        self.redirect("/")
+    
 
             
 
