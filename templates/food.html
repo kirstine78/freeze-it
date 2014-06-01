@@ -156,8 +156,15 @@
 		color: #ffffff;
 		}
 		
+		#margin, #datepicker
+		{
+		margin-left: 3px;		
+		}
 		
-		
+		#margin_butt
+		{
+		margin-left: 2px;		
+		}
 		
 		
 		
@@ -235,7 +242,7 @@
 								<form method="post">
 									
 									<label>
-										<div>Food Item *</div> <input type="text" name="food_description" value="{{food_description_content}}" maxlength="200" style="width:200px;">
+										<div>Food Item *</div> <input id="margin" type="text" name="food_description" value="{{food_description_content}}" maxlength="200" style="width:200px;">
 										
 										<span class="error_message_red">{{food_description_error}}</span>
 									</label>
@@ -243,7 +250,7 @@
 									<br>
 									
 									<label>
-										<div>Note (e.g. 300 g)</div> <input type="text" name="note" value="{{note_content}}" maxlength="30" style="width:200px;">
+										<div>Note (e.g. 300 g)</div> <input id="margin" type="text" name="note" value="{{note_content}}" maxlength="30" style="width:200px;">
 										<span style="font-size:10px; color:#0066FF;">(Max. 30 characters)</span>
 									</label>
 									<br>
@@ -259,9 +266,9 @@
 									<br>
 									<br>
 									
-									<input class="button" type="submit" value="{{change_button}}">
+									<input id="margin_butt" class="button" type="submit" value="{{change_button}}">
 									
-									<input class="button_red" type="button" value="{{passive_button}}" onclick="location.href='/frontpage';">
+									<input id="margin_butt" class="button_red" type="button" value="{{passive_button}}" onclick="location.href='/frontpage';">
 									
 									<br>		
 									<br>		

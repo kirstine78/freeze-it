@@ -79,6 +79,16 @@
 		background: #1dc400;
 		color: #ffffff;
 		}
+		
+		#margin
+		{
+		margin-left: 3px;		
+		}
+		
+		#margin_butt
+		{
+		margin-left: 2px;		
+		}
    
 		</style>
 		
@@ -114,24 +124,24 @@
 								<table class="Table_D" style="width:100%; height:100%">
 									<tr class="tr_table_D">
 										<td class="td_table_D_narrow" style="width:10%"></td>
-										<td class="td_table_D_wide" style="width:40%; vertical-align:bottom; ">
+										<td class="td_table_D_wide" style="width:40%; vertical-align:bottom;">
 											<br>
 											<p class="blue" style="font-size:20px;"><b>Log in to 'Freeze it'</b></p>
 											<form method="post">
 												<label>
 													<div class="blue">Username</div> 
-													<input type="text" name="login_username" value="{{the_login_username}}">
+													<input id="margin" type="text" name="login_username" value="{{the_login_username}}" maxlength="20" style="width:220px;">
 				
 												</label>
 												<br>
 												<br>
 												<label>
 													<div class="blue">Password</div>
-													<input type="password" name="login_password">
+													<input id="margin" type="password" name="login_password" style="width:220px;">
 												</label>
 												<br>
 												<br>
-												<input class="button" type="submit" value="Log in">
+												<input class="button" type="submit" value="Log in" id="margin_butt">
 												<span class="error_message_red">{{error_login}}</span>
 											</form>
 										</td>
@@ -141,7 +151,7 @@
 											<p class="blue" style="font-size:20px;"><b>Don't have an account ?</b></p>
 										
 											<form action="">
-												<input class="button" type="button" value="Click here to Sign up" onclick="window.location.href='/signup';"/>
+												<input class="button" type="button" value="Click here to Sign up" onclick="window.location.href='/signup';" id="margin_butt"/>
 											</form>
 										</td>
 										
@@ -161,8 +171,8 @@
 										<td class="td_table_D_narrow" style="width:10%"></td>
 										<td class="td_table_D_wide" style="width:80%">
 											<form method="post">
-												<input type="checkbox" name="stay_logged_in" value="{{stay_log_in}}">
-												<span class="blue" style="font-size:13px;">Click to stay logged in</span>
+												<input id="margin" type="checkbox" name="stay_logged_in" value="{{stay_log_in}}">
+												<span class="blue" style="font-size:13px;" id="margin">Click to stay logged in</span>
 											</form>
 										</td>
 										<td class="td_table_D_narrow" style="width:10%"></td>
@@ -172,23 +182,21 @@
 						</tr>
 						
 						
-						<tr class="tr_table_Center"style="height:40%">
+						<tr class="tr_table_Center"style="height:45%">
 							
 							<td class="td_table_Center" valign="top">
-								<table class="Table_D" style="width:100%">
+								<table class="Table_D" style="width:100%;  height:100%">
 									<tr class="tr_table_D">
 										<td class="td_table_D_narrow" style="width:10%"></td>
-										<td class="td_table_D_wide" style="width:80%">
-											<br>
+										
+										<td class="td_table_D_wide" style="width:80%; vertical-align:top;">
 											<br>
 											<p class="blue" style="font-size:20px;"><b>Forgot your password ?</b></p>
 										
 											<form action="">
-												<input class="button" type="button" value="Help" onclick="window.location.href='/forgotten';"/>
+												<input class="button" type="button" value="Help" onclick="window.location.href='/forgotten';" id="margin_butt"/>
 											</form>
 										</td>
-										
-										
 										
 										<td class="td_table_D_narrow" style="width:10%"></td>
 									</tr>

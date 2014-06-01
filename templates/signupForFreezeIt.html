@@ -112,6 +112,16 @@
 		background: #f20000;
 		color: #ffffff;
 		}
+		
+		#margin
+		{
+		margin-left: 3px;		
+		}
+		
+		#margin_butt
+		{
+		margin-left: 2px;		
+		}
    
 		</style>
 		
@@ -141,48 +151,35 @@
 						</tr>
 						
 						
-						<tr class="tr_table_Center" style="height:5%">
-							
-							<td class="td_table_Center">
-								<table class="Table_B" style="width:100%">
-									<tr class="tr_table_B">
-										<td class="td_table_B_narrow" style="width:10%"></td>
-										<td class="td_table_B_wide" style="width:80%">
-											<br>
-											<p class="blue" style="font-size:20px;"><b>Sign up for 'Freeze it'</b></p>
-										</td>
-										<td class="td_table_B_narrow" style="width:10%"></td>
-									</tr>
-								</table>
-							</td>
-							
-						</tr>
-						
-						
-						<tr class="tr_table_Center"style="height:65%">
+						<tr class="tr_table_Center"style="height:70%">
 							
 							<td class="td_table_Center" valign="top">
-								<table class="Table_D" style="width:100%">
+								<table class="Table_D" style="width:100%; height:100%">
 									<tr class="tr_table_D">
 										<td class="td_table_D_narrow" style="width:10%"></td>
-										<td class="td_table_D_wide" style="width:80%">
+										<td class="td_table_D_wide" style="width:80%; vertical-align:top; ">
+											<br>
+											<p class="blue" style="font-size:20px;"><b>Sign up for 'Freeze it'</b></p>
 											<form method="post">
 												<label>
-													<div class="blue">Username (4 - 20 characters)</div> <input type="text" name="username" value="{{signup_username}}" maxlength="20" style="width:220px;">
-				
+													<div class="blue">Username (4 - 20 characters)</div> 
+													<input id="margin" type="text" name="username" value="{{signup_username}}" maxlength="20" style="width:220px;">
+
 													<span class="error_message_red">{{username_error}}</span>
 												</label>
 												<br>
 												<br>
 												<label>
-													<div class="blue">Password (min. 4 characters)</div> <input type="password" name="password" style="width:220px;">
+													<div class="blue">Password (min. 4 characters)</div>
+													<input id="margin" type="password" name="password" style="width:220px;">
 				
 													<span class="error_message_red">{{password_error}}</span>
 												</label>
 												<br>
 												<br>
 												<label>
-													<div class="blue">Verify password</div> <input type="password" name="verify" style="width:220px;">
+													<div class="blue">Verify password</div>
+													<input id="margin" type="password" name="verify" style="width:220px;">
 				
 													<span class="error_message_red">{{verify_error}}</span>
 												</label>
@@ -190,15 +187,16 @@
 												<br>
 												
 												<label>
-													<div class="blue">E-mail (optional)</div> <input type="text" name="email" value="{{email}}" style="width:220px;">
+													<div class="blue">E-mail (optional)</div> 
+													<input id="margin" type="text" name="email" value="{{email}}" style="width:220px;">
 				
 													<span class="error_message_red">{{email_error}}</span>
 												</label>
 												<br>
 												<br>
-												<input class="button" type="submit" value="Sign up" onclick="window.location.href='/frontpage';">
+												<input id="margin_butt" class="button" type="submit" value="Sign up" onclick="window.location.href='/frontpage';">
 												
-												<input class="button_red" type="button" value="Cancel" onclick="location.href='/';">
+												<input id="margin_butt" class="button_red" type="button" value="Cancel" onclick="location.href='/';">
 											</form>
 										</td>
 										<td class="td_table_D_narrow" style="width:10%"></td>
