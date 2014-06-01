@@ -196,10 +196,43 @@
 		color: #ffffff;
 		}
 		
+		.button_blue 
+		{
+		border-top: 1px solid #687bf2;
+		background: #2144c4;
+		background: -webkit-gradient(linear, left top, left bottom, from(#222bd6), to(#2144c4));
+		background: -webkit-linear-gradient(top, #222bd6, #2144c4);
+		background: -moz-linear-gradient(top, #222bd6, #2144c4);
+		background: -ms-linear-gradient(top, #222bd6, #2144c4);
+		background: -o-linear-gradient(top, #222bd6, #2144c4);
+		padding: 7px 14px;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 12px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		
+		.button_blue:hover 
+		{ 
+		border-top-color: #175ce8;
+		background: #175ce8;
+		color: #ffffff;
+		}
+		
 		#margin_butt
 		{
 		margin-left: 2px;		
 		}
+		
 		
    
 		</style>
@@ -229,14 +262,14 @@
 										<td class="td_table_B_narrow" style="width:10%"></td>
 										<td class="td_table_B_wide" style="width:20%; text-align:left; vertical-align:top; ">
 											<form action="">
-												<input id="margin_butt" class="button_red" type="button" value="My profile" onclick="window.location.href='/profile';" style="margin-top:8px;"/>
+												<input id="margin_butt" class="button_blue" type="button" value="My Profile" onclick="window.location.href='/profile';" style="margin-top:3px;"/>
 											</form>
 										</td>
 										<td class="td_table_B_wide" style="width:60%; text-align:right; vertical-align:top; ">
-											<p style="color:#0066FF; padding-right:5px;">Logged in as: {{username}}</P>
-											<form action="">
+											
+											<div style="color:#0066FF; padding-right:5px;">Logged in as: {{username}}
 												<input class="button_red" type="button" value="Log out" onclick="window.location.href='/logout';"/>
-											</form>
+											</div>
 										</td>
 										<td class="td_table_B_narrow" style="width:10%"></td>
 									</tr>
