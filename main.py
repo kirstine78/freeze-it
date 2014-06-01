@@ -75,6 +75,7 @@ class FoodItem(db.Model): # abbreviated 'FI'
 class RegisteredUsers(db.Model):  #  --> ru
     name = db.StringProperty(required = True)
     password_hashed = db.StringProperty(required = True)  # (name + pw + salt) hexdigested and then pipe salt with format "hexdigestedValue|salt"
+    email = db.StringProperty(required = False)
     created = db.DateTimeProperty(auto_now_add = True)
 
 
@@ -83,13 +84,12 @@ class RegisteredUsers(db.Model):  #  --> ru
 # '/signup', SignupHandler
 class SignupHandler(Handler):
         
-    def write_form(self, a_signup_name="", a_username_error="", a_password_error="",
-                   a_verify_error="", a_email="", a_email_error=""):
+    def write_form(self, a_signup_name="", a_username_error="", a_password_error="", a_verify_error="",
+                   a_email="", a_email_error="", a_verify_email="", a_verify_email_error=""):
         
         self.render("signupForFreezeIt.html", signup_username=a_signup_name, username_error=a_username_error,
-                                        password_error=a_password_error,
-                                        verify_error=a_verify_error,
-                                        email=a_email, email_error=a_email_error)
+                    password_error=a_password_error, verify_error=a_verify_error,
+                    email=a_email, email_error=a_email_error, email_verify=a_verify_email, verify_email_error=a_verify_email_error)
 
         
     def get(self):
@@ -103,36 +103,44 @@ class SignupHandler(Handler):
         password_input = self.request.get('password')
         verify_input = self.request.get('verify')
         email_input = self.request.get('email')
+        
+        verify_email_input = self.request.get('verify_email') #
 
         escaped_username_input = passwordValid.escape_html(username_input)
         escaped_email_input = passwordValid.escape_html(email_input)
+        
+        escaped_verify_email_input = passwordValid.escape_html(verify_email_input) #
 
         is_valid_username = passwordValid.valid_username(username_input)
-        is_valid_password = passwordValid.valid_password(password_input)
+        is_valid_password = passwordValid.valid_password(password_input)        
         
         if len(email_input) > 0:
             is_valid_email = passwordValid.valid_email(email_input)
         else:
-            is_valid_email = True
+            is_valid_email = False
             
 
         does_password_match = passwordValid.password_match(password_input, verify_input)
-
+        does_email_match = passwordValid.email_match(email_input, verify_email_input)
+        
         final_username_error=""
         final_password_error=""
         final_verify_error=""
         final_email_error=""
+        final_verify_email_error=""
 
         if not (is_valid_username):
-            final_username_error="Invalid username."
+            final_username_error="Invalid username"
         if not (is_valid_password):
-            final_password_error="Invalid password."
+            final_password_error="Invalid password"
         if not (does_password_match):
-            final_verify_error="Password doesn't match."
+            final_verify_error="Password doesn't match"
         if not (is_valid_email):
-            final_email_error="Invalid email."
+            final_email_error="Invalid e-mail"
+        if not (does_email_match):
+            final_verify_email_error="E-mail doesn't match"
 
-        if is_valid_username and is_valid_password and does_password_match and is_valid_email:
+        if is_valid_username and is_valid_password and does_password_match and is_valid_email and does_email_match:
             
             # check if user already exist
             user_already_exists = False
@@ -146,8 +154,9 @@ class SignupHandler(Handler):
                 #write error message out
                 final_username_error="User already exist"
                 self.write_form(escaped_username_input, final_username_error,
-                        final_password_error, final_verify_error,
-                        escaped_email_input, final_email_error)
+                                final_password_error, final_verify_error,
+                                escaped_email_input, final_email_error,
+                                escaped_verify_email_input, final_verify_email_error)
                     
             else:  # ok to register new user
 
@@ -156,7 +165,7 @@ class SignupHandler(Handler):
                 secure_username = passwordValid.make_secure_val(username_input) # the function returns username_input|hash
 
                
-                ru = RegisteredUsers(name = username_input, password_hashed = secure_password) # save the hashed password in database
+                ru = RegisteredUsers(name = username_input, password_hashed = secure_password, email = email_input) # save the hashed password in database
                 ru.put()
                 time.sleep(0.1)  # to delay so db table gets displayed correct
                 self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/' %str(secure_username))#sending secure_username back to browser
@@ -177,10 +186,12 @@ class SignupHandler(Handler):
                 #write error message out
                 final_username_error="User already exist"
                 final_password_error=""
+                final_email_error=""
                 
             self.write_form(escaped_username_input, final_username_error,
-                        final_password_error, final_verify_error,
-                        escaped_email_input, final_email_error)
+                            final_password_error, final_verify_error,
+                            escaped_email_input, final_email_error,
+                            escaped_verify_email_input, final_verify_email_error)
 
 # '/', LoginHandler
 class LoginHandler(Handler):

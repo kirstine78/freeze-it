@@ -60,3 +60,7 @@ def valid_email(email_entered):
 
 def password_match(password_a, password_b):
     return password_a == password_b
+
+def email_match(email_a, email_b):
+    return email_a == email_b
+
