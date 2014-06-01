@@ -23,7 +23,8 @@
 		/*border:1px solid black;*/
 		}
 		
-		.Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
+		
+		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide, .Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
 		{
 		border-collapse:collapse;
 		/*border:1px solid green;*/
@@ -33,7 +34,7 @@
 		{
 		color:red;
 		}
-   
+	
 		body
 		{
 		font:13px arial,sans-serif;
@@ -49,6 +50,7 @@
 		{
 		color:#0066FF;
 		}
+		
 		
 		.button 
 		{
@@ -77,6 +79,37 @@
 		.button:hover {
 		border-top-color: #1dc400;
 		background: #1dc400;
+		color: #ffffff;
+		}
+		
+		.button_red 
+		{
+		border-top: 1px solid #ff0000;
+		background: #d40000;
+		background: -webkit-gradient(linear, left top, left bottom, from(#f70000), to(#d40000));
+		background: -webkit-linear-gradient(top, #f70000, #d40000);
+		background: -moz-linear-gradient(top, #f70000, #d40000);
+		background: -ms-linear-gradient(top, #f70000, #d40000);
+		background: -o-linear-gradient(top, #f70000, #d40000);
+		padding: 12.5px 25px;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 14px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		.button_red:hover 
+		{
+		border-top-color: #f20000;
+		background: #f20000;
 		color: #ffffff;
 		}
 		
@@ -118,68 +151,27 @@
 						</tr>
 						
 						
-						<tr class="tr_table_Center"style="height:20%">
+						<tr class="tr_table_Center"style="height:70%">
 							
 							<td class="td_table_Center" valign="top">
 								<table class="Table_D" style="width:100%; height:100%">
 									<tr class="tr_table_D">
 										<td class="td_table_D_narrow" style="width:10%"></td>
-										<td class="td_table_D_wide" style="width:80%; vertical-align:bottom;">
+										<td class="td_table_D_wide" style="width:80%; vertical-align:top; ">
 											<br>
-											<p class="blue" style="font-size:20px;"><b>Log in to 'Freeze it'</b></p>
-											<form method="post">
-												<label>
-													<div class="blue">Username</div> 
-													<input id="margin" type="text" name="login_username" value="{{the_login_username}}" style="width:220px;">
-				
-												</label>
+											<p class="blue" style="font-size:20px;"><b>My Profile</b></p>
+												<div class="blue">Username: {{a_name}}</div>
+												<br>
+												<div class="blue">E-mail: {{an_email}}</div>
+												
 												<br>
 												<br>
-												<label>
-													<div class="blue">Password</div>
-													<input id="margin" type="password" name="login_password" style="width:220px;">
-												</label>
+												<input id="margin_butt" class="button" type="submit" value="Edit E-mail" onclick="window.location.href='/editemail';">		
+												<input id="margin_butt" class="button" type="submit" value="Edit Password" onclick="window.location.href='/editpassword';">		
 												<br>
-												<br>
-												<input class="button" type="submit" value="Log in" id="margin_butt">
-												<span class="error_message_red">{{error_login}}</span>
-												<br>
-												<br>
-												<input id="margin" type="checkbox" name="stay_logged_in" value="stay_logged_in_clicked">
-												<span class="blue" style="font-size:13px;" id="margin">Click to stay logged in</span>
-											</form>
+												<br>																
+												<input id="margin_butt" class="button_red" type="button" value="Return to Frontpage" onclick="location.href='/frontpage';">
 										</td>
-										<td class="td_table_D_narrow" style="width:10%"></td>
-									</tr>
-								</table>	
-							</td>
-							
-						</tr>
-						
-						
-						<tr class="tr_table_Center"style="height:50%">
-							
-							<td class="td_table_Center" valign="top">
-								<table class="Table_D" style="width:100%;  height:100%">
-									<tr class="tr_table_D">
-										<td class="td_table_D_narrow" style="width:10%"></td>
-										
-										<td class="td_table_D_wide" style="width:45%; vertical-align:top; ">
-											<br>
-											<p class="blue" style="font-size:20px;"><b>Forgot your password ?</b></p>
-											<form action="">
-												<input class="button" type="button" value="Help" onclick="window.location.href='/forgotten';" id="margin_butt"/>
-											</form>
-										</td>
-										
-										<td class="td_table_D_wide" style="width:35%; vertical-align:top; ">
-											<br>
-											<p class="blue" style="font-size:20px; "><b>Don't have an account ?</b></p>
-											<form action="">
-												<input class="button" type="button" value="Click here to Sign up" onclick="window.location.href='/signup';" id="margin_butt"/>
-											</form>
-										</td>
-										
 										<td class="td_table_D_narrow" style="width:10%"></td>
 									</tr>
 								</table>	

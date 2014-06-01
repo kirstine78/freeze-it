@@ -204,10 +204,9 @@ class LoginHandler(Handler):
 
 
     def post(self):
-
         login_username_input = self.request.get('login_username')
-
         login_password_input = self.request.get('login_password')
+        checkbox_stay_loggedIn = self.request.get('stay_logged_in_clicked')
 
         #check if username exists
         user_already_exists = False
@@ -224,6 +223,14 @@ class LoginHandler(Handler):
                 if passwordValid.valid_pw(login_username_input, login_password_input, the_user_hash):
                     secure_username = passwordValid.make_secure_val(login_username_input) # return login_username_input|hash
                     self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/' %str(secure_username))
+
+                    # if checkbox_stay_loggedIn:
+                        # make sure to set cookie expire to never
+                    # else:
+                        # cookie expire when???
+
+
+                    
                     self.redirect("/frontpage")
                 else:
                     self.loginError()
@@ -280,8 +287,45 @@ class SentPasswordHandler(Handler):
     def get(self):
         self.render("sendPassword.html")
 
-    
+# ('/profile', ProfileHandler)
+class ProfileHandler(Handler):
+    def get(self):
+        user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
 
+        if user_id_cookie_value:
+
+            username = passwordValid.check_secure_val(user_id_cookie_value)
+            
+            
+            # if valid cookie:
+            if username:
+                all_RU = db.GqlQuery("SELECT * FROM RegisteredUsers")
+                for user in all_RU:
+                    if user.name == username:
+                        spec_user = user
+                        break
+                if spec_user:
+                    email_RU = spec_user.email
+                    self.render("profile.html", a_name=username, an_email=email_RU)
+                else:
+                    self.redirect("/")
+                    
+
+            else:  # invalid
+                self.redirect("/")
+        else:  # None
+                self.redirect("/")
+        
+    
+# '/editemail', EditEmailHandler
+class EditEmailHandler(Handler):
+    def get(self):
+        self.render("editEmail.html")
+
+# '/editpassword', EditPasswordHandler
+class EditPasswordHandler(Handler):
+    def get(self):
+        self.render("editPassword.html")
             
 
 # handler for '/frontpage', FrontPage
@@ -659,5 +703,8 @@ app = webapp2.WSGIApplication([('/', LoginHandler),
                                ('/logout', LogoutHandler),
                                ('/forgotten', ForgottenHandler),
                                ('/sentpassword', SentPasswordHandler),
+                               ('/profile', ProfileHandler),
+                               ('/editpassword', EditPasswordHandler),
+                               ('/editemail', EditEmailHandler),
                                ('/frontpage', FrontPage),
                                ('/food', FoodPage)], debug=True)
