@@ -87,9 +87,9 @@ def is_future_date(a_date):
 
 def expires_soon(date_to_check):
     """ return boolean, int
-        True if date_to_check yyyy-mm-dd is within 3 days to expire, and amount of days before exp """
+        True if date_to_check yyyy-mm-dd is within x days to expire, and amount of days before exp """
 
-    LIMIT_FOR_EXPIRES_SOON = 5
+    LIMIT_FOR_EXPIRES_SOON = 7
 
     
     today = date.today() #yyyy-mm-dd
