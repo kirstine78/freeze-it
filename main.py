@@ -75,7 +75,7 @@ class FoodItem(db.Model): # abbreviated 'FI'
 class RegisteredUsers(db.Model):  #  --> ru
     name = db.StringProperty(required = True)
     password_hashed = db.StringProperty(required = True)  # (name + pw + salt) hexdigested and then pipe salt with format "hexdigestedValue|salt"
-    email = db.StringProperty(required = False)
+    email = db.StringProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
 
 
