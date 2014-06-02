@@ -113,6 +113,38 @@
 		color: #ffffff;
 		}
 		
+		.button_red_small 
+		{
+		border-top: 1px solid #ff0000;
+		background: #d40000;
+		background: -webkit-gradient(linear, left top, left bottom, from(#f70000), to(#d40000));
+		background: -webkit-linear-gradient(top, #f70000, #d40000);
+		background: -moz-linear-gradient(top, #f70000, #d40000);
+		background: -ms-linear-gradient(top, #f70000, #d40000);
+		background: -o-linear-gradient(top, #f70000, #d40000);
+		padding: 7px 14px;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 12px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		.button_red_small:hover 
+		{
+		border-top-color: #f20000;
+		background: #f20000;
+		color: #ffffff;
+		}
+		
+		
 		#margin
 		{
 		margin-left: 3px;		
@@ -139,6 +171,24 @@
 				
 				<td class="td_table_A_center" style="width:60%">
 					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
+					
+						<tr class="tr_table_Center" style="height:7%;">
+							<td class="td_table_Center">
+								<table class="Table_B" style="width:100%">
+									<tr class="tr_table_B">
+										<td class="td_table_B_narrow" style="width:10%"></td>
+										<td class="td_table_B_wide" style="width:80%; text-align:right; vertical-align:top; ">
+											<div style="color:#0066FF; padding-right:5px;">Logged in as: {{a_name}}
+												<input class="button_red_small" type="button" value="Log out" onclick="window.location.href='/logout';"/>
+											</div>
+										</td>
+										<td class="td_table_B_narrow" style="width:10%"></td>
+									</tr>
+									
+										
+								</table>
+							</td>
+						</tr>
 				
 						<tr class="tr_table_Center" style="height:30%">
 							
@@ -151,7 +201,7 @@
 						</tr>
 						
 						
-						<tr class="tr_table_Center"style="height:70%">
+						<tr class="tr_table_Center"style="height:63%">
 							
 							<td class="td_table_Center" valign="top">
 								<table class="Table_D" style="width:100%; height:100%">

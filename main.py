@@ -301,7 +301,7 @@ class ProfileHandler(Handler):
                 
                 if the_RU:
                     email_RU = the_RU.email
-                    self.render("profile.html", a_name=username, an_email=email_RU)
+                    self.render("profile.html", a_name=username, the_username=username, an_email=email_RU)
                 else:
                     self.redirect("/")
 
@@ -314,7 +314,16 @@ class ProfileHandler(Handler):
 # '/editemail', EditEmailHandler
 class EditEmailHandler(Handler):
     def get(self):
-        self.render("editEmail.html")
+        user_id_cookie_value = self.request.cookies.get('user_id')  # username_input|hash (cookie)
+
+        if user_id_cookie_value:
+
+            username = passwordValid.check_secure_val(user_id_cookie_value)
+            
+            if username:
+                self.render("editEmail.html", a_name=username)
+        else:
+            self.redirect("/logout")
 
     def post(self):
         new_email = self.request.get("email")
@@ -362,7 +371,7 @@ class EditEmailHandler(Handler):
                                     changed_message="Your e-mail has been changed")
 
                     else:
-                        self.render("editEmail.html", email=escaped_email_input, email_error=final_email_error,
+                        self.render("editEmail.html", a_name=username, email=escaped_email_input, email_error=final_email_error,
                                     email_verify=escaped_verify_email_input, verify_email_error=final_verify_email_error,
                                     password_error=final_password_error)
                     
@@ -379,7 +388,16 @@ class EditEmailHandler(Handler):
 # '/editpassword', EditPasswordHandler
 class EditPasswordHandler(Handler):
     def get(self):
-        self.render("editPassword.html")
+        user_id_cookie_value = self.request.cookies.get('user_id')  # username_input|hash (cookie)
+
+        if user_id_cookie_value:
+
+            username = passwordValid.check_secure_val(user_id_cookie_value)
+            
+            if username:
+                self.render("editPassword.html", a_name=username)
+        else:
+            self.redirect("/logout")
 
     def post(self):
         new_password = self.request.get("new_password")
@@ -420,7 +438,7 @@ class EditPasswordHandler(Handler):
                                     changed_message="Your password has been changed")
 
                     else:
-                        self.render("editPassword.html", new_password_error=final_new_password_error,
+                        self.render("editPassword.html", a_name=username, new_password_error=final_new_password_error,
                                     verify_error=final_new_verify_password_error,
                                     password_error=final_old_password_error)
                     
@@ -529,9 +547,9 @@ class FrontPage(Handler):
                     self.render_front(username, parameter=sort_criteria)
 
             else:  # invalid
-                self.redirect("/")
+                self.redirect("/logout")
         else:  # None
-                self.redirect("/")
+                self.redirect("/logout")
         
         
 

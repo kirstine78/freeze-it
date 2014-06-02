@@ -156,6 +156,37 @@
 		color: #ffffff;
 		}
 		
+		.button_red_small 
+		{
+		border-top: 1px solid #ff0000;
+		background: #d40000;
+		background: -webkit-gradient(linear, left top, left bottom, from(#f70000), to(#d40000));
+		background: -webkit-linear-gradient(top, #f70000, #d40000);
+		background: -moz-linear-gradient(top, #f70000, #d40000);
+		background: -ms-linear-gradient(top, #f70000, #d40000);
+		background: -o-linear-gradient(top, #f70000, #d40000);
+		padding: 7px 14px;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 12px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		.button_red_small:hover 
+		{
+		border-top-color: #f20000;
+		background: #f20000;
+		color: #ffffff;
+		}
+		
 		#margin, #datepicker
 		{
 		margin-left: 3px;		
@@ -205,10 +236,9 @@
 						<tr class="tr_table_Center" style="height:5%;">
 							<td class="td_table_Center_narrow" style="width:10%"></td>
 							<td class="td_table_Center_wide" style="width:80%; text-align:right;  vertical-align:top; ">
-								<p style="color:#0066FF; padding-right:5px;">Logged in as: {{username}}</P>
-								<form action="">
+								<div style="color:#0066FF; padding-right:5px;">Logged in as: {{username}}
 									<input class="button_red_small" type="button" value="Log out" onclick="window.location.href='/logout';"/>
-								</form>
+								</div>
 							</td>
 							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>
