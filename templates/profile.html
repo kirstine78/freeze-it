@@ -162,12 +162,13 @@
 											<p class="blue" style="font-size:20px;"><b>My Profile</b></p>
 												<div class="blue">Username: {{a_name}}</div>
 												<br>
-												<div class="blue">E-mail: {{an_email}}</div>
+												<div class="blue">E-mail: {{an_email}}</div> 
 												
 												<br>
 												<br>
-												<input id="margin_butt" class="button" type="submit" value="Edit E-mail" onclick="window.location.href='/editemail';">		
-												<input id="margin_butt" class="button" type="submit" value="Edit Password" onclick="window.location.href='/editpassword';">		
+												<input id="margin_butt" class="button" type="button" value="Edit E-mail" onclick="window.location.href='/editemail';">		
+												<input id="margin_butt" class="button" type="button" value="Edit Password" onclick="window.location.href='/editpassword';">
+												<span style="color:red; margin-left: 12px;">{{changed_message}}</span>
 												<br>
 												<br>																
 												<input id="margin_butt" class="button_red" type="button" value="Return to Frontpage" onclick="location.href='/frontpage';">

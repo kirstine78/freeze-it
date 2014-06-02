@@ -103,13 +103,12 @@ class SignupHandler(Handler):
         password_input = self.request.get('password')
         verify_input = self.request.get('verify')
         email_input = self.request.get('email')
-        
-        verify_email_input = self.request.get('verify_email') #
+        verify_email_input = self.request.get('verify_email')
 
         escaped_username_input = passwordValid.escape_html(username_input)
         escaped_email_input = passwordValid.escape_html(email_input)
         
-        escaped_verify_email_input = passwordValid.escape_html(verify_email_input) #
+        escaped_verify_email_input = passwordValid.escape_html(verify_email_input)
 
         is_valid_username = passwordValid.valid_username(username_input)
         is_valid_password = passwordValid.valid_password(password_input)        
@@ -296,20 +295,15 @@ class ProfileHandler(Handler):
 
             username = passwordValid.check_secure_val(user_id_cookie_value)
             
-            
             # if valid cookie:
             if username:
-                all_RU = db.GqlQuery("SELECT * FROM RegisteredUsers")
-                for user in all_RU:
-                    if user.name == username:
-                        spec_user = user
-                        break
-                if spec_user:
-                    email_RU = spec_user.email
+                the_RU = dataFunctions.retrieveUser(username)
+                
+                if the_RU:
+                    email_RU = the_RU.email
                     self.render("profile.html", a_name=username, an_email=email_RU)
                 else:
                     self.redirect("/")
-                    
 
             else:  # invalid
                 self.redirect("/")
@@ -321,6 +315,66 @@ class ProfileHandler(Handler):
 class EditEmailHandler(Handler):
     def get(self):
         self.render("editEmail.html")
+
+    def post(self):
+        new_email = self.request.get("email")
+        new_verify_email = self.request.get("verify_email")
+        a_password = self.request.get("password")
+
+        user_id_cookie_value = self.request.cookies.get('user_id')  # username_input|hash (cookie)
+
+        if user_id_cookie_value:
+
+            username = passwordValid.check_secure_val(user_id_cookie_value)
+            
+            if username:
+                the_RU = dataFunctions.retrieveUser(username)
+
+                if the_RU:
+                    escaped_email_input = passwordValid.escape_html(new_email)
+                    escaped_verify_email_input = passwordValid.escape_html(new_verify_email)
+                    
+                    if len(new_email) > 0:
+                        is_valid_email = passwordValid.valid_email(new_email)
+                    else:
+                        is_valid_email = False
+
+                    does_email_match = passwordValid.email_match(new_email, new_verify_email)
+
+                    is_password_correct = passwordValid.valid_pw(the_RU.name, a_password, the_RU.password_hashed)
+                    
+                    final_password_error=""
+                    final_email_error=""
+                    final_verify_email_error=""
+
+                    if not (is_valid_email):
+                        final_email_error="Invalid e-mail"
+                    if not (does_email_match):
+                        final_verify_email_error="E-mail doesn't match"
+                    if not (is_password_correct):
+                        final_password_error="Invalid password"
+
+                    if is_valid_email and does_email_match and is_password_correct:
+                        the_RU.email = new_email
+                        the_RU.put()
+                        time.sleep(0.1)  # to delay so db table gets displayed correct
+                        self.render("profile.html", a_name=username, an_email=new_email,
+                                    changed_message="Your e-mail was changed")
+
+                    else:
+                        self.render("editEmail.html", email=escaped_email_input, email_error=final_email_error,
+                                    email_verify=escaped_verify_email_input, verify_email_error=final_verify_email_error,
+                                    password_error=final_password_error)
+                    
+                else: # the_RU is None
+                    self.redirect("/logout")
+
+            else: # username is None
+                self.redirect("/logout")
+                
+        else:  # user_id_cookie_value is None
+                self.redirect("/logout")
+        
 
 # '/editpassword', EditPasswordHandler
 class EditPasswordHandler(Handler):
