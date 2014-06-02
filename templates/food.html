@@ -46,7 +46,7 @@
 		font:13px arial,sans-serif;
 		}
 		
-		h1
+		h1, h2
 		{
 		margin-left: 5px;
 		color:#0066FF;
@@ -55,6 +55,12 @@
 		div
 		{
 		margin:10px 5px 4px 4px;
+		color:#0066FF;
+		}
+		
+		.blue
+		{
+		margin-left: 5px;
 		color:#0066FF;
 		}
 				
@@ -233,7 +239,7 @@
 					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
 						
 						
-						<tr class="tr_table_Center" style="height:5%;">
+						<tr class="tr_table_Center" style="height:7%;">
 							<td class="td_table_Center_narrow" style="width:10%"></td>
 							<td class="td_table_Center_wide" style="width:80%; text-align:right;  vertical-align:top; ">
 								<div style="color:#0066FF; padding-right:5px;">Logged in as: {{username}}
@@ -243,10 +249,23 @@
 							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>
 						
-						<tr class="tr_table_Center" style="height:95%">
+						<tr class="tr_table_Center" style="height:25%">
+							
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; text-align:center;  vertical-align:top; ">
+								<h1 style="font-size:35px">'Freeze it'</h1>
+								<h2 style="font-size:25px">Keep track of your freezer items</h2>
+								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
+							</td>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							
+						</tr>
+						
+						<tr class="tr_table_Center" style="height:68%">
 							<td class="td_table_Center_narrow" style="width:10%"></td>
 							<td class="td_table_Center_wide" style="width:80%;  vertical-align:top; ">
-								<h1>{{headline}}</h1>
+								<br>
+								<p class="blue" style="font-size:20px;"><b>{{headline}}</b></p>
 								{% if item_id != "" %}
 									<table class="Table_Edit" style="width:100%;">
 										<tr>

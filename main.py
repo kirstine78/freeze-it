@@ -212,7 +212,7 @@ class LoginHandler(Handler):
     def post(self):
         login_username_input = self.request.get('login_username')
         login_password_input = self.request.get('login_password')
-        checkbox_stay_loggedIn = self.request.get('stay_logged_in_clicked')
+        checkbox_stay_loggedIn = self.request.get('stay_logged_in')
 
         #check if username exists
         user_already_exists = False
@@ -228,15 +228,17 @@ class LoginHandler(Handler):
                 #check if password is correct
                 if passwordValid.valid_pw(login_username_input, login_password_input, the_user_hash):
                     secure_username = passwordValid.make_secure_val(login_username_input) # return login_username_input|hash
-                    self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/' %str(secure_username))
-
-                    # if checkbox_stay_loggedIn:
-                        # make sure to set cookie expire to never
-                    # else:
-                        # cookie expire when???
-
-
                     
+
+                    if checkbox_stay_loggedIn:
+                        # make sure to set cookie expire to never
+                        logging.debug("checkbox_stay_loggedIn")
+                        self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/; expires=Fri, 31-Dec-9999 10:05:41 GMT;' %str(secure_username))
+                    else:
+                        # cookie expire when???
+                        logging.debug("NOT checkbox_stay_loggedIn")
+                        self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/' %str(secure_username))
+
                     self.redirect("/frontpage")
                 else:
                     self.loginError()
