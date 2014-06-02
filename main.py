@@ -359,7 +359,7 @@ class EditEmailHandler(Handler):
                         the_RU.put()
                         time.sleep(0.1)  # to delay so db table gets displayed correct
                         self.render("profile.html", a_name=username, an_email=new_email,
-                                    changed_message="Your e-mail was changed")
+                                    changed_message="Your e-mail has been changed")
 
                     else:
                         self.render("editEmail.html", email=escaped_email_input, email_error=final_email_error,
@@ -380,6 +380,59 @@ class EditEmailHandler(Handler):
 class EditPasswordHandler(Handler):
     def get(self):
         self.render("editPassword.html")
+
+    def post(self):
+        new_password = self.request.get("new_password")
+        new_verify_password = self.request.get("verify_new_password")
+        a_password = self.request.get("old_password")
+
+        user_id_cookie_value = self.request.cookies.get('user_id')  # username_input|hash (cookie)
+
+        if user_id_cookie_value:
+
+            username = passwordValid.check_secure_val(user_id_cookie_value)
+            
+            if username:
+                the_RU = dataFunctions.retrieveUser(username)
+
+                if the_RU:
+                    is_valid_new_password = passwordValid.valid_password(new_password)
+                    does_new_passwords_match = passwordValid.password_match(new_password, new_verify_password)
+
+                    is_password_correct = passwordValid.valid_pw(the_RU.name, a_password, the_RU.password_hashed)
+                    
+                    final_new_password_error=""
+                    final_new_verify_password_error=""
+                    final_old_password_error=""
+
+                    if not (is_valid_new_password):
+                        final_new_password_error="Invalid password"
+                    if not (does_new_passwords_match):
+                        final_new_verify_password_error="Password doesn't match"
+                    if not (is_password_correct):
+                        final_old_password_error="Invalid password"
+
+                    if is_valid_new_password and does_new_passwords_match and is_password_correct:
+                        the_RU.password_hashed = passwordValid.make_pw_hash(username, new_password)  # the function returns hash|salt
+                        the_RU.put()
+                        time.sleep(0.1)  # to delay so db table gets displayed correct
+                        self.render("profile.html", a_name=username, an_email=the_RU.email,
+                                    changed_message="Your password has been changed")
+
+                    else:
+                        self.render("editPassword.html", new_password_error=final_new_password_error,
+                                    verify_error=final_new_verify_password_error,
+                                    password_error=final_old_password_error)
+                    
+                else: # the_RU is None
+                    self.redirect("/logout")
+
+            else: # username is None
+                self.redirect("/logout")
+                
+        else:  # user_id_cookie_value is None
+                self.redirect("/logout")
+                
             
 
 # handler for '/frontpage', FrontPage
