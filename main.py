@@ -232,11 +232,11 @@ class LoginHandler(Handler):
 
                     if checkbox_stay_loggedIn:
                         # make sure to set cookie expire to never
-                        logging.debug("checkbox_stay_loggedIn")
+                        #logging.debug("checkbox_stay_loggedIn")
                         self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/; expires=Fri, 31-Dec-9999 10:05:41 GMT;' %str(secure_username))
                     else:
                         # cookie expire when???
-                        logging.debug("NOT checkbox_stay_loggedIn")
+                        #logging.debug("NOT checkbox_stay_loggedIn")
                         self.response.headers.add_header('Set-Cookie', 'user_id=%s; Path=/' %str(secure_username))
 
                     self.redirect("/frontpage")
