@@ -43,6 +43,12 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), a
 
 list_of_units = ["", "gram", "kilo", "liter", "piece"]
 
+def add_response_headers(response):
+    response.headers.add_header("Cache-Control", "no-cache, no-store, must-revalidate") # HTTP 1.1.
+    response.headers.add_header("Pragma", "no-cache")  # HTTP 1.0.
+    response.headers.add_header("Expires", "0")    # Proxies.
+    
+
 class Handler(webapp2.RequestHandler):
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
@@ -50,6 +56,7 @@ class Handler(webapp2.RequestHandler):
         t = jinja_env.get_template(template)
         return t.render(params)
     def render(self, template, **kw):
+        add_response_headers(self.response)
         self.write(self.render_str(template, **kw))
         
 
