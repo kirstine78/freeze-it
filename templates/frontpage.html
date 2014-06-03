@@ -6,7 +6,7 @@
 		
 		<style type="text/css">
 		
-		.Table_A, .tr_table_A, .td_table_A_narrow, td_table_A_center
+		.Table_A, .tr_table_A, .td_table_A_narrow, td_table_A_center, .Top_Table, .tr_table_Top, .td_table_Top
 		{
 		border-collapse:collapse;
 		border:1px solid red;
@@ -17,14 +17,7 @@
 		background: #CCE6FF;
 		}
 		
-		.Table_Center, .tr_table_Center, .td_table_Center
-		{
-		border-collapse:collapse;
-		border:1px solid black;
-		}
-		
-		
-		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide, .Table_C, .tr_table_C, .td_table_C_narrow, .td_table_C_wide, .Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
+		.Table_Center, .tr_table_Center, .td_table_Center_narrow, .td_table_Center_wide
 		{
 		border-collapse:collapse;
 		border:1px solid green;
@@ -233,17 +226,14 @@
 		margin-left: 2px;		
 		}
 		
-		
    
 		</style>
+	
 		
 				
 	</head>
 	
 	<body>
-		
-	
-	
 		<table class="Table_A" style="height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;border:1px solid">
 			
 			<tr class="tr_table_A" style="height:100%">
@@ -254,92 +244,59 @@
 						
 						
 						<tr class="tr_table_Center" style="height:7%;">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; text-align:right;  vertical-align:top; ">
 							
 							
-							<td class="td_table_Center">
-								<table class="Table_B" style="width:100%">
-									<tr class="tr_table_B">
-										<td class="td_table_B_narrow" style="width:10%"></td>
-										<td class="td_table_B_wide" style="width:20%; text-align:left; vertical-align:top; ">
-											<form action="">
-												<input id="margin_butt" class="button_blue" type="button" value="My Profile" onclick="window.location.href='/profile';" style="margin-top:3px;"/>
-											</form>
+								<table class="Top_Table" style="height:100%;width:100%;">
+									<tr class="tr_table_Top" style="height:100%;width:100%;">
+										<td class="td_table_Top" style="width:30%; text-align:left;  padding-top:5px; "">
+											<input class="button_blue" type="button" value="My Profile" onclick="window.location.href='/profile';"/>
 										</td>
-										<td class="td_table_B_wide" style="width:60%; text-align:right; vertical-align:top; ">
+										<td class="td_table_Top" style="width:70%">
 											<div style="color:#0066FF; padding-right:5px;">Logged in as: {{username}}
 												<input class="button_red_small" type="button" value="Log out" onclick="window.location.href='/logout';"/>
-											</div>
+											</div>									
 										</td>
-										<td class="td_table_B_narrow" style="width:10%"></td>
-									</tr>
+										</tr>
 								</table>
 							</td>
-							
+							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>
-						
 						
 						<tr class="tr_table_Center" style="height:25%">
 							
-							<td class="td_table_Center" style="text-align:center">
-								<h1 style="font-size:35px">Welcome to 'Freeze it'</h1>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; text-align:center;  vertical-align:top; ">
+								<h1 style="font-size:35px">'Freeze it'</h1>
 								<h2 style="font-size:25px">Keep track of your freezer items</h2>
 								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
-								
 							</td>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
 							
 						</tr>
 						
-						
-						<tr class="tr_table_Center" style="height:5%">
-							
-							<td class="td_table_Center">
-								<table class="Table_B" style="width:100%">
-									<tr class="tr_table_B">
-										<td class="td_table_B_narrow" style="width:10%"></td>
-										<td class="td_table_B_wide" style="width:80%">
-										<br>
-											<form action="">
-												<input id="margin_butt" class="button" type="button" value="Add food to freezer" onclick="window.location.href='/food';"/>
-											</form>
-										</td>
-										<td class="td_table_B_narrow" style="width:10%"></td>
-									</tr>
-								</table>
+						<tr class="tr_table_Center" style="height:10%">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; vertical-align:top;">
+								<br>
+								<form action="">
+									<input id="margin_butt" class="button" type="button" value="Add food to freezer" onclick="window.location.href='/food';"/>
+								</form>
+								{% if food_items == None %}
+									<p class="blue"><b>Your Freezer is currently empty!</b></p>
+								{% else %}
+									<p class="blue"><b>My Freezer content: (Select a specific Food Item to 'edit' or see 'Date added')</b></p>
+									
+								{% endif %}
 							</td>
-							
+							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>
-						
-						
-						<tr class="tr_table_Center" style="height:5%">
-							
-							<td class="td_table_Center">
-								<table class="Table_C" style="width:100%">
-									<tr class="tr_table_C">
-										<td class="td_table_C_narrow" style="width:10%"></td>
-										<td class="td_table_C_wide" style="width:80%">
-											{% if food_items == None %}
-												<p class="blue"><b>Your Freezer is currently empty!</b></p>
-											{% else %}
-												<p class="blue"><b>My Freezer content: (Select a specific Food Item to 'edit' or see 'Date added')</b></p>
-												
-											{% endif %}
-											
-										</td>
-										<td class="td_table_C_narrow" style="width:10%"></td>
-									</tr>
-								</table>
-							</td>
-							
-						</tr>
-						
 						
 						<tr class="tr_table_Center"style="height:58%">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; vertical-align:top;">
 							
-							<td class="td_table_Center" valign="top">
-								<table class="Table_D" style="width:100%">
-									<tr class="tr_table_D">
-										<td class="td_table_D_narrow" style="width:10%"></td>
-										<td class="td_table_D_wide" style="width:80%">
 											<form method="post">
 											{% if food_items != None %}
 												<table class="Table_Food" style="width:100%; table-layout:fixed;">
@@ -360,7 +317,7 @@
 													{% for foods in food_items %}
 													<tr class="tr_table_Food">
 														
-														<td class="td_table_Food" id="description" style="padding-left:6px; padding-right:8px; "><a href="/food?id={{foods.key().id()}}" style="color:black; text-decoration:none;"><div class="single_line">{{foods.description}}</div></a></td>		
+														<td class="td_table_Food" id="description" style="padding-left:5px; padding-right:8px; "><a href="/food?id={{foods.key().id()}}" style="color:black; text-decoration:none;"><div class="single_line">{{foods.description}}</div></a></td>		
 														<td class="td_table_Food" style="word-wrap:break-word; padding-left:2px; padding-right:2px; ">{{foods.note}}</td>
 														
 														<td class="td_table_Food">{{foods.days_in_freezer}}</td>
@@ -399,13 +356,10 @@
 												{% endif %}
 											
 											</form>
-										</td>
-										<td class="td_table_D_narrow" style="width:10%"></td>
-									</tr>
-								</table>	
+										
 							</td>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>
-						
 					</table>
 				</td>
 				<td class="td_table_A_narrow"  style="width:20%"></td>
@@ -415,8 +369,5 @@
 	</body>
 
 </html>
-
-
-
 
 

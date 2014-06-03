@@ -17,32 +17,110 @@
 		background: #CCE6FF;
 		}
 		
-		.Table_Center, .tr_table_Center, .td_table_Center_narrow, .td_table_Center_wide
+		.Table_Center, .tr_table_Center, .td_table_Center
+		{
+		border-collapse:collapse;
+		border:1px solid black;
+		}
+		
+		
+		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide, .Table_C, .tr_table_C, .td_table_C_narrow, .td_table_C_wide, .Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
 		{
 		border-collapse:collapse;
 		border:1px solid green;
 		}
 		
-		.error_message_red
+		
+		.Table_Food, .th_table_Food, .td_table_Food, .td_table_Food_red
 		{
+		border-collapse:collapse;
+		border:1px solid blue;
+		}
+		
+		.td_table_Food_red
+		{
+		text-align:center;
 		color:red;
 		}
 		
+		.Table_Food tr:nth-child(odd){ 
+		background: #CCE6FF;
+		}
+		.Table_Food tr:nth-child(even){
+		background: white;
+		}
+		
+		.th_table_Food
+		{
+		height:30px;
+		text-align:center;
+		background-color:#0066FF;
+		color:white;
+		font-size:17px;
+		font-weight:bold;
+		}
+		
+		
+		.td_table_Food
+		{
+		text-align:center;
+		}
+		
+		
+		#description
+		{
+		text-align:left;		
+		}
+		
+		
+		.single_line
+		{
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		/* Internet Explorer 10 */
+		display:-ms-flexbox;
+		-ms-flex-orient: vertical;
+		-ms-flex-line-clamp: 1; /* number of lines to show */
+
+		/* Firefox */
+		display:-moz-box;
+		-moz-box-orient: vertical;
+		-moz-box-line-clamp: 1; /* number of lines to show */
+
+		/* Safari, Chrome, and Opera */
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1; /* number of lines to show */
+		}
+		
+		
+		#header_toggle, #header_not_toggles
+		{
+		font-size:14px;
+		color: white
+		}
+		
+		
+		
+		#del_col
+		{
+		border: 1px solid #000;
+		border-radius:3px;
+		background-color:#778899;
+		border-color: #aaa #aaa #aaa #aaa;
+		color: white;
+		font-weight:bold;
+		}
+		#del_col:hover
+		{
+		background: #CDCDCD;
+		color: #ffffff;
+		}
+   
 		body
 		{
 		font:13px arial,sans-serif;
-		}
-		
-		h1, h2
-		{
-		margin-left: 5px;
-		color:#0066FF;
-		}
-		
-		div
-		{
-		margin:10px 5px 4px 4px;
-		color:#0066FF;
 		}
 		
 		.blue
@@ -50,6 +128,12 @@
 		margin-left: 5px;
 		color:#0066FF;
 		}
+		
+		h1, h2
+		{
+		color:#0066FF;
+		}
+		
 		
 		.button 
 		{
@@ -81,7 +165,7 @@
 		color: #ffffff;
 		}
 		
-		.button_red 
+		.button_red_small 
 		{
 		border-top: 1px solid #ff0000;
 		background: #d40000;
@@ -90,46 +174,76 @@
 		background: -moz-linear-gradient(top, #f70000, #d40000);
 		background: -ms-linear-gradient(top, #f70000, #d40000);
 		background: -o-linear-gradient(top, #f70000, #d40000);
-		padding: 12.5px 25px;
-		-webkit-border-radius: 10px;
-		-moz-border-radius: 10px;
-		border-radius: 10px;
+		padding: 7px 14px;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
 		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
 		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
 		box-shadow: rgba(0,0,0,1) 0 1px 0;
 		text-shadow: rgba(0,0,0,.4) 0 1px 0;
 		color: white;
-		font-size: 14px;
+		font-size: 12px;
 		font-family: Helvetica, Arial, Sans-Serif;
 		text-decoration: none;
 		vertical-align: middle;
 		}
 		
-		.button_red:hover 
+		.button_red_small:hover 
 		{
 		border-top-color: #f20000;
 		background: #f20000;
 		color: #ffffff;
 		}
-			
+		
+		.button_blue 
+		{
+		border-top: 1px solid #687bf2;
+		background: #2c4bba;
+		background: -webkit-gradient(linear, left top, left bottom, from(#222bd6), to(#2c4bba));
+		background: -webkit-linear-gradient(top, #222bd6, #2c4bba);
+		background: -moz-linear-gradient(top, #222bd6, #2c4bba);
+		background: -ms-linear-gradient(top, #222bd6, #2c4bba);
+		background: -o-linear-gradient(top, #222bd6, #2c4bba);
+		padding: 7px 14px;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+		box-shadow: rgba(0,0,0,1) 0 1px 0;
+		text-shadow: rgba(0,0,0,.4) 0 1px 0;
+		color: white;
+		font-size: 12px;
+		font-family: Helvetica, Arial, Sans-Serif;
+		text-decoration: none;
+		vertical-align: middle;
+		}
+		
+		
+		.button_blue:hover 
+		{ 
+		border-top-color: #275bc4;
+		background: #275bc4;
+		color: #ffffff;
+		}
+		
 		#margin_butt
 		{
 		margin-left: 2px;		
 		}
 		
-		#margin
-		{
-		margin-left: 3px;		
-		}
 		
    
 		</style>
-	
 		
 				
 	</head>
 	
 	<body>
+		
+	
+	
 		<table class="Table_A" style="height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;border:1px solid">
 			
 			<tr class="tr_table_A" style="height:100%">
@@ -138,71 +252,160 @@
 				<td class="td_table_A_center" style="width:60%">
 					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
 						
-						<tr class="tr_table_Center" style="height:25%">
+						
+						<tr class="tr_table_Center" style="height:7%;">
 							
-							<td class="td_table_Center_narrow" style="width:10%"></td>
-							<td class="td_table_Center_wide" style="width:80%; text-align:center;  vertical-align:top; ">
-								<h1 style="font-size:35px">'Freeze it'</h1>
-								<h2 style="font-size:25px">Keep track of your freezer items</h2>
-								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
+							
+							<td class="td_table_Center">
+								<table class="Table_B" style="width:100%">
+									<tr class="tr_table_B">
+										<td class="td_table_B_narrow" style="width:10%"></td>
+										<td class="td_table_B_wide" style="width:20%; text-align:left; vertical-align:top; ">
+											<form action="">
+												<input id="margin_butt" class="button_blue" type="button" value="My Profile" onclick="window.location.href='/profile';" style="margin-top:3px;"/>
+											</form>
+										</td>
+										<td class="td_table_B_wide" style="width:60%; text-align:right; vertical-align:top; ">
+											<div style="color:#0066FF; padding-right:5px;">Logged in as: {{username}}
+												<input class="button_red_small" type="button" value="Log out" onclick="window.location.href='/logout';"/>
+											</div>
+										</td>
+										<td class="td_table_B_narrow" style="width:10%"></td>
+									</tr>
+								</table>
 							</td>
-							<td class="td_table_Center_narrow" style="width:10%"></td>
 							
 						</tr>
 						
-						<tr class="tr_table_Center" style="height:75%">
-							<td class="td_table_Center_narrow" style="width:10%"></td>
-							<td class="td_table_Center_wide" style="width:80%; vertical-align:top;">
-								<br>
-								<p class="blue" style="font-size:20px;"><b>Sign up for 'Freeze it'</b></p>
-								<form method="post">
-									<label>
-										<div class="blue">Username (4 - 20 characters)</div> 
-										<input id="margin" type="text" name="username" value="{{signup_username}}" maxlength="20" style="width:220px;">
-
-										<span class="error_message_red">{{username_error}}</span>
-									</label>
-									<br>
-									<br>
-									<label>
-										<div class="blue">Password (min. 4 characters)</div>
-										<input id="margin" type="password" name="password" style="width:220px;">
-	
-										<span class="error_message_red">{{password_error}}</span>
-									</label>
-									<br>
-									<br>
-									<label>
-										<div class="blue">Verify password</div>
-										<input id="margin" type="password" name="verify" style="width:220px;">
-	
-										<span class="error_message_red">{{verify_error}}</span>
-									</label>
-									<br>
-									<br>
-									<label>
-										<div class="blue">E-mail</div> 
-										<input id="margin" type="text" name="email" value="{{email}}" style="width:220px;">
-	
-										<span class="error_message_red">{{email_error}}</span>
-									</label>
-									<br>
-									<br>
-									<label>
-										<div class="blue">Verify e-mail</div> 
-										<input id="margin" type="text" name="verify_email" value="{{email_verify}}" style="width:220px;">
-	
-										<span class="error_message_red">{{verify_email_error}}</span>
-									</label>
-									<br>
-									<br>
-									<input id="margin_butt" class="button" type="submit" value="Sign up">
-									
-									<input id="margin_butt" class="button_red" type="button" value="Cancel" onclick="location.href='/';">
-								</form>
+						
+						<tr class="tr_table_Center" style="height:25%">
+							
+							<td class="td_table_Center" style="text-align:center">
+								<h1 style="font-size:35px">Welcome to 'Freeze it'</h1>
+								<h2 style="font-size:25px">Keep track of your freezer items</h2>
+								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
+								
 							</td>
-							<td class="td_table_Center_narrow" style="width:10%"></td>
+							
 						</tr>
+						
+						
+						<tr class="tr_table_Center" style="height:5%">
+							
+							<td class="td_table_Center">
+								<table class="Table_B" style="width:100%">
+									<tr class="tr_table_B">
+										<td class="td_table_B_narrow" style="width:10%"></td>
+										<td class="td_table_B_wide" style="width:80%">
+										<br>
+											<form action="">
+												<input id="margin_butt" class="button" type="button" value="Add food to freezer" onclick="window.location.href='/food';"/>
+											</form>
+										</td>
+										<td class="td_table_B_narrow" style="width:10%"></td>
+									</tr>
+								</table>
+							</td>
+							
+						</tr>
+						
+						
+						<tr class="tr_table_Center" style="height:5%">
+							
+							<td class="td_table_Center">
+								<table class="Table_C" style="width:100%">
+									<tr class="tr_table_C">
+										<td class="td_table_C_narrow" style="width:10%"></td>
+										<td class="td_table_C_wide" style="width:80%">
+											{% if food_items == None %}
+												<p class="blue"><b>Your Freezer is currently empty!</b></p>
+											{% else %}
+												<p class="blue"><b>My Freezer content: (Select a specific Food Item to 'edit' or see 'Date added')</b></p>
+												
+											{% endif %}
+											
+										</td>
+										<td class="td_table_C_narrow" style="width:10%"></td>
+									</tr>
+								</table>
+							</td>
+							
+						</tr>
+						
+						
+						<tr class="tr_table_Center"style="height:58%">
+							
+							<td class="td_table_Center" valign="top">
+								<table class="Table_D" style="width:100%">
+									<tr class="tr_table_D">
+										<td class="td_table_D_narrow" style="width:10%"></td>
+										<td class="td_table_D_wide" style="width:80%">
+											<form method="post">
+											{% if food_items != None %}
+												<table class="Table_Food" style="width:100%; table-layout:fixed;">
+													<tr class="tr_table_Food">
+														
+														<th class="th_table_Food" id="description" style="width:29%;"><a href="/frontpage?id_description={{descr_asc_desc}}" style="margin-left: 5px;" id="header_toggle">Food Item</th>
+														
+														<th class="th_table_Food" style="width:16%" id="header_not_toggles">Note</th>
+														
+														<th class="th_table_Food" style="width:14%"><a href="/frontpage?id_days_frozen={{days_frozen_asc_desc}}" id="header_toggle">Days in</th>
+														
+														<th class="th_table_Food" style="width:14%"><a href="/frontpage?id_days_to_exp={{days_left_asc_desc}}" id="header_toggle">Days left</th>
+														
+														<th class="th_table_Food" style="width:15%" id="header_not_toggles">Expiry</th>
+														
+														<th class="th_table_Food" style="width:12%"><input name="delete_button" type="submit" value="Delete" id="del_col" onclick="return confirm('Are you sure?')"></input></th>
+													</tr>
+													{% for foods in food_items %}
+													<tr class="tr_table_Food">
+														
+														<td class="td_table_Food" id="description" style="padding-left:6px; padding-right:8px; "><a href="/food?id={{foods.key().id()}}" style="color:black; text-decoration:none;"><div class="single_line">{{foods.description}}</div></a></td>		
+														<td class="td_table_Food" style="word-wrap:break-word; padding-left:2px; padding-right:2px; ">{{foods.note}}</td>
+														
+														<td class="td_table_Food">{{foods.days_in_freezer}}</td>
+														
+														{% if foods.expiry %}
+															{% if foods.is_soon_to_expire %}
+																<td class="td_table_Food_red"><b>{{foods.days_before_exp}}</b></td>
+															{% else %}
+																<td class="td_table_Food">{{foods.days_before_exp}}</td>
+															{% endif %}
+														{% else %}
+															<td class="td_table_Food"></td>
+														{% endif %}
+														
+														
+														
+														{% if foods.expiry %}
+															{% if foods.days_before_exp == 0 %}
+																<td class="td_table_Food_red" style="font-size:12px;">{{foods.exp_with_month_letters}}</td>
+															{% else %}
+																{% if foods.days_before_exp < 0 %}
+																	<td class="td_table_Food_red" style="font-size:12px;"><strike>{{foods.exp_with_month_letters}}</strike></td>
+																{% else %}
+																	<td class="td_table_Food" style="font-size:12px;">{{foods.exp_with_month_letters}}</td>
+																{% endif %}
+															{% endif %}
+														{% else %}
+															<td class="td_table_Food"></td>
+														{% endif %}
+														
+														
+														<td class="td_table_Food"><input type="checkbox" name="delete" value="{{foods.key().id()}}"></td>
+													</tr>
+													{% endfor %}
+												</table>
+												{% endif %}
+											
+											</form>
+										</td>
+										<td class="td_table_D_narrow" style="width:10%"></td>
+									</tr>
+								</table>	
+							</td>
+						</tr>
+						
 					</table>
 				</td>
 				<td class="td_table_A_narrow"  style="width:20%"></td>
