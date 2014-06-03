@@ -243,15 +243,20 @@ class LoginHandler(Handler):
 
                     self.redirect("/frontpage")
                 else:
-                    self.loginError()
+                    escaped_username_input = passwordValid.escape_html(login_username_input)
+                    self.loginError(escaped_username_input)
             else:
-                self.loginError()
+                if login_username_input:
+                    escaped_username_input = passwordValid.escape_html(login_username_input)
+                    self.loginError(escaped_username_input)
+                else:
+                    self.loginError("")
         else:
-            self.loginError()
+            self.loginError("")
 
-    def loginError(self):
+    def loginError(self, name):
         error_log_in = "Invalid login"
-        self.write_form("", error_log_in)
+        self.write_form(name, error_log_in)
 
         
 # '/logout', LogoutHandler 
