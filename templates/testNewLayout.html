@@ -167,6 +167,11 @@
 		margin-left: 2px;		
 		}
 		
+		#margin
+		{
+		margin-left: 3px;		
+		}
+		
    
 		</style>
 	
@@ -210,28 +215,28 @@
 							<td class="td_table_Center_narrow" style="width:10%"></td>
 							<td class="td_table_D_wide" style="width:80%; vertical-align:top; ">
 								<br>
-								<p class="blue" style="font-size:20px;"><b>Edit E-mail</b></p>
+								<p class="blue" style="font-size:20px;"><b>Edit Password</b></p>
 								<form method="post">
 									<label>
-										<div class="blue">Enter new e-mail</div> 
-										<input id="margin" type="text" name="email" value="{{email}}" style="width:220px;">
+										<div class="blue">New password (min. 4 characters)</div>
+										<input id="margin" type="password" name="new_password" style="width:220px;">
 	
-										<span class="error_message_red">{{email_error}}</span>
+										<span class="error_message_red">{{new_password_error}}</span>
 									</label>
 									<br>
 									<br>
 									<label>
-										<div class="blue">Verify new e-mail</div> 
-										<input id="margin" type="text" name="verify_email" value="{{email_verify}}" style="width:220px;">
+										<div class="blue">Verify new password</div>
+										<input id="margin" type="password" name="verify_new_password" style="width:220px;">
 	
-										<span class="error_message_red">{{verify_email_error}}</span>
+										<span class="error_message_red">{{verify_error}}</span>
 									</label>
 									<br>
 									<br>
 									<br>
 									<label>
-										<div class="blue">Please enter your Password</div>
-										<input id="margin" type="password" name="password" style="width:220px;">
+										<div class="blue">Please enter your current password</div>
+										<input id="margin" type="password" name="old_password" style="width:220px;">
 	
 										<span class="error_message_red">{{password_error}}</span>
 									</label>
