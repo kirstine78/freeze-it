@@ -63,6 +63,12 @@
 		margin-left: 5px;
 		color:#0066FF;
 		}
+		
+		.red
+		{
+		margin-left: 5px;
+		color:red;
+		}
 				
 		.green
 		{
@@ -188,17 +194,6 @@
 				<td class="td_table_A_center" style="width:60%">
 					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
 						
-						
-						<tr class="tr_table_Center" style="height:7%;">
-							<td class="td_table_Center_narrow" style="width:10%"></td>
-							<td class="td_table_Center_wide" style="width:80%; text-align:right;  vertical-align:top; ">
-								<div style="color:#0066FF; padding-right:5px;">Logged in as: {{a_name}}
-									<input class="button_red_small" type="button" value="Log out" onclick="window.location.href='/logout';"/>
-								</div>
-							</td>
-							<td class="td_table_Center_narrow" style="width:10%"></td>
-						</tr>
-						
 						<tr class="tr_table_Center" style="height:25%">
 							
 							<td class="td_table_Center_narrow" style="width:10%"></td>
@@ -211,45 +206,17 @@
 							
 						</tr>
 						
-						<tr class="tr_table_Center" style="height:68%">
+						<tr class="tr_table_Center" style="height:75%">
 							<td class="td_table_Center_narrow" style="width:10%"></td>
-							<td class="td_table_D_wide" style="width:80%; vertical-align:top; ">
+							<td class="td_table_B_wide" style="width:80%; vertical-align:top;">
 								<br>
-								<p class="blue" style="font-size:20px;"><b>Edit Password</b></p>
-								<form method="post">
-									<label>
-										<div class="blue">New password (min. 4 characters)</div>
-										<input id="margin" type="password" name="new_password" style="width:220px;">
-	
-										<span class="error_message_red">{{new_password_error}}</span>
-									</label>
-									<br>
-									<br>
-									<label>
-										<div class="blue">Verify new password</div>
-										<input id="margin" type="password" name="verify_new_password" style="width:220px;">
-	
-										<span class="error_message_red">{{verify_error}}</span>
-									</label>
-									<br>
-									<br>
-									<br>
-									<label>
-										<div class="blue">Please enter your current password</div>
-										<input id="margin" type="password" name="old_password" style="width:220px;">
-	
-										<span class="error_message_red">{{password_error}}</span>
-									</label>
-									</label>
-									<br>
-									<br>
-									
-									<input id="margin_butt" class="button" type="submit" value="Submit changes">
-									
-									<input id="margin_butt" class="button_red" type="button" value="Cancel" onclick="location.href='/profile';">
-								</form>
+											<p class="red" style="font-size:20px;"><b>A new password has been sent to your email</b></p>
+											
+											<form action="">
+												<br>
+												<input id="margin_butt" class="button" type="button" value="Go to Login page" onclick="window.location.href='/';">
+											</form>
 							</td>
-							
 							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>
 					</table>
