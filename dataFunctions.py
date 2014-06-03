@@ -1,4 +1,9 @@
+import random
+import string
+
 from google.appengine.ext import db
+
+
 
 def retrieveUser(userName):
     """ Takes a string userName and return the user (item in ru db)
@@ -19,3 +24,16 @@ def retrieveUserId(userName):
     if current_user:
         return current_user.key().id()
     return None
+
+
+def randomword():
+    """return a random string"""
+    length = randomLength()
+    alpha = "abcdefghijklmnopqrstuvwABCDEFGHIJKLMNOPQRSTUVW"
+    #return ''.join(random.choice(alpha) for i in range(length))
+    return "abcd"
+
+
+def randomLength():
+    """ return random int between 4 and 6"""
+    return random.randint(4, 6)

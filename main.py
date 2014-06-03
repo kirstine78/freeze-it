@@ -23,6 +23,8 @@
 import validation
 import passwordValid
 import dataFunctions
+import emailFunctions
+
 import cgi
 import re
 import os
@@ -266,26 +268,38 @@ class LogoutHandler(Handler):
 
 # '/forgotten', ForgottenHandler
 class ForgottenHandler(Handler):
-    def render_forgotten(self, name_error=""):
-        self.render("forgotPassword.html", user_name_error=name_error)
+    def render_forgotten(self, name="", name_error=""):
+        self.render("forgotPassword.html", user_name_content=name , user_name_error=name_error)
         
     def get(self):
         self.render_forgotten()
 
     def post(self):
         # check if valid username
-        # if valid:
-            # change password in db
-            # send new password to email
-            # then redirect to sentpassword.
-            #self.redirect("/sentpassword")
-        # else:
-            # give user_name_error and re render page
-            # error = "invalid username"
-            # self.render_forgotten(name_error=error):
 
-        
-        self.redirect("/sentpassword")
+        username_input = self.request.get("user_name")
+        if username_input:
+            specific_user = dataFunctions.retrieveUser(username_input)
+            if specific_user:
+                # create a new random password
+                new_password_random = dataFunctions.randomword()
+                secure_password = passwordValid.make_pw_hash(username_input, new_password_random)  # the function returns hash|salt
+                
+                # change password in db
+                specific_user.password_hashed = secure_password
+                specific_user.put()
+                
+                # send new password to email
+                emailFunctions.sendEmail(specific_user.email, new_password_random)
+                
+                # then redirect to sentpassword.
+                self.redirect("/sentpassword")
+            
+            else:
+                wrong_name = username_input
+                self.render_forgotten(name=wrong_name, name_error="Wrong Username")
+        else:
+            self.render_forgotten(name_error="You have to enter your Username")
         
 
 
