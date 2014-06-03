@@ -17,14 +17,7 @@
 		background: #CCE6FF;
 		}
 		
-		.Table_Center, .tr_table_Center, .td_table_Center
-		{
-		border-collapse:collapse;
-		border:1px solid black;
-		}
-		
-		
-		.Table_B, .tr_table_B, .td_table_B_narrow, .td_table_B_wide, .Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
+		.Table_Center, .tr_table_Center, .td_table_Center_narrow, .td_table_Center_wide
 		{
 		border-collapse:collapse;
 		border:1px solid green;
@@ -34,10 +27,22 @@
 		{
 		color:red;
 		}
-	
+		
 		body
 		{
 		font:13px arial,sans-serif;
+		}
+		
+		h1, h2
+		{
+		margin-left: 5px;
+		color:#0066FF;
+		}
+		
+		div
+		{
+		margin:10px 5px 4px 4px;
+		color:#0066FF;
 		}
 		
 		.blue
@@ -45,12 +50,6 @@
 		margin-left: 5px;
 		color:#0066FF;
 		}
-		
-		h1, h2
-		{
-		color:#0066FF;
-		}
-		
 		
 		.button 
 		{
@@ -112,26 +111,25 @@
 		background: #f20000;
 		color: #ffffff;
 		}
+			
+		#margin_butt
+		{
+		margin-left: 2px;		
+		}
 		
 		#margin
 		{
 		margin-left: 3px;		
 		}
 		
-		#margin_butt
-		{
-		margin-left: 2px;		
-		}
    
 		</style>
+	
 		
 				
 	</head>
 	
 	<body>
-		
-	
-	
 		<table class="Table_A" style="height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;border:1px solid">
 			
 			<tr class="tr_table_A" style="height:100%">
@@ -139,79 +137,72 @@
 				
 				<td class="td_table_A_center" style="width:60%">
 					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
-				
-						<tr class="tr_table_Center" style="height:30%">
+						
+						<tr class="tr_table_Center" style="height:25%">
 							
-							<td class="td_table_Center" style="text-align:center">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; text-align:center;  vertical-align:top; ">
 								<h1 style="font-size:35px">'Freeze it'</h1>
 								<h2 style="font-size:25px">Keep track of your freezer items</h2>
 								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
 							</td>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
 							
 						</tr>
 						
-						
-						<tr class="tr_table_Center"style="height:70%">
-							
-							<td class="td_table_Center" valign="top">
-								<table class="Table_D" style="width:100%; height:100%">
-									<tr class="tr_table_D">
-										<td class="td_table_D_narrow" style="width:10%"></td>
-										<td class="td_table_D_wide" style="width:80%; vertical-align:top; ">
-											<br>
-											<p class="blue" style="font-size:20px;"><b>Sign up for 'Freeze it'</b></p>
-											<form method="post">
-												<label>
-													<div class="blue">Username (4 - 20 characters)</div> 
-													<input id="margin" type="text" name="username" value="{{signup_username}}" maxlength="20" style="width:220px;">
+						<tr class="tr_table_Center" style="height:75%">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; vertical-align:top;">
+								<br>
+								<p class="blue" style="font-size:20px;"><b>Sign up for 'Freeze it'</b></p>
+								<form method="post">
+									<label>
+										<div class="blue">Username (4 - 20 characters)</div> 
+										<input id="margin" type="text" name="username" value="{{signup_username}}" maxlength="20" style="width:220px;">
 
-													<span class="error_message_red">{{username_error}}</span>
-												</label>
-												<br>
-												<br>
-												<label>
-													<div class="blue">Password (min. 4 characters)</div>
-													<input id="margin" type="password" name="password" style="width:220px;">
-				
-													<span class="error_message_red">{{password_error}}</span>
-												</label>
-												<br>
-												<br>
-												<label>
-													<div class="blue">Verify password</div>
-													<input id="margin" type="password" name="verify" style="width:220px;">
-				
-													<span class="error_message_red">{{verify_error}}</span>
-												</label>
-												<br>
-												<br>
-												<label>
-													<div class="blue">E-mail</div> 
-													<input id="margin" type="text" name="email" value="{{email}}" style="width:220px;">
-				
-													<span class="error_message_red">{{email_error}}</span>
-												</label>
-												<br>
-												<br>
-												<label>
-													<div class="blue">Verify e-mail</div> 
-													<input id="margin" type="text" name="verify_email" value="{{email_verify}}" style="width:220px;">
-				
-													<span class="error_message_red">{{verify_email_error}}</span>
-												</label>
-												<br>
-												<br>
-												<input id="margin_butt" class="button" type="submit" value="Sign up">
-												
-												<input id="margin_butt" class="button_red" type="button" value="Cancel" onclick="location.href='/';">
-											</form>
-										</td>
-										<td class="td_table_D_narrow" style="width:10%"></td>
-									</tr>
-								</table>	
+										<span class="error_message_red">{{username_error}}</span>
+									</label>
+									<br>
+									<br>
+									<label>
+										<div class="blue">Password (min. 4 characters)</div>
+										<input id="margin" type="password" name="password" style="width:220px;">
+	
+										<span class="error_message_red">{{password_error}}</span>
+									</label>
+									<br>
+									<br>
+									<label>
+										<div class="blue">Verify password</div>
+										<input id="margin" type="password" name="verify" style="width:220px;">
+	
+										<span class="error_message_red">{{verify_error}}</span>
+									</label>
+									<br>
+									<br>
+									<label>
+										<div class="blue">E-mail</div> 
+										<input id="margin" type="text" name="email" value="{{email}}" style="width:220px;">
+	
+										<span class="error_message_red">{{email_error}}</span>
+									</label>
+									<br>
+									<br>
+									<label>
+										<div class="blue">Verify e-mail</div> 
+										<input id="margin" type="text" name="verify_email" value="{{email_verify}}" style="width:220px;">
+	
+										<span class="error_message_red">{{verify_email_error}}</span>
+									</label>
+									<br>
+									<br>
+									<input id="margin_butt" class="button" type="submit" value="Sign up">
+									
+									<input id="margin_butt" class="button_red" type="button" value="Cancel" onclick="location.href='/';">
+								</form>
 							</td>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>
-						
 					</table>
 				</td>
 				<td class="td_table_A_narrow"  style="width:20%"></td>
@@ -221,8 +212,3 @@
 	</body>
 
 </html>
-
-
-
-
-

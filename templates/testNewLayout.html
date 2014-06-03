@@ -17,24 +17,11 @@
 		background: #CCE6FF;
 		}
 		
-		.Table_Center, .tr_table_Center
-		{
-		border-collapse:collapse;
-		border:1px solid black;
-		}
-		
-		
-		.td_table_Center_narrow, .td_table_Center_wide
+		.Table_Center, .tr_table_Center, .td_table_Center_narrow, .td_table_Center_wide
 		{
 		border-collapse:collapse;
 		border:1px solid green;
 		}
-		
-		.Table_Edit
-		{
-		border-collapse:collapse;
-		}
-		
 		
 		.error_message_red
 		{
@@ -62,18 +49,6 @@
 		{
 		margin-left: 5px;
 		color:#0066FF;
-		}
-		
-		.red
-		{
-		margin-left: 5px;
-		color:red;
-		}
-				
-		.green
-		{
-		margin-left: 5px;
-		color:#00B800;
 		}
 		
 		.button 
@@ -136,37 +111,6 @@
 		background: #f20000;
 		color: #ffffff;
 		}
-		
-		.button_red_small
-		{
-		border-top: 1px solid #ff0000;
-		background: #d40000;
-		background: -webkit-gradient(linear, left top, left bottom, from(#f70000), to(#d40000));
-		background: -webkit-linear-gradient(top, #f70000, #d40000);
-		background: -moz-linear-gradient(top, #f70000, #d40000);
-		background: -ms-linear-gradient(top, #f70000, #d40000);
-		background: -o-linear-gradient(top, #f70000, #d40000);
-		padding: 7px 14px;
-		-webkit-border-radius: 8px;
-		-moz-border-radius: 8px;
-		border-radius: 8px;
-		-webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
-		-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-		box-shadow: rgba(0,0,0,1) 0 1px 0;
-		text-shadow: rgba(0,0,0,.4) 0 1px 0;
-		color: white;
-		font-size: 12px;
-		font-family: Helvetica, Arial, Sans-Serif;
-		text-decoration: none;
-		vertical-align: middle;
-		}
-		
-		.button_red_small:hover 
-		{
-		border-top-color: #f20000;
-		background: #f20000;
-		color: #ffffff;
-		}
 			
 		#margin_butt
 		{
@@ -208,14 +152,54 @@
 						
 						<tr class="tr_table_Center" style="height:75%">
 							<td class="td_table_Center_narrow" style="width:10%"></td>
-							<td class="td_table_B_wide" style="width:80%; vertical-align:top;">
+							<td class="td_table_Center_wide" style="width:80%; vertical-align:top;">
 								<br>
-											<p class="red" style="font-size:20px;"><b>A new password has been sent to your email</b></p>
-											
-											<form action="">
-												<br>
-												<input id="margin_butt" class="button" type="button" value="Go to Login page" onclick="window.location.href='/';">
-											</form>
+								<p class="blue" style="font-size:20px;"><b>Sign up for 'Freeze it'</b></p>
+								<form method="post">
+									<label>
+										<div class="blue">Username (4 - 20 characters)</div> 
+										<input id="margin" type="text" name="username" value="{{signup_username}}" maxlength="20" style="width:220px;">
+
+										<span class="error_message_red">{{username_error}}</span>
+									</label>
+									<br>
+									<br>
+									<label>
+										<div class="blue">Password (min. 4 characters)</div>
+										<input id="margin" type="password" name="password" style="width:220px;">
+	
+										<span class="error_message_red">{{password_error}}</span>
+									</label>
+									<br>
+									<br>
+									<label>
+										<div class="blue">Verify password</div>
+										<input id="margin" type="password" name="verify" style="width:220px;">
+	
+										<span class="error_message_red">{{verify_error}}</span>
+									</label>
+									<br>
+									<br>
+									<label>
+										<div class="blue">E-mail</div> 
+										<input id="margin" type="text" name="email" value="{{email}}" style="width:220px;">
+	
+										<span class="error_message_red">{{email_error}}</span>
+									</label>
+									<br>
+									<br>
+									<label>
+										<div class="blue">Verify e-mail</div> 
+										<input id="margin" type="text" name="verify_email" value="{{email_verify}}" style="width:220px;">
+	
+										<span class="error_message_red">{{verify_email_error}}</span>
+									</label>
+									<br>
+									<br>
+									<input id="margin_butt" class="button" type="submit" value="Sign up">
+									
+									<input id="margin_butt" class="button_red" type="button" value="Cancel" onclick="location.href='/';">
+								</form>
 							</td>
 							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>

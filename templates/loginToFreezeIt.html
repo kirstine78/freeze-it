@@ -17,36 +17,44 @@
 		background: #CCE6FF;
 		}
 		
-		.Table_Center, .tr_table_Center, .td_table_Center
-		{
-		border-collapse:collapse;
-		border:1px solid black;
-		}
-		
-		.Table_D, .tr_table_D, .td_table_D_narrow, .td_table_D_wide
+		.Table_Center, .tr_table_Center, .td_table_Center_narrow, .td_table_Center_wide
 		{
 		border-collapse:collapse;
 		border:1px solid green;
+		}
+		
+		.Table_D, .tr_table_D, .td_table_D
+		{
+		border-collapse:collapse;
+		border:1px solid grey;
+		
 		}
 		
 		.error_message_red
 		{
 		color:red;
 		}
-   
+		
 		body
 		{
 		font:13px arial,sans-serif;
 		}
 		
-		.blue
+		h1, h2
 		{
 		margin-left: 5px;
 		color:#0066FF;
 		}
 		
-		h1, h2
+		div
 		{
+		margin:10px 5px 4px 4px;
+		color:#0066FF;
+		}
+		
+		.blue
+		{
+		margin-left: 5px;
 		color:#0066FF;
 		}
 		
@@ -79,26 +87,25 @@
 		background: #1dc400;
 		color: #ffffff;
 		}
+			
+		#margin_butt
+		{
+		margin-left: 2px;		
+		}
 		
 		#margin
 		{
 		margin-left: 3px;		
 		}
 		
-		#margin_butt
-		{
-		margin-left: 2px;		
-		}
    
 		</style>
+	
 		
 				
 	</head>
 	
 	<body>
-		
-	
-	
 		<table class="Table_A" style="height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;border:1px solid">
 			
 			<tr class="tr_table_A" style="height:100%">
@@ -106,65 +113,58 @@
 				
 				<td class="td_table_A_center" style="width:60%">
 					<table class="Table_Center" style="height:100%;width:100%;  top: 0; bottom: 0; left: 0; right: 0">
-				
-						<tr class="tr_table_Center" style="height:30%">
+						
+						<tr class="tr_table_Center" style="height:25%">
 							
-							<td class="td_table_Center" style="text-align:center">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; text-align:center;  vertical-align:top; ">
 								<h1 style="font-size:35px">'Freeze it'</h1>
 								<h2 style="font-size:25px">Keep track of your freezer items</h2>
 								<img border="0" src="/images/foto_ice_bergs.jpg" alt="iglo" width="600" height="115">
 							</td>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
 							
 						</tr>
 						
-						
-						<tr class="tr_table_Center"style="height:20%">
-							
-							<td class="td_table_Center" valign="top">
-								<table class="Table_D" style="width:100%; height:100%">
-									<tr class="tr_table_D">
-										<td class="td_table_D_narrow" style="width:10%"></td>
-										<td class="td_table_D_wide" style="width:80%; vertical-align:bottom;">
-											<br>
-											<p class="blue" style="font-size:20px;"><b>Log in to 'Freeze it'</b></p>
-											<form method="post">
-												<label>
-													<div class="blue">Username</div> 
-													<input id="margin" type="text" name="login_username" value="{{the_login_username}}" style="width:220px;">
-				
-												</label>
-												<br>
-												<br>
-												<label>
-													<div class="blue">Password</div>
-													<input id="margin" type="password" name="login_password" style="width:220px;">
-												</label>
-												<br>
-												<br>
-												<input class="button" type="submit" value="Log in" id="margin_butt">
-												<span class="error_message_red">{{error_login}}</span>
-												<br>
-												<br>
-												<input id="margin" type="checkbox" name="stay_logged_in" value="stay_logged_in_clicked">
-												<span class="blue" style="font-size:13px;" id="margin">Click to stay logged in</span>
-											</form>
-										</td>
-										<td class="td_table_D_narrow" style="width:10%"></td>
-									</tr>
-								</table>	
+						<tr class="tr_table_Center" style="height:35%">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_B_wide" style="width:80%; vertical-align:top;">
+								<br>
+								<p class="blue" style="font-size:20px;"><b>Log in to 'Freeze it'</b></p>
+								<form method="post">
+									<label>
+										<div class="blue">Username</div> 
+										<input id="margin" type="text" name="login_username" value="{{the_login_username}}" style="width:220px;">
+	
+									</label>
+									<br>
+									<br>
+									<label>
+										<div class="blue">Password</div>
+										<input id="margin" type="password" name="login_password" style="width:220px;">
+									</label>
+									<br>
+									<br>
+									<input class="button" type="submit" value="Log in" id="margin_butt">
+									<span class="error_message_red">{{error_login}}</span>
+									<br>
+									<br>
+									<input id="margin" type="checkbox" name="stay_logged_in" value="stay_logged_in_clicked">
+									<span class="blue" style="font-size:13px;" id="margin">Click to stay logged in</span>
+								</form>
 							</td>
-							
+							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>
 						
 						
-						<tr class="tr_table_Center"style="height:50%">
+						<tr class="tr_table_Center"style="height:40%">
+							<td class="td_table_Center_narrow" style="width:10%"></td>
+							<td class="td_table_Center_wide" style="width:80%; vertical-align:top;">
 							
-							<td class="td_table_Center" valign="top">
 								<table class="Table_D" style="width:100%;  height:100%">
 									<tr class="tr_table_D">
-										<td class="td_table_D_narrow" style="width:10%"></td>
 										
-										<td class="td_table_D_wide" style="width:45%; vertical-align:top; ">
+										<td class="td_table_D" style="width:55%; vertical-align:top; ">
 											<br>
 											<p class="blue" style="font-size:20px;"><b>Forgot your password ?</b></p>
 											<form action="">
@@ -172,20 +172,18 @@
 											</form>
 										</td>
 										
-										<td class="td_table_D_wide" style="width:35%; vertical-align:top; ">
+										<td class="td_table_D" style="width:45%; vertical-align:top; ">
 											<br>
 											<p class="blue" style="font-size:20px; "><b>Don't have an account ?</b></p>
 											<form action="">
 												<input class="button" type="button" value="Click here to Sign up" onclick="window.location.href='/signup';" id="margin_butt"/>
 											</form>
 										</td>
-										
-										<td class="td_table_D_narrow" style="width:10%"></td>
 									</tr>
 								</table>	
 							</td>
+							<td class="td_table_Center_narrow" style="width:10%"></td>
 						</tr>
-						
 					</table>
 				</td>
 				<td class="td_table_A_narrow"  style="width:20%"></td>
@@ -195,8 +193,3 @@
 	</body>
 
 </html>
-
-
-
-
-
