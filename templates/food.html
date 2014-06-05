@@ -248,25 +248,8 @@
 								<br>
 								<p class="blue" style="font-size:20px;"><b>{{headline}}</b></p>
 								{% if item_id != "" %}
-									<table class="Table_Edit" style="width:100%;">
-										<tr>
-											<th class="tr_Edit" style="font-size:10px; text-align:left; color:#0066FF; width:72%;">
-												<i>Full Food Item description</i>
-											</th>
-											<th class="tr_Edit" style="font-size:10px; text-align:left; color:#0066FF; width:28%;">
-												<i>Date added (dd-mm-yyyy)</i>
-											</th>
-										</tr>
-										<tr>
-											<td class="tr_Edit" style="font-size:10px; word-wrap:break-word; padding-right:10px; color:#999999">
-												<i>{{food_description_content}}</i>
-											</td>
-											<td class="tr_Edit" style="font-size:10px; vertical-align:top; color:#999999">
-												<i>{{created_date}}</i>
-											</td>
-										</tr>
-										
-									</table>
+									<div>Date added (dd-mm-yyyy):<span style="color:#5E5E5E; padding-left:5px;">{{created_date}}</span></div >
+									<br>									
 								{% endif %}
 								
 								<form method="post">

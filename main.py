@@ -649,7 +649,7 @@ class FoodPage(Handler):
             
         if the_RU:
             # data that user has entered
-            a_food_description = self.request.get("food_description").strip()
+            a_food_description = self.request.get("food_description").strip().replace('\n', ' ').replace('\r', '')
             a_note = self.request.get("note").strip()
             an_exp_date_str = self.request.get("expiry_date")  # a string in format "dd-mm-yyyy"
             an_item_id = self.request.get("item_ID")  # this is a string "455646501654613" format
