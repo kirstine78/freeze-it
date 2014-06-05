@@ -88,6 +88,19 @@ class RegisteredUsers(db.Model):  #  --> ru
     created = db.DateTimeProperty(auto_now_add = True)
 
 
+def check_user_id_cookie(a_request):
+    """"Returns a specific registered user, or if user_id_cookie_value or username is None
+        return None"""
+    
+    user_id_cookie_value = a_request.cookies.get('user_id')# username_input|hash (cookie)
+    
+    if user_id_cookie_value:
+        username = passwordValid.check_secure_val(user_id_cookie_value)
+        
+        if username:  # valid cookie:
+            the_RU = dataFunctions.retrieveUser(username)
+            return the_RU
+    return None
 
 
 # '/signup', SignupHandler
@@ -261,7 +274,7 @@ class LoginHandler(Handler):
         
 # '/logout', LogoutHandler 
 class LogoutHandler(Handler):
-    def get(self):
+    def get(self):            
         #set cookie value to 'empty'
         self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
         self.response.headers.add_header('Set-Cookie', 'sort_code=; Path=/')
@@ -316,6 +329,15 @@ class SentPasswordHandler(Handler):
 # ('/profile', ProfileHandler)
 class ProfileHandler(Handler):
     def get(self):
+        the_RU = check_user_id_cookie(self.request)
+            
+        if the_RU:
+            email_RU = the_RU.email
+            self.render("profile.html", a_name=the_RU.name, the_username=the_RU.name, an_email=email_RU)
+        else:  # either user_id_cookie_value, username, or the_RU is None (see check_user_id_cookie())
+            self.redirect("/logout")
+
+        """
         user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
 
         if user_id_cookie_value:
@@ -336,11 +358,21 @@ class ProfileHandler(Handler):
                 self.redirect("/")
         else:  # None
                 self.redirect("/")
+        """
         
     
 # '/editemail', EditEmailHandler
 class EditEmailHandler(Handler):
     def get(self):
+        the_RU = check_user_id_cookie(self.request)
+            
+        if the_RU:
+            self.render("editEmail.html", a_name=the_RU.name)
+        else:  # either user_id_cookie_value, username, or the_RU is None (see check_user_id_cookie())
+            self.redirect("/logout")
+
+            
+        """
         user_id_cookie_value = self.request.cookies.get('user_id')  # username_input|hash (cookie)
 
         if user_id_cookie_value:
@@ -351,12 +383,54 @@ class EditEmailHandler(Handler):
                 self.render("editEmail.html", a_name=username)
         else:
             self.redirect("/logout")
+        """  
 
     def post(self):
         new_email = self.request.get("email")
         new_verify_email = self.request.get("verify_email")
         a_password = self.request.get("password")
 
+
+        the_RU = check_user_id_cookie(self.request)
+            
+        if the_RU:
+            if len(new_email) > 0:
+                is_valid_email = passwordValid.valid_email(new_email)
+            else:
+                is_valid_email = False
+
+            does_email_match = passwordValid.email_match(new_email, new_verify_email)
+
+            is_password_correct = passwordValid.valid_pw(the_RU.name, a_password, the_RU.password_hashed)
+            
+            final_password_error=""
+            final_email_error=""
+            final_verify_email_error=""
+
+            if not (is_valid_email):
+                final_email_error="Invalid e-mail"
+            if not (does_email_match):
+                final_verify_email_error="E-mail doesn't match"
+            if not (is_password_correct):
+                final_password_error="Invalid password"
+
+            if is_valid_email and does_email_match and is_password_correct:
+                the_RU.email = new_email
+                the_RU.put()
+                time.sleep(0.1)  # to delay so db table gets displayed correct
+                self.render("profile.html", a_name=the_RU.name, an_email=new_email,
+                            changed_message="Your e-mail has been changed")
+
+            else:
+                self.render("editEmail.html", a_name=the_RU.name, email=new_email, email_error=final_email_error,
+                            email_verify=new_verify_email, verify_email_error=final_verify_email_error,
+                            password_error=final_password_error)
+        else:  # either user_id_cookie_value, username, or the_RU is None (see check_user_id_cookie())
+            self.redirect("/logout")
+
+
+            
+        """
         user_id_cookie_value = self.request.cookies.get('user_id')  # username_input|hash (cookie)
 
         if user_id_cookie_value:
@@ -410,11 +484,23 @@ class EditEmailHandler(Handler):
                 
         else:  # user_id_cookie_value is None
                 self.redirect("/logout")
+        """
+        
         
 
 # '/editpassword', EditPasswordHandler
 class EditPasswordHandler(Handler):
     def get(self):
+        the_RU = check_user_id_cookie(self.request)
+            
+        if the_RU:
+            self.render("editPassword.html", a_name=the_RU.name)
+        else:  # either user_id_cookie_value, username, or the_RU is None (see check_user_id_cookie())
+            self.redirect("/logout")
+
+
+
+        """ 
         user_id_cookie_value = self.request.cookies.get('user_id')  # username_input|hash (cookie)
 
         if user_id_cookie_value:
@@ -425,12 +511,47 @@ class EditPasswordHandler(Handler):
                 self.render("editPassword.html", a_name=username)
         else:
             self.redirect("/logout")
+        """
 
     def post(self):
         new_password = self.request.get("new_password")
         new_verify_password = self.request.get("verify_new_password")
         a_password = self.request.get("old_password")
 
+        the_RU = check_user_id_cookie(self.request)
+            
+        if the_RU:
+            is_valid_new_password = passwordValid.valid_password(new_password)
+            does_new_passwords_match = passwordValid.password_match(new_password, new_verify_password)
+
+            is_password_correct = passwordValid.valid_pw(the_RU.name, a_password, the_RU.password_hashed)
+            
+            final_new_password_error=""
+            final_new_verify_password_error=""
+            final_old_password_error=""
+
+            if not (is_valid_new_password):
+                final_new_password_error="Invalid password"
+            if not (does_new_passwords_match):
+                final_new_verify_password_error="Password doesn't match"
+            if not (is_password_correct):
+                final_old_password_error="Invalid password"
+
+            if is_valid_new_password and does_new_passwords_match and is_password_correct:
+                the_RU.password_hashed = passwordValid.make_pw_hash(the_RU.name, new_password)  # the function returns hash|salt
+                the_RU.put()
+                time.sleep(0.1)  # to delay so db table gets displayed correct
+                self.render("profile.html", a_name=the_RU.name, an_email=the_RU.email,
+                            changed_message="Your password has been changed")
+
+            else:
+                self.render("editPassword.html", a_name=the_RU.name, new_password_error=final_new_password_error,
+                            verify_error=final_new_verify_password_error,
+                            password_error=final_old_password_error)
+        else:  # either user_id_cookie_value, username, or the_RU is None (see check_user_id_cookie())
+            self.redirect("/logout")
+            
+        """
         user_id_cookie_value = self.request.cookies.get('user_id')  # username_input|hash (cookie)
 
         if user_id_cookie_value:
@@ -477,6 +598,7 @@ class EditPasswordHandler(Handler):
                 
         else:  # user_id_cookie_value is None
                 self.redirect("/logout")
+        """
                 
             
 
@@ -544,7 +666,31 @@ class FrontPage(Handler):
      
         
     def get(self):
+        the_RU = check_user_id_cookie(self.request)
+            
+        if the_RU:
+            id_descript = self.request.get("id_description")  # if header link 'Description' is clicked 'ASC' or 'DESC' will be assigned
+            id_days_left = self.request.get("id_days_to_exp")  # if header link 'Days to exp' is clicked 'ASC' or 'DESC' will be assigned
+            id_days_in_freezer = self.request.get("id_days_frozen")  # if header link 'Days in freezer' is clicked 'ASC' or 'DESC' will be assigned
 
+            if id_descript: # 'Description' was clicked
+                self.render_front(the_RU.name, parameter="description %s" %id_descript)
+            elif id_days_left:  # 'Days to exp' was clicked
+                self.render_front(the_RU.name, parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
+            elif id_days_in_freezer:  # 'Days in freezer' was clicked
+                self.render_front(the_RU.name, parameter="days_in_freezer %s" %id_days_in_freezer)
+            else:
+                sort_code = self.request.cookies.get('sort_code')# look_number (cookie)
+                if sort_code:
+                    sort_criteria = validation.get_param(sort_code)
+                else:
+                    sort_criteria = "created DESC"
+                self.render_front(the_RU.name, parameter=sort_criteria)
+        else:  # either user_id_cookie_value, username, or the_RU is None (see check_user_id_cookie())
+            self.redirect("/logout")
+
+            
+        """
         user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
 
         if user_id_cookie_value:
@@ -577,10 +723,45 @@ class FrontPage(Handler):
                 self.redirect("/logout")
         else:  # None
                 self.redirect("/logout")
+        """
         
         
 
     def post(self):
+
+        the_RU = check_user_id_cookie(self.request)
+            
+        if the_RU:
+            # get request data
+          
+            # id data (which check boxes has user checked) put in a variable
+            list_of_id_checked = self.request.get_all("delete")  # returns a list of id strings
+
+            # delete button data (if delete button clicked, list will have 1 item else no item in list)
+            one_item_delete_button_list = self.request.get_all("delete_button")  # there is only 1 delete_button
+
+            if len(one_item_delete_button_list) == 1:  # delete button is clicked
+                # loop through list_of_id_checked and remove matches from db
+                for an_id in list_of_id_checked:
+                    # find the item with the specific id in db
+                    match = FoodItem.get_by_id(int(an_id))
+                    # remove the item
+                    if match:
+                        FoodItem.delete(match)
+                time.sleep(0.1)  # to delay so db table gets displayed correct
+
+            sort_code = self.request.cookies.get('sort_code')# look_number (cookie)
+            if sort_code:
+                sort_criteria = validation.get_param(sort_code)
+            else:
+                sort_criteria = "created DESC"
+            self.render_front(the_RU.name, parameter=sort_criteria)
+            
+            
+        else:  # either user_id_cookie_value, username, or the_RU is None (see check_user_id_cookie())
+            self.redirect("/logout")
+
+        """ 
         user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
 
         if user_id_cookie_value:
@@ -613,7 +794,8 @@ class FrontPage(Handler):
             self.render_front(user_id_cookie_valid, parameter=sort_criteria)
                     
         else:
-            self.redirect("/signup")
+            self.redirect("/logout")
+        """
       
 
 
@@ -636,6 +818,63 @@ class FoodPage(Handler):
 
         
     def get(self):
+        
+        the_RU = check_user_id_cookie(self.request)
+            
+        if the_RU:
+            an_id = self.request.get("id")  # if any foodItem description is clicked, there is an_id
+        
+            if an_id:  # means there is an item to edit
+                specific_item = FoodItem.get_by_id(int(an_id))  # get the item with the specific id (an_id)
+
+                # check if there is a DateProperty (expiry) yyyy-mm-dd. It is NOT a string
+                if specific_item.expiry:
+                    # create a string in format "dd-mm-yyyy" of the DateProperty yyyy-mm-dd 
+                    date_html_format = validation.convert_DateProperty_to_str_dash(specific_item.expiry)
+
+                else:  # no expiry date for this item
+                    date_html_format = ""
+                    
+                # set values for specific item
+                a_food_description_content=specific_item.description
+                a_note_content=specific_item.note
+                a_exp_content = date_html_format
+                a_headline="Edit food item"
+                a_change_button="Submit Changes"
+                a_passive_button="Cancel"
+                a_item_id=an_id
+                # create a string in format "dd-mm-yyyy" of the DateProperty yyyy-mm-dd 
+                a_date_created = validation.convert_DateProperty_to_str_dash(specific_item.added_date)
+                
+                f_d_err=""
+                date_err=""
+                add_msg=""
+
+
+            else:  # no id, set values to a blank "food.html"
+                a_food_description_content=""
+                a_note_content=""
+                a_exp_content = ""
+                a_headline="Add food to Freezer"
+                a_change_button="Add Item"
+                a_passive_button="Return to Frontpage"
+                a_item_id=""
+                a_date_created = ""
+                
+                f_d_err=""
+                date_err=""
+                add_msg=""
+
+            logging.debug("description = " + a_food_description_content)
+
+            # render "food.html" with correct params!
+            self.render_foodPage(a_food_description_content, f_d_err, a_note_content, date_err,
+                            a_exp_content, a_headline, a_change_button, a_passive_button, a_item_id,
+                            a_date_created, add_msg, the_RU.name)
+        else:  # either user_id_cookie_value, username, or the_RU is None (see check_user_id_cookie())
+            self.redirect("/logout")
+
+        """    
         user_id_cookie_value = self.request.cookies.get('user_id')# username_input|hash (cookie)
 
         if user_id_cookie_value:
@@ -696,12 +935,133 @@ class FoodPage(Handler):
 
 
             else:  # invalid
-                self.redirect("/")
+                self.redirect("/logout")
         else:  # None
-                self.redirect("/")
+                self.redirect("/logout")
+        """
 
 
     def post(self):
+        
+        the_RU = check_user_id_cookie(self.request)
+            
+        if the_RU:
+            # data that user has entered
+            a_food_description = self.request.get("food_description").strip()
+            a_note = self.request.get("note").strip()
+            an_exp_date_str = self.request.get("expiry_date")  # a string in format "dd-mm-yyyy"
+            an_item_id = self.request.get("item_ID")  # this is a string "455646501654613" format
+            
+            # create objects of class InfoEntered. NB this is not an FoodItem object!!!
+            obj_food = validation.is_food_item_valid(a_food_description) # object is created inside is_food_item_valid()
+            obj_exp_date = validation.is_exp_date_valid(an_exp_date_str, an_item_id)  # object is created inside is_exp_date_valid()
+                          
+            # create list for the objects and append them
+            obj_list = []
+            
+            obj_list.append( obj_food )
+            obj_list.append( obj_exp_date )
+                   
+            # check if all 'object.validation' are True; is so, a foodItem can be added to db
+            if validation.are_all_validation_true(obj_list):
+                # check if there is an expiry date entered, if so convert to yyyy-mm-dd
+                if an_exp_date_str:
+                    date_valid = obj_exp_date.get_validation_info()  # returns a Boolean
+                    if date_valid:
+                        # create from string a DateProperty with format yyyy-mm-dd 
+                        an_exp_date = datetime.strptime(an_exp_date_str+" 12:00", "%d-%m-%Y %H:%M").date()
+                else:
+                    an_exp_date = None
+
+                # make first letter upper case
+                a_food_description = validation.upper_case(a_food_description)
+
+                # check if there is an_item_id to see whether to 'update' or 'create new item in db'
+                if an_item_id:  # update already excisting item
+                    #logging.debug("item id: " + an_item_id) 
+                    # get the specific item
+                    the_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
+                    # update
+                    the_item.description = a_food_description
+                    the_item.note = a_note
+                    the_item.expiry = an_exp_date
+                     
+                    the_item.put()
+                    time.sleep(0.1)  # to delay so db table gets displayed correct
+                    self.redirect("/frontpage")  # tells the browser to go to '/frontpage' and the response is empty
+                    
+                else: # no id 'an_item_id' (a new food is being added)
+                    #logging.debug("No item id" )
+                    current_user_id = dataFunctions.retrieveUserId(the_RU.name)  # an int
+                    #logging.debug("current_user_id INT: " + str(current_user_id))
+                    
+                    # create item in db
+                    FI = FoodItem(description = a_food_description,
+                                  note = a_note,
+                                  expiry = an_exp_date,
+                                  is_expired=False,
+                                  fk_registered_user_id=current_user_id)
+                    FI.put()
+                    id_for_FI = str(FI.key().id())
+                    time.sleep(0.5)  # to delay so db table gets displayed correct
+
+                    a_food_description_content=""
+                    a_note_content=""
+                    a_exp_content = ""
+                    a_headline="Add food to Freezer"
+                    a_change_button="Add Item"
+                    a_passive_button="Return to Frontpage"
+                    a_item_id=""
+                    a_date_created = ""
+                    
+                    f_d_err=""
+                    date_err=""
+                    add_msg="Your Food Item was successfully added"
+
+                    self.response.headers.add_header('Set-Cookie', 'sort_code=; Path=/')
+
+                    self.render_foodPage(a_food_description_content, f_d_err, a_note_content, date_err,
+                                         a_exp_content, a_headline, a_change_button, a_passive_button, a_item_id,
+                                         a_date_created, add_msg, the_RU.name)
+                                
+            # else re-render 'food.html' with the error messages
+            else:
+                # decide which params to pass based on 'add' or 'edit'
+                if an_item_id: # edit version
+                    specific_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
+
+                    the_headline="Edit food item"
+                    the_change_button="Submit Changes"
+                    the_passive_button="Cancel"
+                    the_item_id=an_item_id
+
+                    # create a string in format "dd-mm-yyyy" from the DateProperty yyyy-mm-dd 
+                    a_date_created = validation.convert_DateProperty_to_str_dash(specific_item.added_date)
+
+                    f_d_err = obj_food.get_error_msg()
+                    date_err = obj_exp_date.get_error_msg()
+                    add_msg=""
+
+                else:  # add version
+                    the_headline="Add food to Freezer"
+                    the_change_button="Add Item"
+                    the_passive_button="Return to Frontpage"
+                    the_item_id=""  # ok with empty str. when checking if "" that is False.... But can't use None to put in here...
+                    a_date_created = ""
+
+                    f_d_err = obj_food.get_error_msg()
+                    date_err = obj_exp_date.get_error_msg()
+                    add_msg=""
+
+                self.render_foodPage(a_food_description, f_d_err, a_note, date_err, an_exp_date_str, the_headline,
+                                     the_change_button, the_passive_button, the_item_id, a_date_created, add_msg, the_RU.name)
+                    
+        else:  # either user_id_cookie_value, username, or the_RU is None (see check_user_id_cookie())
+            self.redirect("/logout")
+
+
+
+        """
         # data that user has entered
         a_food_description = self.request.get("food_description").strip()
         a_note = self.request.get("note").strip()
@@ -846,9 +1206,7 @@ class FoodPage(Handler):
                     
             else:
                 self.redirect("/logout")
-          
-
-            
+        """
 
 app = webapp2.WSGIApplication([('/', LoginHandler),
                                ('/signup', SignupHandler),
