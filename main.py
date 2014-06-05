@@ -114,10 +114,10 @@ class SignupHandler(Handler):
         email_input = self.request.get('email')
         verify_email_input = self.request.get('verify_email')
 
-        escaped_username_input = passwordValid.escape_html(username_input)
-        escaped_email_input = passwordValid.escape_html(email_input)
+        #escaped_username_input = passwordValid.escape_html(username_input)
+        #escaped_email_input = passwordValid.escape_html(email_input)
         
-        escaped_verify_email_input = passwordValid.escape_html(verify_email_input)
+        #escaped_verify_email_input = passwordValid.escape_html(verify_email_input)
 
         is_valid_username = passwordValid.valid_username(username_input)
         is_valid_password = passwordValid.valid_password(password_input)        
@@ -161,10 +161,10 @@ class SignupHandler(Handler):
             if user_already_exists:
                 #write error message out
                 final_username_error="User already exist"
-                self.write_form(escaped_username_input, final_username_error,
+                self.write_form(username_input, final_username_error,
                                 final_password_error, final_verify_error,
-                                escaped_email_input, final_email_error,
-                                escaped_verify_email_input, final_verify_email_error)
+                                email_input, final_email_error,
+                                verify_email_input, final_verify_email_error)
                     
             else:  # ok to register new user
 
@@ -196,10 +196,10 @@ class SignupHandler(Handler):
                 final_password_error=""
                 final_email_error=""
                 
-            self.write_form(escaped_username_input, final_username_error,
+            self.write_form(username_input, final_username_error,
                             final_password_error, final_verify_error,
-                            escaped_email_input, final_email_error,
-                            escaped_verify_email_input, final_verify_email_error)
+                            email_input, final_email_error,
+                            verify_email_input, final_verify_email_error)
 
 # '/', LoginHandler
 class LoginHandler(Handler):
@@ -243,12 +243,12 @@ class LoginHandler(Handler):
 
                     self.redirect("/frontpage")
                 else:
-                    escaped_username_input = passwordValid.escape_html(login_username_input)
-                    self.loginError(escaped_username_input)
+                    #escaped_username_input = passwordValid.escape_html(login_username_input)
+                    self.loginError(login_username_input)
             else:
                 if login_username_input:
-                    escaped_username_input = passwordValid.escape_html(login_username_input)
-                    self.loginError(escaped_username_input)
+                    #escaped_username_input = passwordValid.escape_html(login_username_input)
+                    self.loginError(login_username_input)
                 else:
                     self.loginError("")
         else:
@@ -307,12 +307,11 @@ class ForgottenHandler(Handler):
             self.render_forgotten(name_error="You have to enter your Username")
         
 
-
-
 # '/sentpassword', SentPasswordHandler
 class SentPasswordHandler(Handler):
     def get(self):
         self.render("sendPassword.html")
+        
 
 # ('/profile', ProfileHandler)
 class ProfileHandler(Handler):
@@ -368,8 +367,8 @@ class EditEmailHandler(Handler):
                 the_RU = dataFunctions.retrieveUser(username)
 
                 if the_RU:
-                    escaped_email_input = passwordValid.escape_html(new_email)
-                    escaped_verify_email_input = passwordValid.escape_html(new_verify_email)
+                    #escaped_email_input = passwordValid.escape_html(new_email)
+                    #escaped_verify_email_input = passwordValid.escape_html(new_verify_email)
                     
                     if len(new_email) > 0:
                         is_valid_email = passwordValid.valid_email(new_email)
@@ -399,8 +398,8 @@ class EditEmailHandler(Handler):
                                     changed_message="Your e-mail has been changed")
 
                     else:
-                        self.render("editEmail.html", a_name=username, email=escaped_email_input, email_error=final_email_error,
-                                    email_verify=escaped_verify_email_input, verify_email_error=final_verify_email_error,
+                        self.render("editEmail.html", a_name=username, email=new_email, email_error=final_email_error,
+                                    email_verify=new_verify_email, verify_email_error=final_verify_email_error,
                                     password_error=final_password_error)
                     
                 else: # the_RU is None
