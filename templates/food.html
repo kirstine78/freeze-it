@@ -171,6 +171,12 @@
 		margin-left: 2px;		
 		}
 		
+		#descriptionTextArea
+		{
+		margin-left: 3px;
+		resize: none;
+		font:13px arial,sans-serif;
+		}
 		
 		
    
@@ -183,10 +189,17 @@
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>		
 		<script>
 			$(function() {
-			$( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
+				$( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
+
+				$("#descriptionTextArea").keydown(function(event) {
+					// Check the keyCode and if the user pressed Enter (code = 13) 
+					// disable it
+					if (event.keyCode == 13) {
+						event.preventDefault();
+					}
+				});	
+
 			});
-			
-			
 			
 			function closeWindow() {
 				window.close()
@@ -259,7 +272,7 @@
 								<form method="post">
 									
 									<label>
-										<div>Food Item *</div> <input id="margin" type="text" name="food_description" value="{{food_description_content}}" maxlength="200" style="width:200px;">
+										<div>Food Item *</div> <textarea id="descriptionTextArea" name="food_description" rows="4" cols="50" maxlength="200">{{food_description_content}}</textarea>
 										
 										<span class="error_message_red">{{food_description_error}}</span>
 									</label>
@@ -267,7 +280,7 @@
 									<br>
 									
 									<label>
-										<div>Note (e.g. 300 g)</div> <input id="margin" type="text" name="note" value="{{note_content}}" maxlength="30" style="width:200px;">
+										<div>Note (e.g. 300 g)</div> <input id="margin" type="text" name="note" value="{{note_content}}" maxlength="30" style="width:225px;">
 										<span style="font-size:10px; color:#0066FF;">(Max. 30 characters)</span>
 									</label>
 									<br>
