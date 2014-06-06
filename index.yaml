@@ -59,3 +59,14 @@ indexes:
   - name: fk_registered_user_id
   - name: expiry
     direction: desc
+
+- kind: FoodItem
+  properties:
+  - name: fk_registered_user_id
+  - name: lower_case_description
+
+- kind: FoodItem
+  properties:
+  - name: fk_registered_user_id
+  - name: lower_case_description
+    direction: desc

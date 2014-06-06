@@ -186,10 +186,10 @@ def get_number_code(sort_string):
     if sort_string == "created DESC":  # use created cause it's more precise than 'added_date'
         number = 1
         
-    elif sort_string=="description ASC":
+    elif sort_string=="lower_case_description ASC":
         number = 2
         
-    elif sort_string=="description DESC":
+    elif sort_string=="lower_case_description DESC":
         number = 3
 
     elif sort_string=="days_in_freezer ASC":
@@ -224,10 +224,10 @@ def get_param(an_int_in_a_string):
         param = "created DESC"
 
     elif an_int == 2:
-        param = "description ASC"
+        param = "lower_case_description ASC"
         
     elif an_int == 3:
-        param = "description DESC"
+        param = "lower_case_description DESC"
 
     elif an_int == 4:
         param = "days_in_freezer ASC"

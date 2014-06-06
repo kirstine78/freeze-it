@@ -63,7 +63,8 @@ class Handler(webapp2.RequestHandler):
         
 
 class FoodItem(db.Model): # abbreviated 'FI'
-    description = db.StringProperty(required = True)  # food description   
+    description = db.StringProperty(required = True)  # food description
+    lower_case_description = db.StringProperty(required = True)  # food description in all lower case letters
     note = db.StringProperty(required = False)  # a string with notes, fx "30 gram"
     expiry = db.DateProperty(required = False)  # expiry date for food yyyy-mm-dd. Not a string.
     exp_with_month_letters = db.StringProperty(required = False)  # "27-Apr-2014" format
@@ -490,7 +491,7 @@ class FrontPage(Handler):
         code = validation.get_number_code(parameter)  #return an int (1-7) based on which parameter passed in
 
         # check if any toggle variables must be updated
-        if code == 2:  # parameter=="description ASC"
+        if code == 2:  # parameter=="lower_case_description ASC"
             descrip_a_d="DESC"
         elif code == 5:  # parameter=="days_in_freezer DESC"
             days_frozen_a_d="ASC"
@@ -516,7 +517,7 @@ class FrontPage(Handler):
             id_days_in_freezer = self.request.get("id_days_frozen")  # if header link 'Days in freezer' is clicked 'ASC' or 'DESC' will be assigned
 
             if id_descript: # 'Description' was clicked
-                self.render_front(the_RU.name, parameter="description %s" %id_descript)
+                self.render_front(the_RU.name, parameter="lower_case_description %s" %id_descript)
             elif id_days_left:  # 'Days to exp' was clicked
                 self.render_front(the_RU.name, parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
             elif id_days_in_freezer:  # 'Days in freezer' was clicked
@@ -650,6 +651,7 @@ class FoodPage(Handler):
         if the_RU:
             # data that user has entered
             a_food_description = self.request.get("food_description").strip().replace('\n', ' ').replace('\r', '')
+            lower_case_food_description =a_food_description.lower()  # all letters displayed in lower case
             a_note = self.request.get("note").strip()
             an_exp_date_str = self.request.get("expiry_date")  # a string in format "dd-mm-yyyy"
             an_item_id = self.request.get("item_ID")  # this is a string "455646501654613" format
@@ -685,6 +687,7 @@ class FoodPage(Handler):
                     the_item = FoodItem.get_by_id(int(an_item_id))  # get the item with the specific id (an_item_id)
                     # update
                     the_item.description = a_food_description
+                    the_item.lower_case_description = lower_case_food_description
                     the_item.note = a_note
                     the_item.expiry = an_exp_date
                      
@@ -699,6 +702,7 @@ class FoodPage(Handler):
                     
                     # create item in db
                     FI = FoodItem(description = a_food_description,
+                                  lower_case_description = lower_case_food_description,
                                   note = a_note,
                                   expiry = an_exp_date,
                                   is_expired=False,
