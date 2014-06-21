@@ -67,20 +67,19 @@ class FoodItem(db.Model): # abbreviated 'FI'
     lower_case_description = db.StringProperty(required = True)  # food description in all lower case letters
     note = db.StringProperty(required = False)  # a string with notes, fx "30 gram"
     expiry = db.DateProperty(required = False)  # expiry date for food yyyy-mm-dd. Not a string.
-    _exp_with_month_letters = ""  #db.StringProperty(required = False)  # "27-Apr-2014" format
+    _exp_with_month_letters = ""  # "27-Apr-2014" format
 
 
-    _days_in_freezer = 0 #db.IntegerProperty(required = False)  # counting days from being added to freezer
+    _days_in_freezer = 0  # counting days from being added to freezer
 
-    _is_expired = False  #db.BooleanProperty(required=False)  # is True if exp. date has been exceeded
-    _is_soon_to_expire = False #db.BooleanProperty(required=False)  # is True if exp. date is within 5 days
-    _days_before_exp =  0  #db.IntegerProperty(required = False)  # counting days before expiry
+    _is_expired = False  # is True if exp. date has been exceeded
+    _is_soon_to_expire = False  # is True if exp. date is within 5 days
+    _days_before_exp =  0  # counting days before expiry
     
     created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting
     added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer yyyy-mm-dd. Not a string.
 
     fk_registered_user_id = db.IntegerProperty(required=True)  # the id of user
-    #last_modified = db.DateTimeProperty(auto_now = True)
 
 
 class RegisteredUsers(db.Model):  #  --> ru
@@ -128,11 +127,6 @@ class SignupHandler(Handler):
         verify_input = self.request.get('verify')
         email_input = self.request.get('email')
         verify_email_input = self.request.get('verify_email')
-
-        #escaped_username_input = passwordValid.escape_html(username_input)
-        #escaped_email_input = passwordValid.escape_html(email_input)
-        
-        #escaped_verify_email_input = passwordValid.escape_html(verify_email_input)
 
         is_valid_username = passwordValid.valid_username(username_input)
         is_valid_password = passwordValid.valid_password(password_input)        
@@ -258,11 +252,9 @@ class LoginHandler(Handler):
 
                     self.redirect("/frontpage")
                 else:
-                    #escaped_username_input = passwordValid.escape_html(login_username_input)
                     self.loginError(login_username_input)
             else:
                 if login_username_input:
-                    #escaped_username_input = passwordValid.escape_html(login_username_input)
                     self.loginError(login_username_input)
                 else:
                     self.loginError("")
@@ -472,10 +464,6 @@ class FrontPage(Handler):
                 
             logging.debug("item._days_before_exp: in loop end" + str(item._days_before_exp))
             item._days_in_freezer = validation.days_in_freezer(item.added_date)
-            
-            #item.put() 
-
-        #time.sleep(0.1)  # to delay so db table gets displayed correct
 
         if counter == 0:  # checks if there is any items in database
             all_food_items = None
@@ -491,7 +479,6 @@ class FrontPage(Handler):
         days_frozen_a_d="DESC"
 
         # decide which sorted code (1-7) you pass into html and also update variables.
-
         code = validation.get_number_code(parameter)  #return an int (1-7) based on which parameter passed in
 
         # check if any toggle variables must be updated
