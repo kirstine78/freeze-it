@@ -67,13 +67,14 @@ class FoodItem(db.Model): # abbreviated 'FI'
     lower_case_description = db.StringProperty(required = True)  # food description in all lower case letters
     note = db.StringProperty(required = False)  # a string with notes, fx "30 gram"
     expiry = db.DateProperty(required = False)  # expiry date for food yyyy-mm-dd. Not a string.
-    exp_with_month_letters = db.StringProperty(required = False)  # "27-Apr-2014" format
+    _exp_with_month_letters = ""  #db.StringProperty(required = False)  # "27-Apr-2014" format
 
-    days_in_freezer = db.IntegerProperty(required = False)  # counting days from being added to freezer
 
-    is_expired = db.BooleanProperty(required=False)  # is True if exp. date has been exceeded
-    is_soon_to_expire = db.BooleanProperty(required=False)  # is True if exp. date is within 5 days
-    days_before_exp =  db.IntegerProperty(required = False)  # counting days before expiry
+    _days_in_freezer = 0 #db.IntegerProperty(required = False)  # counting days from being added to freezer
+
+    _is_expired = False  #db.BooleanProperty(required=False)  # is True if exp. date has been exceeded
+    _is_soon_to_expire = False #db.BooleanProperty(required=False)  # is True if exp. date is within 5 days
+    _days_before_exp =  0  #db.IntegerProperty(required = False)  # counting days before expiry
     
     created = db.DateTimeProperty(auto_now_add = True)  # more precise than added_date, when sorting
     added_date = db.DateProperty(auto_now_add = True)  # date the food is added to freezer yyyy-mm-dd. Not a string.
@@ -449,29 +450,32 @@ class EditPasswordHandler(Handler):
 class FrontPage(Handler):
     def render_front(self, a_username, parameter="" ):  # 'youngest' created date shown first by default
         current_user_id = dataFunctions.retrieveUserId(a_username)  # an int
-        all_food_items = db.GqlQuery("SELECT * FROM FoodItem WHERE fk_registered_user_id=%s ORDER BY %s" %(current_user_id, parameter))
+        all_food_items = db.GqlQuery("SELECT * FROM FoodItem WHERE fk_registered_user_id=%s ORDER BY %s" %(current_user_id, parameter)).fetch(1000)
 
         counter = 0  # keep track of amount of iteration in for loop
-        
+
+        logging.debug("before loopie")
         # loop through all items and set is_expired
         for item in all_food_items:
+            logging.debug("item._days_before_exp: in loop start" + str(item._days_before_exp))
             counter = counter + 1
             if item.expiry:
                 if date.today() >= item.expiry:
-                    item.is_expired = True
+                    item._is_expired = True
                 # check if expiry soon happens and update days_before_exp
-                item.is_soon_to_expire, item.days_before_exp = validation.expires_soon(item.expiry)
-                item.exp_with_month_letters = validation.convert_to_letter_month(item.expiry)
+                item._is_soon_to_expire, item._days_before_exp = validation.expires_soon(item.expiry)
+                item._exp_with_month_letters = validation.convert_to_letter_month(item.expiry)
             else: # no exp date
-                item.is_expired = False
-                item.is_soon_to_expire = False
-                item.days_before_exp = None
-
-            item.days_in_freezer = validation.days_in_freezer(item.added_date)
+                item._is_expired = False
+                item._is_soon_to_expire = False
+                item._days_before_exp = None
+                
+            logging.debug("item._days_before_exp: in loop end" + str(item._days_before_exp))
+            item._days_in_freezer = validation.days_in_freezer(item.added_date)
             
-            item.put() 
+            #item.put() 
 
-        time.sleep(0.1)  # to delay so db table gets displayed correct
+        #time.sleep(0.1)  # to delay so db table gets displayed correct
 
         if counter == 0:  # checks if there is any items in database
             all_food_items = None
@@ -493,9 +497,9 @@ class FrontPage(Handler):
         # check if any toggle variables must be updated
         if code == 2:  # parameter=="lower_case_description ASC"
             descrip_a_d="DESC"
-        elif code == 5:  # parameter=="days_in_freezer DESC"
+        elif code == 5 or code == 1:  # parameter=="created DESC"
             days_frozen_a_d="ASC"
-        elif code == 6:  # parameter=="days_before_exp ASC"
+        elif code == 6:  # parameter=="expiry ASC"
             days_left_a_d="DESC"
 
         self.response.headers.add_header('Set-Cookie', 'sort_code=%s; Path=/' %str(code))
@@ -519,9 +523,9 @@ class FrontPage(Handler):
             if id_descript: # 'Description' was clicked
                 self.render_front(the_RU.name, parameter="lower_case_description %s" %id_descript)
             elif id_days_left:  # 'Days to exp' was clicked
-                self.render_front(the_RU.name, parameter="days_before_exp %s" %id_days_left)  # the 'oldest' shown first
+                self.render_front(the_RU.name, parameter="expiry %s" %id_days_left)  # the 'oldest' shown first
             elif id_days_in_freezer:  # 'Days in freezer' was clicked
-                self.render_front(the_RU.name, parameter="days_in_freezer %s" %id_days_in_freezer)
+                self.render_front(the_RU.name, parameter="created %s" %id_days_in_freezer)
             else:
                 sort_code = self.request.cookies.get('sort_code')# look_number (cookie)
                 if sort_code:
@@ -705,7 +709,7 @@ class FoodPage(Handler):
                                   lower_case_description = lower_case_food_description,
                                   note = a_note,
                                   expiry = an_exp_date,
-                                  is_expired=False,
+                                  _is_expired=False,
                                   fk_registered_user_id=current_user_id)
                     FI.put()
                     id_for_FI = str(FI.key().id())

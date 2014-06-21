@@ -192,25 +192,19 @@ def get_number_code(sort_string):
     elif sort_string=="lower_case_description DESC":
         number = 3
 
-    elif sort_string=="days_in_freezer ASC":
+    elif sort_string=="created ASC":
         number = 4
         
-    elif sort_string=="days_in_freezer DESC":
+    elif sort_string=="created DESC":
         number = 5
         
-    elif sort_string=="days_before_exp ASC":
+    elif sort_string=="expiry ASC":
         number = 6
         
-    else: # sort_string=="days_before_exp DESC":
+    else: # sort_string=="expiry DESC":
         number = 7
 
     return number
-
-    #elif sort_string=="expiry ASC":
-     #   number = 8
-        
-    #else:  # sort_string=="expiry DESC"
-     #   number = 9
 
     
     
@@ -230,24 +224,18 @@ def get_param(an_int_in_a_string):
         param = "lower_case_description DESC"
 
     elif an_int == 4:
-        param = "days_in_freezer ASC"
+        param = "created ASC"
 
     elif an_int == 5:
-        param = "days_in_freezer DESC"
+        param = "created DESC"
 
     elif an_int == 6:
-        param = "days_before_exp ASC"
+        param = "expiry ASC"
 
     else:  # an_int == 7:
-        param = "days_before_exp DESC"
+        param = "expiry DESC"
 
     return param
-
-    # elif an_int == 8:
-      #  param = "expiry ASC"
-
-    #else:  # an_int == 9:
-     #   param = "expiry DESC"
 
 def convert_DateProperty_to_str_slash(date):
     """ convert a DateProperty a_date with format yyyy-mm-dd to a string with format "mm/dd/yyyy" """

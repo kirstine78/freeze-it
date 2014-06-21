@@ -320,13 +320,13 @@
 														<td class="td_table_Food" id="description" style="padding-left:5px; padding-right:8px; "><a href="/food?id={{foods.key().id()}}" style="color:black; text-decoration:none;"><div class="single_line">{{foods.description}}</div></a></td>		
 														<td class="td_table_Food" style="word-wrap:break-word; padding-left:2px; padding-right:2px; ">{{foods.note}}</td>
 														
-														<td class="td_table_Food">{{foods.days_in_freezer}}</td>
+														<td class="td_table_Food">{{foods._days_in_freezer}}</td>
 														
 														{% if foods.expiry %}
-															{% if foods.is_soon_to_expire %}
-																<td class="td_table_Food_red"><b>{{foods.days_before_exp}}</b></td>
+															{% if foods._is_soon_to_expire %}
+																<td class="td_table_Food_red"><b>{{foods._days_before_exp}}</b></td>
 															{% else %}
-																<td class="td_table_Food">{{foods.days_before_exp}}</td>
+																<td class="td_table_Food">{{foods._days_before_exp}}</td>
 															{% endif %}
 														{% else %}
 															<td class="td_table_Food"></td>
@@ -335,13 +335,13 @@
 														
 														
 														{% if foods.expiry %}
-															{% if foods.days_before_exp == 0 %}
-																<td class="td_table_Food_red" style="font-size:12px;">{{foods.exp_with_month_letters}}</td>
+															{% if foods._days_before_exp == 0 %}
+																<td class="td_table_Food_red" style="font-size:12px;">{{foods._exp_with_month_letters}}</td>
 															{% else %}
-																{% if foods.days_before_exp < 0 %}
-																	<td class="td_table_Food_red" style="font-size:12px;"><strike>{{foods.exp_with_month_letters}}</strike></td>
+																{% if foods._days_before_exp < 0 %}
+																	<td class="td_table_Food_red" style="font-size:12px;"><strike>{{foods._exp_with_month_letters}}</strike></td>
 																{% else %}
-																	<td class="td_table_Food" style="font-size:12px;">{{foods.exp_with_month_letters}}</td>
+																	<td class="td_table_Food" style="font-size:12px;">{{foods._exp_with_month_letters}}</td>
 																{% endif %}
 															{% endif %}
 														{% else %}
