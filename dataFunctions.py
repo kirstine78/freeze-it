@@ -30,8 +30,8 @@ def randomword():
     """return a random string"""
     length = randomLength()
     alpha = "abcdefghijklmnopqrstuvwABCDEFGHIJKLMNOPQRSTUVW"
-    #return ''.join(random.choice(alpha) for i in range(length))
-    return "abcd"
+    return ''.join(random.choice(alpha) for i in range(length))
+    
 
 
 def randomLength():
