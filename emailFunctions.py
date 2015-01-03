@@ -2,6 +2,8 @@
 import logging
 from google.appengine.api import mail
 
+############# FREEZE-IT #########################
+
 def sendEmail(emailAddress, password):
     logging.debug("email address is %s" %emailAddress)
     admin_email = "noreply@freeze-it.appspotmail.com"
